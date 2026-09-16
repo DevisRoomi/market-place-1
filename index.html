@@ -88,7 +88,7 @@
         }
     </style>
 </head>
-<body class="bg-[#fafbfc] text-slate-900 antialiased smooth-scroll selection:bg-accent selection:text-white">
+<body id="top" class="bg-[#fafbfc] text-slate-900 antialiased smooth-scroll selection:bg-accent selection:text-white">
 
     <!-- Top Announcement Bar -->
     <div class="bg-primary text-white text-xs py-2 px-4 text-center font-medium flex items-center justify-center gap-3">
@@ -117,25 +117,65 @@
                 </div>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex space-x-7 items-center text-sm font-semibold text-slate-700">
-                    <a href="#new-arrivals" class="hover:text-accent transition-colors" data-i18n="navNewArrivals">Produk Baru</a>
-                    <a href="#categories" class="hover:text-accent transition-colors" data-i18n="navCategories">Kategori</a>
-                    <a href="#promo-section" class="hover:text-accent transition-colors text-accent flex items-center gap-1.5">
+                <nav class="hidden lg:flex space-x-6 items-center text-sm font-semibold text-slate-700">
+                    <a href="#top" class="hover:text-accent transition-colors nav-link" data-nav="top" data-i18n="navHome">Beranda</a>
+                    <a href="#new-arrivals" class="hover:text-accent transition-colors nav-link" data-nav="new-arrivals" data-i18n="navNewArrivals">Produk Baru</a>
+                    
+                    <!-- Kategori with Interactive Dropdown Menu -->
+                    <div class="relative group py-2">
+                        <a href="#categories" class="hover:text-accent transition-colors flex items-center gap-1 font-semibold text-slate-700 nav-link" data-nav="categories">
+                            <span data-i18n="navCategories">Kategori</span>
+                            <svg class="w-3.5 h-3.5 text-slate-400 group-hover:text-accent group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </a>
+                        
+                        <!-- Dropdown Panel -->
+                        <div class="absolute top-full left-0 mt-0.5 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 z-50 transform origin-top-left group-hover:scale-100 scale-95">
+                            <div class="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Kategori Pilihan</div>
+                            <button onclick="filterProducts('all')" class="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent rounded-xl flex items-center justify-between transition-colors">
+                                <span class="flex items-center gap-2"><span>🛍️</span> <span>Semua Koleksi</span></span>
+                                <span class="text-[10px] text-slate-400 font-bold">12 Item</span>
+                            </button>
+                            <button onclick="filterProducts('women')" class="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent rounded-xl flex items-center justify-between transition-colors">
+                                <span class="flex items-center gap-2"><span>👗</span> <span>Pakaian Wanita</span></span>
+                                <span class="text-[10px] text-rose-500 font-bold">Populer</span>
+                            </button>
+                            <button onclick="filterProducts('men')" class="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent rounded-xl flex items-center justify-between transition-colors">
+                                <span class="flex items-center gap-2"><span>👔</span> <span>Pakaian Pria</span></span>
+                                <span class="text-[10px] text-slate-400 font-bold">Formal & Casual</span>
+                            </button>
+                            <button onclick="filterProducts('shoes')" class="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent rounded-xl flex items-center justify-between transition-colors">
+                                <span class="flex items-center gap-2"><span>👟</span> <span>Sepatu & Sneakers</span></span>
+                                <span class="text-[10px] text-emerald-500 font-bold">Trend</span>
+                            </button>
+                            <button onclick="filterProducts('accessories')" class="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-accent rounded-xl flex items-center justify-between transition-colors">
+                                <span class="flex items-center gap-2"><span>🕶️</span> <span>Aksesoris & Tas</span></span>
+                                <span class="text-[10px] text-amber-500 font-bold">Luxury</span>
+                            </button>
+                            <div class="mt-1 pt-1 border-t border-slate-100">
+                                <a href="#categories" class="block text-center py-2 text-xs font-bold text-accent hover:bg-rose-50 rounded-xl transition-colors">
+                                    Jelajahi Galeri Kategori &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#promo-section" class="hover:text-accent transition-colors text-accent flex items-center gap-1.5 nav-link" data-nav="promo-section">
                         <span class="w-2 h-2 rounded-full bg-accent animate-ping"></span>
                         <span data-i18n="navPromo">Promo Spesial</span>
                     </a>
-                    <a href="#testimonials" class="hover:text-accent transition-colors" data-i18n="navReviews">Ulasan</a>
+                    <a href="#testimonials" class="hover:text-accent transition-colors nav-link" data-nav="testimonials" data-i18n="navReviews">Ulasan</a>
+                    <a href="#brands" class="hover:text-accent transition-colors nav-link" data-nav="brands" data-i18n="navBrands">Brand</a>
                     <button onclick="openOrderTrackingModal()" class="hover:text-accent transition-colors flex items-center gap-1 font-semibold text-slate-700">
                         <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         <span data-i18n="trackOrderNav">Lacak Pesanan</span>
                     </button>
                 </nav>
 
-                <!-- Search, Language Switcher, Wishlist & Cart Actions -->
-                <div class="flex items-center space-x-2.5 sm:space-x-4">
+                <!-- Search, Language Switcher, Account, Wishlist & Cart Actions -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
                     
                     <!-- Search Bar with Live Suggestions (Desktop) -->
-                    <div class="relative hidden sm:block w-48 md:w-64">
+                    <div class="relative hidden sm:block w-44 md:w-56 lg:w-64">
                         <input type="text" id="searchInput" 
                             placeholder="Cari produk..." 
                             data-i18n-placeholder="searchPlaceholder"
@@ -154,16 +194,21 @@
 
                     <!-- Language Switcher Toggle (BILINGUAL ID / EN) -->
                     <div class="flex items-center bg-slate-100 p-1 rounded-full border border-slate-200 shadow-inner">
-                        <button id="langIdBtn" onclick="setLanguage('id')" class="px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 bg-white text-slate-900 shadow-sm">
-                            <span>🇮🇩</span> <span class="hidden sm:inline">ID</span>
+                        <button id="langIdBtn" onclick="setLanguage('id')" class="px-2 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 bg-white text-slate-900 shadow-sm">
+                            <span>🇮🇩</span> <span class="hidden md:inline">ID</span>
                         </button>
-                        <button id="langEnBtn" onclick="setLanguage('en')" class="px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 text-slate-500 hover:text-slate-800">
-                            <span>🇬🇧</span> <span class="hidden sm:inline">EN</span>
+                        <button id="langEnBtn" onclick="setLanguage('en')" class="px-2 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 text-slate-500 hover:text-slate-800">
+                            <span>🇬🇧</span> <span class="hidden md:inline">EN</span>
                         </button>
                     </div>
 
+                    <!-- User Account Button -->
+                    <button id="userProfileBtn" onclick="openUserModal()" title="Akun Saya" class="p-2 text-slate-600 hover:text-accent hover:bg-rose-50 rounded-full transition-colors relative" aria-label="Akun Saya">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    </button>
+
                     <!-- Wishlist Button -->
-                    <button id="wishlistHeaderBtn" onclick="openWishlistModal()" title="Wishlist" class="p-2 text-slate-600 hover:text-accent hover:bg-rose-50 rounded-full transition-colors relative">
+                    <button id="wishlistHeaderBtn" onclick="openWishlistModal()" title="Wishlist" class="p-2 text-slate-600 hover:text-accent hover:bg-rose-50 rounded-full transition-colors relative" aria-label="Wishlist">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                         </svg>
@@ -171,7 +216,7 @@
                     </button>
 
                     <!-- Cart Drawer Button -->
-                    <button id="cartDrawerBtn" onclick="openCartDrawer()" title="Keranjang Belanja" class="p-2.5 bg-slate-900 text-white hover:bg-accent rounded-full transition-all duration-300 shadow-sm flex items-center gap-2 relative">
+                    <button id="cartDrawerBtn" onclick="openCartDrawer()" title="Keranjang Belanja" class="p-2.5 bg-slate-900 text-white hover:bg-accent rounded-full transition-all duration-300 shadow-sm flex items-center gap-2 relative" aria-label="Keranjang Belanja">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
@@ -179,7 +224,7 @@
                     </button>
 
                     <!-- Mobile Menu Hamburger -->
-                    <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none">
+                    <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none" aria-label="Menu Navigasi">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -189,24 +234,82 @@
             </div>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobileMenuDropdown" class="hidden lg:hidden bg-white border-b border-slate-100 px-4 pt-3 pb-6 space-y-3 shadow-xl">
+        <!-- Mobile Menu Dropdown with Auto-Closing and Full Links -->
+        <div id="mobileMenuDropdown" class="hidden lg:hidden bg-white border-b border-slate-100 px-4 pt-3 pb-6 space-y-2.5 shadow-2xl max-h-[85vh] overflow-y-auto">
             <div class="relative w-full mb-3">
                 <input type="text" id="mobileSearchInput" 
-                    placeholder="Cari produk..." 
+                    placeholder="Cari produk di Market of Abu..." 
                     data-i18n-placeholder="searchPlaceholder"
                     autocomplete="off"
                     class="w-full bg-slate-100 pl-9 pr-4 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-accent">
                 <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 <div id="mobileSearchSuggestionsDropdown" class="hidden absolute top-12 left-0 right-0 bg-white border border-slate-100 rounded-2xl shadow-2xl overflow-hidden z-50 p-2 space-y-1 max-h-72 overflow-y-auto"></div>
             </div>
-            <a href="#new-arrivals" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navNewArrivals">Produk Baru</a>
-            <a href="#categories" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navCategories">Kategori</a>
-            <a href="#promo-section" class="block py-2 text-base font-semibold text-accent" data-i18n="navPromo">Promo Spesial</a>
-            <a href="#testimonials" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navReviews">Ulasan Pelanggan</a>
-            <button onclick="openOrderTrackingModal()" class="w-full text-left py-2 text-base font-semibold text-slate-800 hover:text-accent flex items-center gap-2">
-                <span data-i18n="trackOrderNav">Lacak Pesanan</span>
-            </button>
+
+            <!-- Mobile Navigation Links -->
+            <a href="#top" onclick="closeMobileMenu()" class="flex items-center justify-between py-2 text-base font-semibold text-slate-800 hover:text-accent border-b border-slate-50">
+                <span class="flex items-center gap-2.5"><span>🏠</span> <span data-i18n="navHome">Beranda</span></span>
+                <span class="text-xs text-slate-400">&rarr;</span>
+            </a>
+            <a href="#new-arrivals" onclick="closeMobileMenu()" class="flex items-center justify-between py-2 text-base font-semibold text-slate-800 hover:text-accent border-b border-slate-50">
+                <span class="flex items-center gap-2.5"><span>✨</span> <span data-i18n="navNewArrivals">Produk Baru</span></span>
+                <span class="text-xs text-slate-400">&rarr;</span>
+            </a>
+
+            <!-- Mobile Kategori Expandable -->
+            <div class="border-b border-slate-50 py-1">
+                <button onclick="toggleMobileCategories()" class="w-full flex items-center justify-between py-2 text-base font-semibold text-slate-800 hover:text-accent focus:outline-none">
+                    <span class="flex items-center gap-2.5"><span>📁</span> <span data-i18n="navCategories">Kategori</span></span>
+                    <span id="mobileCategoryArrow" class="text-xs text-slate-400 transition-transform">▼</span>
+                </button>
+                <div id="mobileCategoriesSubmenu" class="hidden pl-6 pr-2 py-2 space-y-2 bg-slate-50 rounded-2xl mt-1">
+                    <button onclick="filterProducts('all'); closeMobileMenu();" class="w-full text-left py-1 text-xs font-semibold text-slate-700 hover:text-accent flex items-center justify-between">
+                        <span>Semua Koleksi</span>
+                        <span class="text-[10px] text-slate-400">12 Item</span>
+                    </button>
+                    <button onclick="filterProducts('women'); closeMobileMenu();" class="w-full text-left py-1 text-xs font-semibold text-slate-700 hover:text-accent flex items-center justify-between">
+                        <span>Pakaian Wanita</span>
+                        <span class="text-[10px] text-rose-500 font-bold">Populer</span>
+                    </button>
+                    <button onclick="filterProducts('men'); closeMobileMenu();" class="w-full text-left py-1 text-xs font-semibold text-slate-700 hover:text-accent flex items-center justify-between">
+                        <span>Pakaian Pria</span>
+                        <span class="text-[10px] text-slate-400">Formal & Casual</span>
+                    </button>
+                    <button onclick="filterProducts('shoes'); closeMobileMenu();" class="w-full text-left py-1 text-xs font-semibold text-slate-700 hover:text-accent flex items-center justify-between">
+                        <span>Sepatu & Sneakers</span>
+                        <span class="text-[10px] text-emerald-500 font-bold">Trend</span>
+                    </button>
+                    <button onclick="filterProducts('accessories'); closeMobileMenu();" class="w-full text-left py-1 text-xs font-semibold text-slate-700 hover:text-accent flex items-center justify-between">
+                        <span>Aksesoris & Tas</span>
+                        <span class="text-[10px] text-amber-500 font-bold">Luxury</span>
+                    </button>
+                </div>
+            </div>
+
+            <a href="#promo-section" onclick="closeMobileMenu()" class="flex items-center justify-between py-2 text-base font-semibold text-accent border-b border-slate-50">
+                <span class="flex items-center gap-2.5"><span>⚡</span> <span data-i18n="navPromo">Promo Spesial</span></span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-100 text-accent">50% OFF</span>
+            </a>
+            <a href="#testimonials" onclick="closeMobileMenu()" class="flex items-center justify-between py-2 text-base font-semibold text-slate-800 hover:text-accent border-b border-slate-50">
+                <span class="flex items-center gap-2.5"><span>💬</span> <span data-i18n="navReviews">Ulasan Pelanggan</span></span>
+                <span class="text-xs text-amber-500 font-bold">★ 4.9</span>
+            </a>
+            <a href="#brands" onclick="closeMobileMenu()" class="flex items-center justify-between py-2 text-base font-semibold text-slate-800 hover:text-accent border-b border-slate-50">
+                <span class="flex items-center gap-2.5"><span>🏷️</span> <span data-i18n="navBrands">Mitra Brand</span></span>
+                <span class="text-xs text-slate-400">&rarr;</span>
+            </a>
+
+            <!-- Quick Action Buttons in Mobile -->
+            <div class="pt-2 grid grid-cols-2 gap-2">
+                <button onclick="openOrderTrackingModal(); closeMobileMenu();" class="w-full py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
+                    <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span data-i18n="trackOrderNav">Lacak Pesanan</span>
+                </button>
+                <button onclick="openUserModal(); closeMobileMenu();" class="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-accent text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span data-i18n="navAccount">Akun Saya</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -352,7 +455,7 @@
     </div>
 
     <!-- Shop by Category Section (REAL PHOTOS) -->
-    <section id="categories" class="py-20 bg-white">
+    <section id="categories" class="py-20 bg-white scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
                 <div>
@@ -420,7 +523,7 @@
     </section>
 
     <!-- Product Showcase (New Arrivals + Interactive Filters + Search Results) -->
-    <section id="new-arrivals" class="py-20 bg-slate-50 border-t border-slate-200/70">
+    <section id="new-arrivals" class="py-20 bg-slate-50 border-t border-slate-200/70 scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center max-w-3xl mx-auto mb-10">
@@ -478,7 +581,7 @@
     </section>
 
     <!-- Promo Banner with Real-Time Countdown (REAL PHOTOS) -->
-    <section id="promo-section" class="py-16 bg-white overflow-hidden">
+    <section id="promo-section" class="py-16 bg-white overflow-hidden scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-rose-950 text-white shadow-2xl">
                 <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-accent opacity-20 blur-3xl"></div>
@@ -564,7 +667,7 @@
     </section>
 
     <!-- Testimonials / Customer Reviews (DYNAMIC + WRITE REVIEW) -->
-    <section id="testimonials" class="py-20 bg-slate-50 border-t border-slate-200/70">
+    <section id="testimonials" class="py-20 bg-slate-50 border-t border-slate-200/70 scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-4">
                 <div>
@@ -587,7 +690,7 @@
     </section>
 
     <!-- Featured Brands -->
-    <section id="brands" class="py-16 bg-white border-t border-slate-200/70">
+    <section id="brands" class="py-16 bg-white border-t border-slate-200/70 scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-center text-xs font-bold tracking-widest text-slate-400 uppercase mb-8" data-i18n="brandsTitle">MITRA BRAND EKSKLUSIF RESMI</h3>
             <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 hover:opacity-100 transition-opacity">
@@ -1105,6 +1208,150 @@
         </div>
     </div>
 
+    <!-- ==================== USER ACCOUNT & PROFILE MODAL ==================== -->
+    <div id="userAccountModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeUserModal()" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10 border border-slate-100">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-accent/20">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-base sm:text-lg font-black text-slate-900 leading-none">Abu B. Rachman</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">VIP Gold</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">Member sejak 2024 &bull; <span class="text-accent font-bold">2.450 Poin Abu</span></p>
+                    </div>
+                </div>
+                <button onclick="closeUserModal()" class="p-2 text-slate-400 hover:text-slate-800 rounded-full">✕</button>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex items-center gap-1.5 mt-4 p-1 bg-slate-100 rounded-2xl">
+                <button id="userTabBtn-orders" onclick="switchUserTab('orders')" class="flex-1 px-3 py-2 text-xs font-bold rounded-xl bg-slate-900 text-white transition-all text-center">
+                    Pesanan Saya
+                </button>
+                <button id="userTabBtn-vouchers" onclick="switchUserTab('vouchers')" class="flex-1 px-3 py-2 text-xs font-semibold rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 transition-all text-center">
+                    Voucher Saya
+                </button>
+                <button id="userTabBtn-address" onclick="switchUserTab('address')" class="flex-1 px-3 py-2 text-xs font-semibold rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 transition-all text-center">
+                    Alamat
+                </button>
+            </div>
+
+            <!-- Tab 1: Pesanan Aktif -->
+            <div id="userTabPanel-orders" class="mt-4 space-y-3">
+                <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-200 text-xs">
+                        <div>
+                            <span class="text-slate-400 font-semibold">Order ID:</span>
+                            <span class="font-extrabold text-accent ml-1">ABU-10824</span>
+                        </div>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">Sedang Dikirim</span>
+                    </div>
+                    <div class="py-3 flex items-center justify-between text-xs">
+                        <div>
+                            <p class="font-bold text-slate-800">Blazer Linen Kasual Oversized + 1 item lain</p>
+                            <p class="text-slate-400 text-[11px] mt-0.5">Resi: MOA-9842104928 &bull; J&T Express Priority</p>
+                        </div>
+                        <p class="font-extrabold text-slate-900">Rp 1.650.000</p>
+                    </div>
+                    <button onclick="closeUserModal(); openOrderTrackingModal('ABU-10824');" class="w-full py-2 bg-slate-900 hover:bg-accent text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <span>Lacak Pesanan Ini Real-Time</span>
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-200 text-xs">
+                        <div>
+                            <span class="text-slate-400 font-semibold">Order ID:</span>
+                            <span class="font-extrabold text-accent ml-1">ABU-88214</span>
+                        </div>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Pesanan Selesai</span>
+                    </div>
+                    <div class="py-3 flex items-center justify-between text-xs">
+                        <div>
+                            <p class="font-bold text-slate-800">Gaun Satin Sutra Pesta Elegan</p>
+                            <p class="text-slate-400 text-[11px] mt-0.5">Diterima pada 14 September 2026</p>
+                        </div>
+                        <p class="font-extrabold text-slate-900">Rp 1.450.000</p>
+                    </div>
+                    <button onclick="closeUserModal(); openOrderTrackingModal('ABU-88214');" class="w-full py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-bold transition-colors">
+                        Lihat Rincian Pengiriman
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab 2: Voucher Saya -->
+            <div id="userTabPanel-vouchers" class="hidden mt-4 space-y-3">
+                <div class="bg-gradient-to-r from-rose-50 to-amber-50 border border-rose-200 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono font-black text-rose-600 text-sm">ABUHEMAT</span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-200 text-rose-800">Diskon 50%</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Diskon 50% tanpa minimal belanja. Berlaku untuk seluruh produk.</p>
+                    </div>
+                    <button onclick="copyVoucher('ABUHEMAT')" class="px-3 py-1.5 bg-slate-900 hover:bg-accent text-white text-xs font-bold rounded-xl transition-colors shrink-0">
+                        Salin
+                    </button>
+                </div>
+
+                <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono font-black text-emerald-600 text-sm">ONGKIRGRATIS</span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-200 text-emerald-800">Gratis Ongkir</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Gratis biaya pengiriman reguler ke seluruh kota di Indonesia.</p>
+                    </div>
+                    <button onclick="copyVoucher('ONGKIRGRATIS')" class="px-3 py-1.5 bg-slate-900 hover:bg-accent text-white text-xs font-bold rounded-xl transition-colors shrink-0">
+                        Salin
+                    </button>
+                </div>
+
+                <div class="bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono font-black text-indigo-600 text-sm">SUMMER50</span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-200 text-indigo-800">Diskon 50%</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Voucher spesial koleksi musim panas & kacamata desainer.</p>
+                    </div>
+                    <button onclick="copyVoucher('SUMMER50')" class="px-3 py-1.5 bg-slate-900 hover:bg-accent text-white text-xs font-bold rounded-xl transition-colors shrink-0">
+                        Salin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab 3: Alamat Tersimpan -->
+            <div id="userTabPanel-address" class="hidden mt-4 space-y-3">
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                    <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-200">
+                        <span class="text-xs font-bold text-slate-900">Alamat Rumah (Utama)</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Terpilih</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-800">Abu B. Rachman (0812-3456-7890)</p>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                        Jl. Senopati Raya No. 28, RT 05 / RW 02, Kebayoran Baru, Jakarta Selatan, DKI Jakarta 12190
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Action -->
+            <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
+                <button onclick="closeUserModal(); filterProducts('all');" class="text-xs font-bold text-accent hover:underline">
+                    &larr; Belanja Koleksi Terbaru
+                </button>
+                <button onclick="closeUserModal()" class="px-5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-xs transition-colors">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
@@ -1116,11 +1363,13 @@
                 topBarBadge: "PROMO KHUSUS",
                 topBarText: "Gratis Ongkir se-Indonesia & Diskon 50% pakai kode: <strong class='text-amber-300 font-mono tracking-wider ml-1'>ABUHEMAT</strong>",
                 taglineMini: "Marketplace Terkurasi",
+                navHome: "Beranda",
                 navNewArrivals: "Produk Baru",
                 navCategories: "Kategori",
                 navPromo: "Promo Spesial",
                 navReviews: "Ulasan",
                 navBrands: "Brand",
+                navAccount: "Akun Saya",
                 trackOrderNav: "Lacak Pesanan",
                 searchPlaceholder: "Cari produk di Market of Abu...",
                 heroBadge: "Koleksi Eksklusif 2026",
@@ -1240,11 +1489,13 @@
                 topBarBadge: "SPECIAL PROMO",
                 topBarText: "Free Nationwide Shipping & 50% Off with voucher code: <strong class='text-amber-300 font-mono tracking-wider ml-1'>ABUHEMAT</strong>",
                 taglineMini: "Curated Marketplace",
+                navHome: "Home",
                 navNewArrivals: "New In",
                 navCategories: "Categories",
                 navPromo: "Special Promo",
                 navReviews: "Reviews",
                 navBrands: "Brands",
+                navAccount: "My Account",
                 trackOrderNav: "Track Order",
                 searchPlaceholder: "Search products at Market of Abu...",
                 heroBadge: "Exclusive Collection 2026",
@@ -2802,6 +3053,114 @@
             });
         }
 
+        function closeMobileMenu() {
+            if (mobileDropdown) mobileDropdown.classList.add('hidden');
+        }
+
+        function toggleMobileCategories() {
+            const sub = document.getElementById('mobileCategoriesSubmenu');
+            const arrow = document.getElementById('mobileCategoryArrow');
+            if (sub) {
+                sub.classList.toggle('hidden');
+                if (arrow) arrow.innerText = sub.classList.contains('hidden') ? '▼' : '▲';
+            }
+        }
+
+        // 17. USER ACCOUNT & PROFILE MODAL LOGIC
+        function openUserModal(tab = 'orders') {
+            const modal = document.getElementById('userAccountModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                switchUserTab(tab);
+            }
+        }
+
+        function closeUserModal() {
+            const modal = document.getElementById('userAccountModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function switchUserTab(tabName) {
+            const tabs = ['orders', 'vouchers', 'address'];
+            tabs.forEach(t => {
+                const panel = document.getElementById(`userTabPanel-${t}`);
+                const btn = document.getElementById(`userTabBtn-${t}`);
+                if (panel) {
+                    if (t === tabName) {
+                        panel.classList.remove('hidden');
+                    } else {
+                        panel.classList.add('hidden');
+                    }
+                }
+                if (btn) {
+                    if (t === tabName) {
+                        btn.className = "flex-1 px-3 py-2 text-xs font-bold rounded-xl bg-slate-900 text-white transition-all text-center";
+                    } else {
+                        btn.className = "flex-1 px-3 py-2 text-xs font-semibold rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 transition-all text-center";
+                    }
+                }
+            });
+        }
+
+        // Search Enter Key Handler
+        function setupSearchKeyEvents() {
+            [searchInput, mobileSearchInput].forEach(inp => {
+                if (!inp) return;
+                inp.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const val = inp.value.trim().toLowerCase();
+                        currentSearchQuery = val;
+                        closeSearchDropdowns();
+                        closeMobileMenu();
+                        renderProducts();
+                        const el = document.getElementById('new-arrivals');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // ScrollSpy to highlight active link in navbar
+        function updateScrollSpy() {
+            const sections = [
+                { id: 'top', navKey: 'top' },
+                { id: 'new-arrivals', navKey: 'new-arrivals' },
+                { id: 'categories', navKey: 'categories' },
+                { id: 'promo-section', navKey: 'promo-section' },
+                { id: 'testimonials', navKey: 'testimonials' },
+                { id: 'brands', navKey: 'brands' }
+            ];
+
+            const scrollPos = window.scrollY + 140;
+
+            let currentSec = 'top';
+            for (const sec of sections) {
+                const el = document.getElementById(sec.id);
+                if (el && el.offsetTop <= scrollPos) {
+                    currentSec = sec.id;
+                }
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const navKey = link.getAttribute('data-nav');
+                if (navKey === currentSec) {
+                    link.classList.add('text-accent');
+                    if (navKey !== 'promo-section') link.classList.remove('text-slate-700');
+                } else {
+                    if (navKey !== 'promo-section') {
+                        link.classList.remove('text-accent');
+                        link.classList.add('text-slate-700');
+                    }
+                }
+            });
+        }
+        window.addEventListener('scroll', updateScrollSpy);
+
         // Hydrate products from Backend API if online
         async function fetchProductsFromApi() {
             try {
@@ -2828,6 +3187,8 @@
             initCountdown();
             updateCartBadge();
             updateWishlistBadge();
+            setupSearchKeyEvents();
+            updateScrollSpy();
         });
     </script>
 </body>
