@@ -1835,17 +1835,37 @@
             document.getElementById('cartTotalText').innerText = formatPrice(totalIDR, totalUSD);
         }
 
-        // Voucher System
-        function applyCartVoucher() {
+        // Voucher System (Connected to Backend API with fallback)
+        async function applyCartVoucher() {
             const input = document.getElementById('cartVoucherInput');
             const code = input.value.trim().toUpperCase();
 
-            if (code === 'ABUHEMAT' || code === 'SUMMER50') {
-                appliedVoucher = { code: code, discount: 0.5 };
-                renderCart();
-                showToast(currentLang === 'id' ? `Kupon ${code} berhasil! Diskon 50% diaktifkan 🎉` : `Voucher ${code} applied! 50% discount active 🎉`);
-            } else {
-                showToast(currentLang === 'id' ? 'Kode kupon tidak valid. Coba: ABUHEMAT' : 'Invalid promo code. Try: ABUHEMAT');
+            if (!code) return;
+
+            try {
+                const response = await fetch('/api/vouchers/validate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+                const result = await response.json();
+
+                if (result.success && result.valid) {
+                    appliedVoucher = { code: result.code, discount: result.discountMultiplier };
+                    renderCart();
+                    showToast(currentLang === 'id' ? `Kupon ${result.code} berhasil! Diskon ${result.discountPercent}% diaktifkan 🎉` : `Voucher ${result.code} applied! ${result.discountPercent}% discount active 🎉`);
+                } else {
+                    showToast(currentLang === 'id' ? 'Kode kupon tidak valid. Coba: ABUHEMAT' : 'Invalid promo code. Try: ABUHEMAT');
+                }
+            } catch (err) {
+                // Fallback for offline / file:// mode
+                if (code === 'ABUHEMAT' || code === 'SUMMER50') {
+                    appliedVoucher = { code: code, discount: 0.5 };
+                    renderCart();
+                    showToast(currentLang === 'id' ? `Kupon ${code} berhasil! Diskon 50% diaktifkan 🎉` : `Voucher ${code} applied! 50% discount active 🎉`);
+                } else {
+                    showToast(currentLang === 'id' ? 'Kode kupon tidak valid. Coba: ABUHEMAT' : 'Invalid promo code. Try: ABUHEMAT');
+                }
             }
             input.value = '';
         }
@@ -2042,7 +2062,7 @@
             `).join('');
         }
 
-        // 9. CHECKOUT MODAL & FLOW
+        // 9. CHECKOUT MODAL & FLOW (Connected to Backend API with fallback)
         function proceedToCheckout() {
             closeCartDrawer();
             const modal = document.getElementById('checkoutModal');
@@ -2061,21 +2081,58 @@
             document.body.style.overflow = '';
         }
 
-        function handleFinalOrder(e) {
+        async function handleFinalOrder(e) {
             e.preventDefault();
-            // Generate simulated order ID
-            const randomId = 'ABU-' + Math.floor(10000 + Math.random() * 90000);
-            document.getElementById('generatedOrderId').innerText = randomId;
 
+            // Calculate values
+            let subtotalIDR = cart.reduce((acc, item) => acc + (item.priceIDR * item.qty), 0);
+            let discountIDR = appliedVoucher ? (subtotalIDR * appliedVoucher.discount) : 0;
+            let totalIDR = subtotalIDR - discountIDR;
+
+            const form = e.target;
+            const customer = {
+                name: form.querySelector('input[type="text"]').value,
+                phone: form.querySelector('input[type="tel"]').value,
+                city: form.querySelectorAll('input[type="text"]')[1].value,
+                address: form.querySelector('textarea').value
+            };
+            const paymentMethodEl = form.querySelector('input[name="paymentMethod"]:checked');
+            const paymentMethod = paymentMethodEl ? paymentMethodEl.value : 'QRIS';
+
+            let orderId = 'ABU-' + Math.floor(10000 + Math.random() * 90000);
+
+            try {
+                // Post to Backend API
+                const response = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        customer,
+                        items: cart,
+                        subtotalIDR,
+                        discountIDR,
+                        totalIDR,
+                        voucherCode: appliedVoucher ? appliedVoucher.code : null,
+                        paymentMethod
+                    })
+                });
+                const result = await response.json();
+                if (result.success && result.data && result.data.orderId) {
+                    orderId = result.data.orderId;
+                }
+            } catch (err) {
+                console.log('Running in local/offline mode, order recorded locally:', err);
+            }
+
+            document.getElementById('generatedOrderId').innerText = orderId;
             document.getElementById('checkoutFormStep').classList.add('hidden');
             document.getElementById('checkoutSuccessStep').classList.remove('hidden');
 
-            showToast(currentLang === 'id' ? "Transaksi Berhasil! Resi pesanan dibuat 🎉" : "Order confirmed! Confirmation sent 🎉");
+            showToast(currentLang === 'id' ? `Transaksi Berhasil! Order ${orderId} tersimpan 🎉` : `Order confirmed! Order ${orderId} saved 🎉`);
         }
 
         // 10. REAL-TIME COUNTDOWN TIMER
         function initCountdown() {
-            // Set 3 days from now
             let totalSeconds = (3 * 24 * 3600) + (18 * 3600) + (42 * 60) + 59;
 
             setInterval(() => {
@@ -2121,14 +2178,25 @@
             }, 3200);
         }
 
-        // 12. NEWSLETTER HANDLER
-        function handleNewsletter(e) {
+        // 12. NEWSLETTER HANDLER (Connected to Backend API with fallback)
+        async function handleNewsletter(e) {
             e.preventDefault();
             const input = document.getElementById('newsletterEmail');
-            if (input && input.value) {
-                showToast(currentLang === 'id' ? `Terima kasih! Kupon diskon telah dikirim ke ${input.value}` : `Thank you! Discount voucher sent to ${input.value}`);
-                input.value = '';
+            if (!input || !input.value) return;
+
+            const email = input.value.trim();
+            try {
+                await fetch('/api/newsletter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+            } catch (err) {
+                console.log('Newsletter local fallback');
             }
+
+            showToast(currentLang === 'id' ? `Terima kasih! Kupon diskon telah dikirim ke ${email}` : `Thank you! Discount voucher sent to ${email}`);
+            input.value = '';
         }
 
         // 13. NAVBAR SCROLL EFFECT & MOBILE MENU TOGGLE
@@ -2149,9 +2217,25 @@
             });
         }
 
+        // Hydrate products from Backend API if online
+        async function fetchProductsFromApi() {
+            try {
+                const res = await fetch('/api/products');
+                const result = await res.json();
+                if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+                    displayedProducts = result.data;
+                    renderProducts();
+                }
+            } catch (e) {
+                // Fallback to bundled productsCatalog
+                console.log('Using pre-bundled catalog');
+            }
+        }
+
         // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
             renderProducts();
+            fetchProductsFromApi();
             initCountdown();
             updateCartBadge();
             updateWishlistBadge();

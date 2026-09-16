@@ -1,0 +1,24 @@
+{
+  "name": "market-of-abu",
+  "version": "1.0.0",
+  "description": "Curated Fashion & Lifestyle Marketplace - Backend API & Frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "marketplace",
+    "fashion",
+    "ecommerce",
+    "bilingual",
+    "express",
+    "api"
+  ],
+  "author": "Market of Abu",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

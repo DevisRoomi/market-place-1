@@ -1,0 +1,266 @@
+[
+  {
+    "id": 1,
+    "name": {
+      "id": "Blazer Linen Kasual Oversized",
+      "en": "Oversized Linen Tailored Blazer"
+    },
+    "brand": "Studio Label",
+    "category": "women",
+    "priceIDR": 1850000,
+    "priceUSD": 120,
+    "rating": 4.9,
+    "reviewsCount": 128,
+    "image": "https://images.unsplash.com/photo-1584273143981-41c073dfe8f8?auto=format&fit=crop&w=800&q=80",
+    "badge": { "id": "Baru", "en": "New" },
+    "discountPercent": 0,
+    "description": {
+      "id": "Blazer berbahan linen murni yang sejuk dan jatuh sempurna. Cocok untuk tampilan kasual chic maupun formal modern.",
+      "en": "Crafted from breathable pure organic linen with an effortless oversized drape. Perfect for day-to-night styling."
+    },
+    "sizes": ["S", "M", "L"],
+    "colors": ["Khaki", "Oatmeal", "Black"]
+  },
+  {
+    "id": 2,
+    "name": {
+      "id": "Rok Lipit Asimetris Elegan",
+      "en": "Asymmetric Pleated Midi Skirt"
+    },
+    "brand": "Minimalist Studio",
+    "category": "women",
+    "priceIDR": 1290000,
+    "priceUSD": 85,
+    "rating": 4.8,
+    "reviewsCount": 94,
+    "image": "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=800&q=80",
+    "badge": null,
+    "discountPercent": 0,
+    "description": {
+      "id": "Rok lipit plisket dengan potongan asimetris dinamis yang memberikan siluet anggun dalam setiap langkah.",
+      "en": "Structured accordion pleats with an avant-garde asymmetric hemline, moving gracefully with every stride."
+    },
+    "sizes": ["S", "M", "L"],
+    "colors": ["Olive", "Cream", "Burgundy"]
+  },
+  {
+    "id": 3,
+    "name": {
+      "id": "Sepatu Sneaker Retro Chunky",
+      "en": "Retro Chunky Urban Sneakers"
+    },
+    "brand": "Urban Walk",
+    "category": "shoes",
+    "priceIDR": 1650000,
+    "priceUSD": 110,
+    "rating": 5.0,
+    "reviewsCount": 215,
+    "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
+    "badge": { "id": "-20%", "en": "-20%" },
+    "discountPercent": 20,
+    "description": {
+      "id": "Sneakers retro dengan bantalan sol ganda super empuk dan daya cengkeram optimal untuk mobilitas perkotaan.",
+      "en": "Iconic nineties heritage runner silhouette paired with modern ultra-cushioned dual density soles."
+    },
+    "sizes": ["39", "40", "41", "42", "43", "44"],
+    "colors": ["Triple White", "Bone Cream", "Pastel Grey"]
+  },
+  {
+    "id": 4,
+    "name": {
+      "id": "Sweater Rajut Lembut Minimalis",
+      "en": "Ribbed Minimalist Knit Sweater"
+    },
+    "brand": "Cozy Threads",
+    "category": "women",
+    "priceIDR": 980000,
+    "priceUSD": 65,
+    "rating": 4.7,
+    "reviewsCount": 82,
+    "image": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80",
+    "badge": null,
+    "discountPercent": 0,
+    "description": {
+      "id": "Sweater rajut tebal dengan benang katun kasmir yang sangat halus di kulit dan menghangatkan.",
+      "en": "Ultra-soft cotton cashmere blend sweater designed with relaxed dropped shoulders and refined ribbing."
+    },
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Sage Green", "Warm Ivory", "Mocha"]
+  },
+  {
+    "id": 5,
+    "name": {
+      "id": "Mantel Wol Panjang Pria Premium",
+      "en": "Tailored Wool Overcoat"
+    },
+    "brand": "Aura Bespoke",
+    "category": "men",
+    "priceIDR": 2950000,
+    "priceUSD": 195,
+    "rating": 4.9,
+    "reviewsCount": 67,
+    "image": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=80",
+    "badge": { "id": "Unggulan", "en": "Featured" },
+    "discountPercent": 0,
+    "description": {
+      "id": "Mantel pria dengan potongan tailor presisi berbahan wol impor, tahan angin, dan memberikan impresi berkelas.",
+      "en": "Precision-tailored wool overcoat boasting structured lapels and a sleek silhouette for the modern gentleman."
+    },
+    "sizes": ["M", "L", "XL"],
+    "colors": ["Camel", "Charcoal", "Deep Navy"]
+  },
+  {
+    "id": 6,
+    "name": {
+      "id": "Jam Tangan Kulit Mewah Minimalis",
+      "en": "Classic Leather Minimal Watch"
+    },
+    "brand": "Kronos Geneva",
+    "category": "accessories",
+    "priceIDR": 2200000,
+    "priceUSD": 145,
+    "rating": 4.9,
+    "reviewsCount": 154,
+    "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80",
+    "badge": { "id": "Terlaris", "en": "Hot" },
+    "discountPercent": 0,
+    "description": {
+      "id": "Jam tangan analog dengan dial safir tahan gores dan tali kulit sapi asli Italia yang nyaman di pergelangan.",
+      "en": "Sapphire glass dial featuring precision Japanese quartz movement and full-grain Italian leather strap."
+    },
+    "sizes": ["40mm"],
+    "colors": ["Rose Gold / Brown", "Silver / Black"]
+  },
+  {
+    "id": 7,
+    "name": {
+      "id": "Celana Kargo Streetwear Urban",
+      "en": "Relaxed Fit Urban Cargo Pants"
+    },
+    "brand": "Urbanwear Co.",
+    "category": "men",
+    "priceIDR": 1180000,
+    "priceUSD": 78,
+    "rating": 4.8,
+    "reviewsCount": 110,
+    "image": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80",
+    "badge": null,
+    "discountPercent": 0,
+    "description": {
+      "id": "Celana kargo dengan multi-saku fungsional dan material katun twill tebal berdaya tahan tinggi.",
+      "en": "Tactical streetwear aesthetic meets utilitarian function with ergonomic multi-pocket layout."
+    },
+    "sizes": ["29", "30", "32", "34", "36"],
+    "colors": ["Army Green", "Pitch Black", "Desert Khaki"]
+  },
+  {
+    "id": 8,
+    "name": {
+      "id": "Tas Jinjing Kulit Klasik Tote",
+      "en": "Genuine Leather Daily Tote Bag"
+    },
+    "brand": "Atelier Abu",
+    "category": "accessories",
+    "priceIDR": 2450000,
+    "priceUSD": 160,
+    "rating": 5.0,
+    "reviewsCount": 92,
+    "image": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80",
+    "badge": { "id": "Eksklusif", "en": "Exclusive" },
+    "discountPercent": 0,
+    "description": {
+      "id": "Tote bag kulit sapi asli dengan kompartemen laptop 15 inci, ritsleting YKK, dan jahitan tangan rapi.",
+      "en": "Handcrafted full-grain leather tote with a padded 15-inch laptop sleeve and reinforced stitching."
+    },
+    "sizes": ["One Size"],
+    "colors": ["Caramel Tan", "Espresso", "Midnight Black"]
+  },
+  {
+    "id": 9,
+    "name": {
+      "id": "Sepatu Bot Kulit Chelsea Boots",
+      "en": "Modern Leather Chelsea Boots"
+    },
+    "brand": "Heritage Craft",
+    "category": "shoes",
+    "priceIDR": 2050000,
+    "priceUSD": 135,
+    "rating": 4.9,
+    "reviewsCount": 46,
+    "image": "https://images.unsplash.com/photo-1638247025967-b4e38f787b76?auto=format&fit=crop&w=800&q=80",
+    "badge": { "id": "Baru", "en": "New" },
+    "discountPercent": 0,
+    "description": {
+      "id": "Sepatu bot chelsea klasik dengan panel elastis samping untuk kemudahan pakai dan sol karet tahan slip.",
+      "en": "Timeless Chelsea silhouette crafted from supple burnished leather and Goodyear welted sole."
+    },
+    "sizes": ["40", "41", "42", "43", "44"],
+    "colors": ["Dark Brown", "Black"]
+  },
+  {
+    "id": 10,
+    "name": {
+      "id": "Gaun Satin Sutra Pesta Elegan",
+      "en": "Silk Satin Slip Evening Dress"
+    },
+    "brand": "Vogue Elegance",
+    "category": "women",
+    "priceIDR": 1450000,
+    "priceUSD": 95,
+    "rating": 4.8,
+    "reviewsCount": 63,
+    "image": "https://images.unsplash.com/photo-1596783074918-c84cb06531ca?auto=format&fit=crop&w=800&q=80",
+    "badge": null,
+    "discountPercent": 0,
+    "description": {
+      "id": "Gaun sutra satin dengan kilau mewah dan tali spaghetti halus yang membentuk siluet feminin menawan.",
+      "en": "Bias-cut lustrous silk satin dress with delicate adjustable straps and a fluid, flattering drape."
+    },
+    "sizes": ["XS", "S", "M", "L"],
+    "colors": ["Emerald Green", "Champagne Gold", "Noir"]
+  },
+  {
+    "id": 11,
+    "name": {
+      "id": "Kemeja Katun Oxford Formal Pria",
+      "en": "Tailored Oxford Cotton Shirt"
+    },
+    "brand": "Essentials Co.",
+    "category": "men",
+    "priceIDR": 1050000,
+    "priceUSD": 70,
+    "rating": 4.7,
+    "reviewsCount": 78,
+    "image": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80",
+    "badge": null,
+    "discountPercent": 0,
+    "description": {
+      "id": "Kemeja tenun katun oxford 100% dengan kerah kancing rapi dan potongan slim fit yang nyaman.",
+      "en": "Classic 100% combed cotton Oxford cloth shirt with mother-of-pearl buttons and crisp button-down collar."
+    },
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Sky Blue", "Pure White", "Striped Navy"]
+  },
+  {
+    "id": 12,
+    "name": {
+      "id": "Kacamata Hitam Vintage Aviator",
+      "en": "Vintage Aviator Sunglasses"
+    },
+    "brand": "Aura Eyewear",
+    "category": "accessories",
+    "priceIDR": 820000,
+    "priceUSD": 55,
+    "rating": 4.9,
+    "reviewsCount": 105,
+    "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
+    "badge": { "id": "-15%", "en": "-15%" },
+    "discountPercent": 15,
+    "description": {
+      "id": "Kacamata aviator dengan bingkai titanium ringan dan lensa terpolarisasi UV400 pelindung silau.",
+      "en": "Titanium metal frame aviators featuring 100% UV400 polarized gradient scratch-resistant lenses."
+    },
+    "sizes": ["Standard"],
+    "colors": ["Gold / Green", "Black / Smoke"]
+  }
+]

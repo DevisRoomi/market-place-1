@@ -1,0 +1,55 @@
+[
+  {
+    "orderId": "ABU-74185",
+    "customer": {
+      "address": "Jl. Pemuda No. 10",
+      "name": "Budi Santoso",
+      "phone": "081999888777",
+      "city": "Surabaya"
+    },
+    "items": [
+      {
+        "size": "42",
+        "productId": 3,
+        "priceIDR": 1650000,
+        "name": "Sepatu Sneaker Retro Chunky",
+        "qty": 1
+      }
+    ],
+    "subtotalIDR": 1650000,
+    "discountIDR": 825000,
+    "totalIDR": 825000,
+    "voucherCode": "ABUHEMAT",
+    "paymentMethod": "QRIS",
+    "paymentStatus": "PAID",
+    "orderStatus": "PROCESSING",
+    "createdAt": "2026-09-16T14:18:53.578Z"
+  },
+  {
+    "orderId": "ABU-10824",
+    "customer": {
+      "name": "Nabila Putri",
+      "phone": "081234567890",
+      "city": "Jakarta Selatan",
+      "address": "Jl. Senopati No. 42, Kebayoran Baru"
+    },
+    "items": [
+      {
+        "productId": 1,
+        "name": "Blazer Linen Kasual Oversized",
+        "size": "M",
+        "color": "Khaki",
+        "priceIDR": 1850000,
+        "qty": 1
+      }
+    ],
+    "subtotalIDR": 1850000,
+    "discountIDR": 925000,
+    "totalIDR": 925000,
+    "voucherCode": "ABUHEMAT",
+    "paymentMethod": "QRIS",
+    "paymentStatus": "PAID",
+    "orderStatus": "PROCESSING",
+    "createdAt": "2026-09-16T14:20:00Z"
+  }
+]
