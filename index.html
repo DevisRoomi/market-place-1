@@ -1,0 +1,2161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market of Abu | Curated Fashion & Lifestyle Marketplace</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        primary: '#0f172a',
+                        accent: '#e11d48',
+                        'accent-hover': '#be123c',
+                        gold: '#d97706',
+                        surface: '#f8fafc',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 25px -5px rgba(225, 29, 72, 0.3)',
+                        'card-hover': '0 20px 30px -10px rgba(15, 23, 42, 0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .smooth-scroll { scroll-behavior: smooth; }
+        
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 7px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .product-card {
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+        }
+        .product-card img {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-card:hover img {
+            transform: scale(1.06);
+        }
+
+        /* Modal backdrop transition */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.25s ease-out;
+        }
+        
+        /* Toast animation */
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-toast {
+            animation: slideInUp 0.3s ease-out forwards;
+        }
+
+        /* Shimmer effect for promo */
+        .shimmer-badge {
+            background: linear-gradient(90deg, #e11d48, #f43f5e, #e11d48);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-[#fafbfc] text-slate-900 antialiased smooth-scroll selection:bg-accent selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-primary text-white text-xs py-2 px-4 text-center font-medium flex items-center justify-center gap-3">
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-accent text-white" data-i18n="topBarBadge">PROMO KHUSUS</span>
+        <span data-i18n="topBarText">Gratis Ongkir ke seluruh Indonesia & Diskon 50% pakai kode: <strong class="text-amber-300 font-mono tracking-wider ml-1">ABUHEMAT</strong></span>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-40 glass-nav border-b border-slate-100 transition-all duration-300 shadow-sm" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Brand Logo -->
+                <div class="flex items-center space-x-3">
+                    <a href="#" class="flex items-center space-x-2.5 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-900 via-rose-950 to-accent flex items-center justify-center text-white font-serif font-black text-xl shadow-md group-hover:shadow-glow transition-all">
+                            A
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-extrabold tracking-tight text-slate-900 leading-none">
+                                Market <span class="text-accent">of Abu</span>
+                            </span>
+                            <span class="text-[10px] tracking-widest text-slate-400 uppercase font-semibold mt-0.5" data-i18n="taglineMini">Curated Marketplace</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex space-x-8 items-center text-sm font-semibold text-slate-700">
+                    <a href="#new-arrivals" class="hover:text-accent transition-colors" data-i18n="navNewArrivals">Produk Baru</a>
+                    <a href="#categories" class="hover:text-accent transition-colors" data-i18n="navCategories">Kategori</a>
+                    <a href="#promo-section" class="hover:text-accent transition-colors text-accent flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-accent animate-ping"></span>
+                        <span data-i18n="navPromo">Promo Spesial</span>
+                    </a>
+                    <a href="#testimonials" class="hover:text-accent transition-colors" data-i18n="navReviews">Ulasan</a>
+                    <a href="#brands" class="hover:text-accent transition-colors" data-i18n="navBrands">Brand</a>
+                </nav>
+
+                <!-- Search, Language Switcher, Wishlist & Cart Actions -->
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    
+                    <!-- Search Bar (Desktop) -->
+                    <div class="relative hidden sm:block w-48 md:w-60">
+                        <input type="text" id="searchInput" 
+                            placeholder="Cari produk..." 
+                            data-i18n-placeholder="searchPlaceholder"
+                            class="w-full bg-slate-100 hover:bg-slate-200/70 focus:bg-white pl-9 pr-4 py-2 rounded-full text-xs font-medium focus:outline-none focus:ring-2 focus:ring-accent/30 border border-transparent focus:border-accent transition-all">
+                        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <button id="clearSearchBtn" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Language Switcher Toggle (BILINGUAL ID / EN) -->
+                    <div class="flex items-center bg-slate-100 p-1 rounded-full border border-slate-200 shadow-inner">
+                        <button id="langIdBtn" onclick="setLanguage('id')" class="px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 bg-white text-slate-900 shadow-sm">
+                            <span>🇮🇩</span> <span class="hidden sm:inline">ID</span>
+                        </button>
+                        <button id="langEnBtn" onclick="setLanguage('en')" class="px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 text-slate-500 hover:text-slate-800">
+                            <span>🇬🇧</span> <span class="hidden sm:inline">EN</span>
+                        </button>
+                    </div>
+
+                    <!-- Wishlist Button -->
+                    <button id="wishlistHeaderBtn" onclick="openWishlistModal()" title="Wishlist" class="p-2 text-slate-600 hover:text-accent hover:bg-rose-50 rounded-full transition-colors relative">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                        <span id="wishlistCountBadge" class="absolute top-0.5 right-0.5 bg-slate-800 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center scale-0 transition-transform">0</span>
+                    </button>
+
+                    <!-- Cart Drawer Button -->
+                    <button id="cartDrawerBtn" onclick="openCartDrawer()" title="Keranjang Belanja" class="p-2.5 bg-slate-900 text-white hover:bg-accent rounded-full transition-all duration-300 shadow-sm flex items-center gap-2 relative">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        <span id="cartCountBadge" class="bg-accent text-white text-[11px] font-bold rounded-full h-5 min-w-[20px] px-1 flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Hamburger -->
+                    <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenuDropdown" class="hidden lg:hidden bg-white border-b border-slate-100 px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <div class="relative w-full mb-3">
+                <input type="text" id="mobileSearchInput" 
+                    placeholder="Cari produk..." 
+                    data-i18n-placeholder="searchPlaceholder"
+                    class="w-full bg-slate-100 pl-9 pr-4 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-accent">
+                <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <a href="#new-arrivals" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navNewArrivals">Produk Baru</a>
+            <a href="#categories" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navCategories">Kategori</a>
+            <a href="#promo-section" class="block py-2 text-base font-semibold text-accent" data-i18n="navPromo">Promo Spesial</a>
+            <a href="#testimonials" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navReviews">Ulasan Pelanggan</a>
+            <a href="#brands" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navBrands">Brand Ternama</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-20 lg:pt-20 lg:pb-32 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50">
+        <!-- Glow accents -->
+        <div class="absolute top-10 left-1/4 w-96 h-96 bg-rose-200/40 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-amber-100/50 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Hero Content -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-100 text-accent text-xs font-bold uppercase tracking-wider">
+                        <span class="flex h-2 w-2 rounded-full bg-accent"></span>
+                        <span data-i18n="heroBadge">Koleksi Eksklusif 2026</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
+                        <span data-i18n="heroTitle1">Tampil Berkelas dengan</span> <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent via-rose-600 to-amber-600" data-i18n="heroTitle2">Market of Abu</span>
+                    </h1>
+
+                    <p class="text-slate-600 text-base sm:text-lg max-w-xl leading-relaxed" data-i18n="heroSubtitle">
+                        Jelajahi kurasi fashion kontemporer, streetwear premium, busana formal, dan aksesori mewah karya desainer independen terbaik dunia. Kualitas terjamin 100% original.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <a href="#new-arrivals" class="px-8 py-4 bg-slate-900 hover:bg-accent text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg hover:shadow-glow flex items-center justify-center gap-2 group text-sm sm:text-base">
+                            <span data-i18n="heroCtaPrimary">Belanja Sekarang</span>
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                        <a href="#categories" class="px-8 py-4 bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 font-semibold rounded-2xl transition-all shadow-sm flex items-center justify-center text-sm sm:text-base" data-i18n="heroCtaSecondary">
+                            Lihat Kategori
+                        </a>
+                    </div>
+
+                    <!-- Social Proof Stats with Real Photos -->
+                    <div class="pt-6 border-t border-slate-200/80 flex items-center gap-6">
+                        <div class="flex -space-x-3 overflow-hidden">
+                            <img class="inline-block h-11 w-11 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Customer">
+                            <img class="inline-block h-11 w-11 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Customer">
+                            <img class="inline-block h-11 w-11 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" alt="Customer">
+                            <img class="inline-block h-11 w-11 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Customer">
+                        </div>
+                        <div>
+                            <div class="flex items-center text-amber-400 text-sm">
+                                ★★★★★ <span class="text-slate-800 font-bold ml-2 text-xs sm:text-sm">4.9 / 5.0</span>
+                            </div>
+                            <p class="text-xs text-slate-500 font-medium" data-i18n="heroProof">Dipercaya 50.000+ fashion enthusiast di seluruh Indonesia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hero Image Grid (REAL PHOTOS) -->
+                <div class="lg:col-span-6 relative">
+                    <div class="grid grid-cols-2 gap-4 sm:gap-5">
+                        <div class="space-y-4 sm:space-y-5 pt-8">
+                            <div class="relative rounded-3xl overflow-hidden shadow-2xl group">
+                                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" 
+                                     alt="Model Wanita Abu" 
+                                     class="w-full h-64 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                <span class="absolute bottom-3 left-4 text-white text-xs font-semibold px-2.5 py-1 bg-black/40 backdrop-blur-md rounded-lg" data-i18n="heroTag1">Busana Wanita</span>
+                            </div>
+                            <div class="relative rounded-3xl overflow-hidden shadow-lg group">
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" 
+                                     alt="Aksesoris Jam Tangan" 
+                                     class="w-full h-44 sm:h-52 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                <span class="absolute bottom-3 left-4 text-white text-xs font-semibold px-2.5 py-1 bg-black/40 backdrop-blur-md rounded-lg" data-i18n="heroTag2">Aksesoris Mewah</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 sm:space-y-5">
+                            <div class="relative rounded-3xl overflow-hidden shadow-lg group">
+                                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" 
+                                     alt="Sepatu Sneakers" 
+                                     class="w-full h-44 sm:h-52 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                <span class="absolute bottom-3 left-4 text-white text-xs font-semibold px-2.5 py-1 bg-black/40 backdrop-blur-md rounded-lg" data-i18n="heroTag3">Sepatu Sneakers</span>
+                            </div>
+                            <div class="relative rounded-3xl overflow-hidden shadow-2xl group">
+                                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80" 
+                                     alt="Model Pria Abu" 
+                                     class="w-full h-64 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                <span class="absolute bottom-3 left-4 text-white text-xs font-semibold px-2.5 py-1 bg-black/40 backdrop-blur-md rounded-lg" data-i18n="heroTag4">Busana Pria</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Quality Badge -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-slate-100 flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-xl bg-accent text-white flex items-center justify-center shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-bold uppercase tracking-wider" data-i18n="floatBadgeLabel">Garansi Kepuasan</p>
+                            <p class="text-sm font-extrabold text-slate-900" data-i18n="floatBadgeTitle">100% Produk Original</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Features Bar -->
+    <div class="bg-slate-900 text-white py-10 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800">
+                <div class="pt-4 md:pt-0 px-3">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-800 flex items-center justify-center text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                    </div>
+                    <h4 class="font-bold text-sm sm:text-base text-white mb-1" data-i18n="feat1Title">Gratis Ongkos Kirim</h4>
+                    <p class="text-xs text-slate-400" data-i18n="feat1Desc">Untuk pesanan di atas Rp 300.000</p>
+                </div>
+                <div class="pt-4 md:pt-0 px-3">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-800 flex items-center justify-center text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h4 class="font-bold text-sm sm:text-base text-white mb-1" data-i18n="feat2Title">Produk 100% Autentik</h4>
+                    <p class="text-xs text-slate-400" data-i18n="feat2Desc">Jaminan barang asli langsung dari desainer</p>
+                </div>
+                <div class="pt-4 md:pt-0 px-3">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-800 flex items-center justify-center text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h4 class="font-bold text-sm sm:text-base text-white mb-1" data-i18n="feat3Title">Pembayaran Aman</h4>
+                    <p class="text-xs text-slate-400" data-i18n="feat3Desc">QRIS, GoPay, Transfer Bank & Kartu</p>
+                </div>
+                <div class="pt-4 md:pt-0 px-3">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-800 flex items-center justify-center text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    </div>
+                    <h4 class="font-bold text-sm sm:text-base text-white mb-1" data-i18n="feat4Title">30 Hari Garansi Retur</h4>
+                    <p class="text-xs text-slate-400" data-i18n="feat4Desc">Pengembalian mudah tanpa ribet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop by Category Section (REAL PHOTOS) -->
+    <section id="categories" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+                <div>
+                    <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2" data-i18n="catBadge">JELAJAHI KOLEKSI</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" data-i18n="catTitle">Belanja Berdasarkan Kategori</h2>
+                </div>
+                <p class="text-slate-500 text-sm mt-2 sm:mt-0" data-i18n="catSubtitle">Temukan gaya terbaik yang sesuai dengan karaktermu</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Category 1: Wanita -->
+                <div onclick="filterProducts('women')" class="group relative h-96 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" 
+                         alt="Busana Wanita" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-rose-300" data-i18n="cat1Count">1.450+ Koleksi</span>
+                        <h3 class="text-2xl font-bold mt-1" data-i18n="cat1Name">Pakaian Wanita</h3>
+                        <p class="text-xs text-slate-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" data-i18n="catAction">Klik untuk eksplor &rarr;</p>
+                    </div>
+                </div>
+
+                <!-- Category 2: Pria -->
+                <div onclick="filterProducts('men')" class="group relative h-96 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=800&q=80" 
+                         alt="Busana Pria" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-amber-300" data-i18n="cat2Count">980+ Koleksi</span>
+                        <h3 class="text-2xl font-bold mt-1" data-i18n="cat2Name">Pakaian Pria</h3>
+                        <p class="text-xs text-slate-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" data-i18n="catAction">Klik untuk eksplor &rarr;</p>
+                    </div>
+                </div>
+
+                <!-- Category 3: Sepatu -->
+                <div onclick="filterProducts('shoes')" class="group relative h-96 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80" 
+                         alt="Sepatu & Sneakers" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-emerald-300" data-i18n="cat3Count">620+ Koleksi</span>
+                        <h3 class="text-2xl font-bold mt-1" data-i18n="cat3Name">Sepatu & Sneakers</h3>
+                        <p class="text-xs text-slate-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" data-i18n="catAction">Klik untuk eksplor &rarr;</p>
+                    </div>
+                </div>
+
+                <!-- Category 4: Aksesoris -->
+                <div onclick="filterProducts('accessories')" class="group relative h-96 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all">
+                    <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=800&q=80" 
+                         alt="Aksesoris & Tas" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-sky-300" data-i18n="cat4Count">510+ Koleksi</span>
+                        <h3 class="text-2xl font-bold mt-1" data-i18n="cat4Name">Aksesoris & Tas</h3>
+                        <p class="text-xs text-slate-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" data-i18n="catAction">Klik untuk eksplor &rarr;</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase (New Arrivals + Interactive Filters + Search Results) -->
+    <section id="new-arrivals" class="py-20 bg-slate-50 border-t border-slate-200/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2" data-i18n="productsBadge">KATALOG PILIHAN</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" data-i18n="productsTitle">Koleksi Terbaru Market of Abu</h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-2" data-i18n="productsSubtitle">Desain eksklusif dengan material premium, dipilih khusus untuk menyempurnakan gayamu setiap hari.</p>
+            </div>
+
+            <!-- Filters & Sorting Controls -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-200">
+                <!-- Category Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-2" id="filterButtonsGroup">
+                    <button onclick="filterProducts('all')" data-cat="all" class="filter-tab-btn active px-5 py-2.5 rounded-full text-xs font-bold transition-all bg-slate-900 text-white shadow-sm" data-i18n="filterAll">Semua</button>
+                    <button onclick="filterProducts('women')" data-cat="women" class="filter-tab-btn px-5 py-2.5 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-i18n="filterWomen">Wanita</button>
+                    <button onclick="filterProducts('men')" data-cat="men" class="filter-tab-btn px-5 py-2.5 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-i18n="filterMen">Pria</button>
+                    <button onclick="filterProducts('shoes')" data-cat="shoes" class="filter-tab-btn px-5 py-2.5 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-i18n="filterShoes">Sepatu</button>
+                    <button onclick="filterProducts('accessories')" data-cat="accessories" class="filter-tab-btn px-5 py-2.5 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-i18n="filterAccessories">Aksesoris</button>
+                </div>
+
+                <!-- Sort Control -->
+                <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                    <label for="sortSelect" class="text-xs font-semibold text-slate-500 whitespace-nowrap" data-i18n="sortLabel">Urutkan:</label>
+                    <select id="sortSelect" onchange="sortProducts(this.value)" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-accent">
+                        <option value="default" data-i18n="sortDefault">Unggulan</option>
+                        <option value="price-low" data-i18n="sortPriceLow">Harga: Termurah</option>
+                        <option value="price-high" data-i18n="sortPriceHigh">Harga: Tertinggi</option>
+                        <option value="rating" data-i18n="sortRating">Rating Tertinggi</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Active Search Filter Alert if searching -->
+            <div id="activeSearchBanner" class="hidden mb-6 p-4 bg-rose-50 border border-rose-200 rounded-2xl flex items-center justify-between">
+                <p class="text-xs sm:text-sm text-slate-700">
+                    <span data-i18n="searchingFor">Hasil pencarian untuk:</span> <strong id="searchQueryText" class="text-accent"></strong> 
+                    (<span id="searchResultCount">0</span> <span data-i18n="itemsFound">produk ditemukan</span>)
+                </p>
+                <button onclick="resetSearch()" class="text-xs font-bold text-accent hover:underline" data-i18n="clearSearch">Reset Pencarian</button>
+            </div>
+
+            <!-- Products Grid Container -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" id="productsGrid">
+                <!-- Products rendered via JavaScript -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="mt-14 text-center" id="loadMoreContainer">
+                <button id="loadMoreBtn" onclick="loadMoreProducts()" class="inline-flex items-center justify-center px-8 py-4 border-2 border-slate-900 text-slate-900 font-bold rounded-2xl hover:bg-slate-900 hover:text-white transition-all duration-300 text-sm shadow-sm hover:shadow-md group">
+                    <span data-i18n="loadMore">Muat Lebih Banyak Produk</span>
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Promo Banner with Real-Time Countdown (REAL PHOTOS) -->
+    <section id="promo-section" class="py-16 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-rose-950 text-white shadow-2xl">
+                <!-- Decorative background elements -->
+                <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-accent opacity-20 blur-3xl"></div>
+                <div class="absolute -left-20 -bottom-20 w-96 h-96 rounded-full bg-amber-500 opacity-15 blur-3xl"></div>
+
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 lg:p-16">
+                    
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full shimmer-badge text-white text-xs font-extrabold uppercase tracking-wider">
+                            ⚡ <span data-i18n="promoBadge">PENAWARAN TERBATAS</span>
+                        </div>
+
+                        <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                            <span data-i18n="promoTitle1">Mega Flash Sale</span> <br>
+                            <span class="text-amber-400" data-i18n="promoTitle2">Diskon Hingga 50%</span>
+                        </h2>
+
+                        <p class="text-slate-300 text-sm sm:text-base max-w-lg leading-relaxed" data-i18n="promoDesc">
+                            Tingkatkan gaya pribadimu dengan harga terbaik musim ini. Gunakan voucher eksklusif Market of Abu saat checkout sebelum waktu habis!
+                        </p>
+
+                        <!-- Real-time Countdown Timer -->
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3" data-i18n="countdownLabel">PROMO BERAKHIR DALAM:</p>
+                            <div class="flex items-center gap-3 sm:gap-4">
+                                <div class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 text-center min-w-[65px] sm:min-w-[75px]">
+                                    <span class="block text-2xl sm:text-3xl font-black font-mono text-white" id="timerDays">03</span>
+                                    <span class="text-[10px] uppercase font-bold text-slate-400" data-i18n="timerDays">Hari</span>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 text-center min-w-[65px] sm:min-w-[75px]">
+                                    <span class="block text-2xl sm:text-3xl font-black font-mono text-white" id="timerHours">18</span>
+                                    <span class="text-[10px] uppercase font-bold text-slate-400" data-i18n="timerHours">Jam</span>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 text-center min-w-[65px] sm:min-w-[75px]">
+                                    <span class="block text-2xl sm:text-3xl font-black font-mono text-white" id="timerMinutes">42</span>
+                                    <span class="text-[10px] uppercase font-bold text-slate-400" data-i18n="timerMinutes">Menit</span>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 text-center min-w-[65px] sm:min-w-[75px]">
+                                    <span class="block text-2xl sm:text-3xl font-black font-mono text-rose-400" id="timerSeconds">59</span>
+                                    <span class="text-[10px] uppercase font-bold text-slate-400" data-i18n="timerSeconds">Detik</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Voucher Code Box -->
+                        <div class="pt-2 flex flex-wrap items-center gap-4">
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl flex items-center gap-3">
+                                <div>
+                                    <span class="text-[10px] text-slate-400 font-semibold block uppercase" data-i18n="voucherLabel">Kode Voucher:</span>
+                                    <span class="text-base font-black font-mono text-amber-300 tracking-wider">ABUHEMAT</span>
+                                </div>
+                                <button onclick="copyVoucher('ABUHEMAT')" class="p-2 hover:bg-white/20 rounded-xl transition-colors text-xs font-bold text-white" title="Salin Kode">
+                                    📋
+                                </button>
+                            </div>
+                            <a href="#new-arrivals" class="px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-glow text-sm" data-i18n="promoCta">
+                                Klaim Diskon Sekarang
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Promo Image Right -->
+                    <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
+                            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Promo Fashion Market of Abu" 
+                                 class="w-full h-80 sm:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                            
+                            <!-- Floating Promo Card -->
+                            <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl text-slate-900 shadow-xl">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs text-slate-500 font-bold" data-i18n="promoHighlight">Koleksi Terlaris</p>
+                                        <p class="text-sm font-extrabold text-slate-900">Autumn / Winter Edition</p>
+                                    </div>
+                                    <span class="px-3 py-1 bg-accent text-white text-xs font-extrabold rounded-full">-50%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials / Customer Reviews (REAL PHOTOS) -->
+    <section id="testimonials" class="py-20 bg-slate-50 border-t border-slate-200/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2" data-i18n="reviewsBadge">ULASAN PELANGGAN</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" data-i18n="reviewsTitle">Kata Mereka Tentang Market of Abu</h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-2" data-i18n="reviewsSubtitle">Kepuasan pelanggan adalah prioritas nomor satu kami.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-amber-400 mb-4">
+                            ★★★★★
+                        </div>
+                        <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6" data-i18n="rev1Text">
+                            "Kualitas blazer yang saya beli sangat di luar ekspektasi! Bahannya dingin, potongannya pas sekali di badan, dan pengirimannya super cepat ke Surabaya."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Nabila Putri" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h5 class="font-bold text-slate-900 text-sm">Nabila Putri</h5>
+                            <p class="text-xs text-slate-400" data-i18n="rev1Role">Jakarta &bull; Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-amber-400 mb-4">
+                            ★★★★★
+                        </div>
+                        <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6" data-i18n="rev2Text">
+                            "Sneakers retro-nya luar biasa empuk dipakai jalan seharian. Layanan customer servicenya ramah dan proses pembayarannya pakai QRIS instan sekali!"
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Reza Pratama" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h5 class="font-bold text-slate-900 text-sm">Reza Pratama</h5>
+                            <p class="text-xs text-slate-400" data-i18n="rev2Role">Bandung &bull; Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-amber-400 mb-4">
+                            ★★★★★
+                        </div>
+                        <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6" data-i18n="rev3Text">
+                            "Market of Abu jadi andalan utama saya buat belanja kado dan outfit kantor. Pilihan jam tangan dan tas kulitnya beneran mewah dan bergaransi asli."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" alt="Sarah Angelina" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h5 class="font-bold text-slate-900 text-sm">Sarah Angelina</h5>
+                            <p class="text-xs text-slate-400" data-i18n="rev3Role">Bali &bull; Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Brands -->
+    <section id="brands" class="py-16 bg-white border-t border-slate-200/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-center text-xs font-bold tracking-widest text-slate-400 uppercase mb-8" data-i18n="brandsTitle">MITRA BRAND EKSKLUSIF RESMI</h3>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 hover:opacity-100 transition-opacity">
+                <span class="text-2xl font-black font-serif italic tracking-wider text-slate-800">VOGUE</span>
+                <span class="text-2xl font-black tracking-widest text-slate-800">MINIMAL</span>
+                <span class="text-xl font-bold uppercase border-2 border-slate-900 px-3 py-1 text-slate-900">STUDIO.</span>
+                <span class="text-2xl font-light tracking-tighter text-slate-800">ESSENTIALS</span>
+                <span class="text-xl font-extrabold text-slate-800">URBAN<span class="font-light text-rose-600">WEAR</span></span>
+                <span class="text-2xl font-serif text-slate-800">AURA</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-white pt-20 pb-10 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+                
+                <!-- Col 1: Brand Info & Newsletter -->
+                <div class="lg:col-span-2 space-y-6">
+                    <a href="#" class="flex items-center space-x-2.5">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-800 via-rose-900 to-accent flex items-center justify-center text-white font-serif font-black text-xl shadow-md">
+                            A
+                        </div>
+                        <span class="text-2xl font-extrabold tracking-tight text-white">
+                            Market <span class="text-accent">of Abu</span>
+                        </span>
+                    </a>
+                    
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-sm" data-i18n="footerAbout">
+                        Destinasi belanja online fashion premium terpercaya di Indonesia. Menghadirkan produk berkualitas tinggi dari desainer pilihan dengan layanan pelanggan prima.
+                    </p>
+
+                    <!-- Newsletter Form -->
+                    <div class="pt-2">
+                        <label for="newsletterEmail" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2" data-i18n="newsletterLabel">Dapatkan Info Promo & Voucher</label>
+                        <form onsubmit="handleNewsletter(event)" class="flex max-w-md">
+                            <input type="email" id="newsletterEmail" required placeholder="Masukkan email Anda..." data-i18n-placeholder="newsletterPlaceholder" class="w-full bg-slate-900 border border-slate-800 rounded-l-2xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-accent">
+                            <button type="submit" class="bg-accent hover:bg-accent-hover text-white px-5 rounded-r-2xl text-xs font-bold transition-colors whitespace-nowrap" data-i18n="subscribeBtn">
+                                Berlangganan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Col 2: Kategori -->
+                <div>
+                    <h4 class="text-sm font-bold tracking-wider uppercase text-white mb-5" data-i18n="footColKategori">Kategori</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><a href="#new-arrivals" onclick="filterProducts('women')" class="hover:text-accent transition-colors" data-i18n="cat1Name">Pakaian Wanita</a></li>
+                        <li><a href="#new-arrivals" onclick="filterProducts('men')" class="hover:text-accent transition-colors" data-i18n="cat2Name">Pakaian Pria</a></li>
+                        <li><a href="#new-arrivals" onclick="filterProducts('shoes')" class="hover:text-accent transition-colors" data-i18n="cat3Name">Sepatu & Sneakers</a></li>
+                        <li><a href="#new-arrivals" onclick="filterProducts('accessories')" class="hover:text-accent transition-colors" data-i18n="cat4Name">Aksesoris & Tas</a></li>
+                        <li><a href="#promo-section" class="text-accent hover:underline" data-i18n="navPromo">Promo Spesial</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Layanan Pelanggan -->
+                <div>
+                    <h4 class="text-sm font-bold tracking-wider uppercase text-white mb-5" data-i18n="footColHelp">Bantuan</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><a href="javascript:void(0)" onclick="showToast('Fitur Lacak Pesanan siap dihubungkan ke resi')" class="hover:text-accent transition-colors" data-i18n="footTrack">Lacak Pesanan</a></li>
+                        <li><a href="javascript:void(0)" onclick="showToast('Kebijakan retur 30 hari berlaku')" class="hover:text-accent transition-colors" data-i18n="footReturn">Kebijakan Pengembalian</a></li>
+                        <li><a href="javascript:void(0)" onclick="showToast('Panduan ukuran S, M, L, XL tersedia')" class="hover:text-accent transition-colors" data-i18n="footSize">Panduan Ukuran</a></li>
+                        <li><a href="javascript:void(0)" onclick="showToast('Layanan CS aktif 24/7 di WhatsApp')" class="hover:text-accent transition-colors" data-i18n="footContact">Hubungi Kami</a></li>
+                        <li><a href="javascript:void(0)" onclick="showToast('FAQ terupdate')" class="hover:text-accent transition-colors" data-i18n="footFaq">Tanya Jawab (FAQ)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Perusahaan & Keamanan -->
+                <div>
+                    <h4 class="text-sm font-bold tracking-wider uppercase text-white mb-5" data-i18n="footColCompany">Tentang Abu</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><a href="javascript:void(0)" onclick="showToast('Market of Abu didirikan untuk fashion berkualitas')" class="hover:text-accent transition-colors" data-i18n="footAboutUs">Tentang Kami</a></li>
+                        <li><a href="javascript:void(0)" onclick="showToast('Pendaftaran desainer independen dibuka')" class="hover:text-accent transition-colors" data-i18n="footSell">Jual di Market of Abu</a></li>
+                        <li><a href="javascript:void(0)" onclick="showToast('Privasi data Anda terjaga dengan aman')" class="hover:text-accent transition-colors" data-i18n="footPrivacy">Kebijakan Privasi</a></li>
+                        <li><a href="javascript:void(0)" onclick="showToast('Syarat & Ketentuan berlaku')" class="hover:text-accent transition-colors" data-i18n="footTerms">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright & Payment Badges -->
+            <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; 2026 <strong>Market of Abu</strong>. All rights reserved. Crafted for excellence.</p>
+                <div class="flex items-center gap-3">
+                    <span class="px-2.5 py-1 bg-slate-900 border border-slate-800 rounded font-mono text-[10px] text-slate-400">QRIS</span>
+                    <span class="px-2.5 py-1 bg-slate-900 border border-slate-800 rounded font-mono text-[10px] text-slate-400">BCA VA</span>
+                    <span class="px-2.5 py-1 bg-slate-900 border border-slate-800 rounded font-mono text-[10px] text-slate-400">MANDIRI</span>
+                    <span class="px-2.5 py-1 bg-slate-900 border border-slate-800 rounded font-mono text-[10px] text-slate-400">GOPAY</span>
+                    <span class="px-2.5 py-1 bg-slate-900 border border-slate-800 rounded font-mono text-[10px] text-slate-400">VISA/MC</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== INTERACTIVE DRAWERS & MODALS ==================== -->
+
+    <!-- Shopping Cart Slide-out Drawer -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none transition-opacity duration-300 opacity-0">
+        <!-- Backdrop -->
+        <div id="cartBackdrop" onclick="closeCartDrawer()" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm pointer-events-auto transition-opacity"></div>
+        
+        <!-- Drawer Panel -->
+        <div id="cartPanel" class="absolute top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col pointer-events-auto transform translate-x-full transition-transform duration-300 ease-in-out">
+            <!-- Header -->
+            <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-slate-900 text-base" data-i18n="cartTitle">Keranjang Belanja</h3>
+                        <p class="text-xs text-slate-500"><span id="cartItemsCountLabel">0</span> <span data-i18n="cartItemUnit">item dipilih</span></p>
+                    </div>
+                </div>
+                <button onclick="closeCartDrawer()" class="p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-200/60">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Cart Items List Container -->
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4 divide-y divide-slate-100">
+                <!-- Cart items rendered by JS -->
+            </div>
+
+            <!-- Empty Cart Placeholder -->
+            <div id="emptyCartState" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center">
+                <div class="w-16 h-16 rounded-full bg-rose-50 text-accent flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                </div>
+                <h4 class="font-bold text-slate-900 mb-1" data-i18n="emptyCartTitle">Keranjang Masih Kosong</h4>
+                <p class="text-xs text-slate-500 mb-6 max-w-xs" data-i18n="emptyCartDesc">Ayo jelajahi koleksi terbaik di Market of Abu dan tambahkan produk impianmu!</p>
+                <button onclick="closeCartDrawer()" class="px-6 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-accent transition-colors" data-i18n="startShoppingBtn">
+                    Mulai Belanja
+                </button>
+            </div>
+
+            <!-- Footer: Voucher & Total & Checkout -->
+            <div id="cartFooter" class="p-6 border-t border-slate-100 bg-slate-50 space-y-4">
+                <!-- Promo code input -->
+                <div class="flex gap-2">
+                    <input type="text" id="cartVoucherInput" placeholder="Kode voucher (cth: ABUHEMAT)" class="flex-1 px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs uppercase font-mono tracking-wider focus:outline-none focus:ring-2 focus:ring-accent">
+                    <button onclick="applyCartVoucher()" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-xl transition-colors" data-i18n="applyVoucherBtn">
+                        Gunakan
+                    </button>
+                </div>
+                <div id="appliedDiscountMsg" class="hidden text-xs text-emerald-600 font-bold flex items-center justify-between">
+                    <span>Diskon 50% aktif (<span id="activePromoCode">ABUHEMAT</span>)</span>
+                    <button onclick="removeVoucher()" class="text-rose-500 hover:underline">Hapus</button>
+                </div>
+
+                <!-- Subtotal Breakdown -->
+                <div class="space-y-1.5 text-xs text-slate-600">
+                    <div class="flex justify-between">
+                        <span data-i18n="subtotalLabel">Subtotal</span>
+                        <span id="cartSubtotalText" class="font-bold text-slate-900">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between" id="discountRow" style="display: none;">
+                        <span class="text-emerald-600" data-i18n="discountLabel">Potongan Diskon</span>
+                        <span id="cartDiscountText" class="font-bold text-emerald-600">-Rp 0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span data-i18n="shippingLabel">Pengiriman</span>
+                        <span class="font-bold text-emerald-600" data-i18n="freeShippingText">GRATIS</span>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200 flex justify-between text-base font-extrabold text-slate-900">
+                        <span data-i18n="totalLabel">Total Pembayaran</span>
+                        <span id="cartTotalText" class="text-accent">Rp 0</span>
+                    </div>
+                </div>
+
+                <!-- Checkout Button -->
+                <button onclick="proceedToCheckout()" class="w-full py-3.5 bg-accent hover:bg-accent-hover text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-glow flex items-center justify-center gap-2 text-sm">
+                    <span data-i18n="checkoutBtn">Lanjut ke Pembayaran</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Quick View Modal -->
+    <div id="quickViewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeQuickView()" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
+            <button onclick="closeQuickView()" class="absolute top-5 right-5 p-2 text-slate-400 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors z-20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center" id="quickViewContent">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlistModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeWishlistModal()" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-rose-50 text-accent flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-slate-900" data-i18n="wishlistTitle">Produk Favorit Saya</h3>
+                </div>
+                <button onclick="closeWishlistModal()" class="p-2 text-slate-400 hover:text-slate-800 rounded-full">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div id="wishlistItemsContainer" class="space-y-3">
+                <!-- Wishlist items rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeCheckoutModal()" class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
+            
+            <div id="checkoutFormStep">
+                <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
+                    <div>
+                        <h3 class="text-xl font-black text-slate-900" data-i18n="checkoutModalTitle">Checkout Pesanan</h3>
+                        <p class="text-xs text-slate-500" data-i18n="checkoutModalSub">Lengkapi data pengiriman & pilih metode pembayaran</p>
+                    </div>
+                    <button onclick="closeCheckoutModal()" class="p-2 text-slate-400 hover:text-slate-800 rounded-full">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <form onsubmit="handleFinalOrder(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1" data-i18n="formName">Nama Lengkap</label>
+                        <input type="text" required placeholder="Contoh: Abu B. Rachman" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent focus:bg-white">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1" data-i18n="formPhone">No. WhatsApp</label>
+                            <input type="tel" required placeholder="0812xxxxxxxx" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent focus:bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1" data-i18n="formCity">Kota / Kabupaten</label>
+                            <input type="text" required placeholder="Jakarta Selatan" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent focus:bg-white">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1" data-i18n="formAddress">Alamat Lengkap Pengiriman</label>
+                        <textarea required rows="2" placeholder="Jl. Sudirman No. 123, RT/RW, Kelurahan, Kecamatan..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent focus:bg-white"></textarea>
+                    </div>
+
+                    <!-- Payment Method Picker -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-2" data-i18n="formPayment">Metode Pembayaran</label>
+                        <div class="grid grid-cols-2 gap-2.5 text-xs">
+                            <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-rose-50/50">
+                                <input type="radio" name="paymentMethod" value="QRIS" checked class="text-accent focus:ring-accent">
+                                <span class="font-bold">QRIS Instant</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-rose-50/50">
+                                <input type="radio" name="paymentMethod" value="GoPay / OVO" class="text-accent focus:ring-accent">
+                                <span class="font-bold">E-Wallet (GoPay/OVO)</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-rose-50/50">
+                                <input type="radio" name="paymentMethod" value="Transfer Bank BCA/Mandiri" class="text-accent focus:ring-accent">
+                                <span class="font-bold">Virtual Account (BCA/Mandiri)</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-rose-50/50">
+                                <input type="radio" name="paymentMethod" value="Kartu Kredit / Debit" class="text-accent focus:ring-accent">
+                                <span class="font-bold">Kartu Kredit / Debit</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Checkout Summary -->
+                    <div class="p-4 bg-slate-50 rounded-2xl space-y-1 text-xs">
+                        <div class="flex justify-between text-slate-600">
+                            <span data-i18n="orderTotalLabel">Total Yang Harus Dibayar:</span>
+                            <span id="checkoutFinalTotal" class="text-sm font-extrabold text-accent">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 bg-accent hover:bg-accent-hover text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-glow text-sm" data-i18n="confirmPayBtn">
+                        Konfirmasi & Bayar Sekarang
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Success Step (Initially Hidden) -->
+            <div id="checkoutSuccessStep" class="hidden text-center py-6 space-y-4">
+                <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-3xl">
+                    ✓
+                </div>
+                <h3 class="text-2xl font-black text-slate-900" data-i18n="orderSuccessTitle">Pesanan Berhasil Dibuat!</h3>
+                <p class="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto" data-i18n="orderSuccessDesc">
+                    Terima kasih telah berbelanja di Market of Abu. Nomor resi & konfirmasi pembayaran telah dikirim ke WhatsApp Anda.
+                </p>
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl inline-block text-left text-xs font-mono text-slate-700">
+                    <p>Order ID: <strong id="generatedOrderId" class="text-accent">ABU-98421</strong></p>
+                    <p>Status: <strong class="text-emerald-600 font-bold">LUNAS / DIPROSES</strong></p>
+                </div>
+                <div>
+                    <button onclick="closeCheckoutModal(); clearCart();" class="px-8 py-3 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-accent transition-colors" data-i18n="backToShop">
+                        Kembali Berbelanja
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ==================== JAVASCRIPT LOGIC & CATALOG DATA ==================== -->
+    <script>
+        // 1. DUAL-LANGUAGE DICTIONARY (ID & EN)
+        const i18n = {
+            id: {
+                topBarBadge: "PROMO KHUSUS",
+                topBarText: "Gratis Ongkir se-Indonesia & Diskon 50% pakai kode: <strong class='text-amber-300 font-mono tracking-wider ml-1'>ABUHEMAT</strong>",
+                taglineMini: "Marketplace Terkurasi",
+                navNewArrivals: "Produk Baru",
+                navCategories: "Kategori",
+                navPromo: "Promo Spesial",
+                navReviews: "Ulasan",
+                navBrands: "Brand",
+                searchPlaceholder: "Cari produk di Market of Abu...",
+                heroBadge: "Koleksi Eksklusif 2026",
+                heroTitle1: "Tampil Berkelas dengan",
+                heroTitle2: "Market of Abu",
+                heroSubtitle: "Jelajahi kurasi fashion kontemporer, streetwear premium, busana formal, dan aksesori mewah karya desainer independen terbaik dunia. Kualitas terjamin 100% original.",
+                heroCtaPrimary: "Belanja Sekarang",
+                heroCtaSecondary: "Lihat Kategori",
+                heroProof: "Dipercaya 50.000+ fashion enthusiast di seluruh Indonesia",
+                heroTag1: "Busana Wanita",
+                heroTag2: "Aksesoris Mewah",
+                heroTag3: "Sepatu Sneakers",
+                heroTag4: "Busana Pria",
+                floatBadgeLabel: "Garansi Kepuasan",
+                floatBadgeTitle: "100% Produk Original",
+                feat1Title: "Gratis Ongkos Kirim",
+                feat1Desc: "Untuk pesanan di atas Rp 300.000",
+                feat2Title: "Produk 100% Autentik",
+                feat2Desc: "Jaminan barang asli langsung dari desainer",
+                feat3Title: "Pembayaran Aman",
+                feat3Desc: "QRIS, GoPay, Transfer Bank & Kartu",
+                feat4Title: "30 Hari Garansi Retur",
+                feat4Desc: "Pengembalian mudah tanpa ribet",
+                catBadge: "JELAJAHI KOLEKSI",
+                catTitle: "Belanja Berdasarkan Kategori",
+                catSubtitle: "Temukan gaya terbaik yang sesuai dengan karaktermu",
+                cat1Count: "1.450+ Koleksi",
+                cat1Name: "Pakaian Wanita",
+                cat2Count: "980+ Koleksi",
+                cat2Name: "Pakaian Pria",
+                cat3Count: "620+ Koleksi",
+                cat3Name: "Sepatu & Sneakers",
+                cat4Count: "510+ Koleksi",
+                cat4Name: "Aksesoris & Tas",
+                catAction: "Klik untuk eksplor →",
+                productsBadge: "KATALOG PILIHAN",
+                productsTitle: "Koleksi Terbaru Market of Abu",
+                productsSubtitle: "Desain eksklusif dengan material premium, dipilih khusus untuk menyempurnakan gayamu setiap hari.",
+                filterAll: "Semua",
+                filterWomen: "Wanita",
+                filterMen: "Pria",
+                filterShoes: "Sepatu",
+                filterAccessories: "Aksesoris",
+                sortLabel: "Urutkan:",
+                sortDefault: "Unggulan",
+                sortPriceLow: "Harga: Termurah",
+                sortPriceHigh: "Harga: Tertinggi",
+                sortRating: "Rating Tertinggi",
+                searchingFor: "Hasil pencarian untuk:",
+                itemsFound: "produk ditemukan",
+                clearSearch: "Reset Pencarian",
+                loadMore: "Muat Lebih Banyak Produk",
+                promoBadge: "PENAWARAN TERBATAS",
+                promoTitle1: "Mega Flash Sale",
+                promoTitle2: "Diskon Hingga 50%",
+                promoDesc: "Tingkatkan gaya pribadimu dengan harga terbaik musim ini. Gunakan voucher eksklusif Market of Abu saat checkout sebelum waktu habis!",
+                countdownLabel: "PROMO BERAKHIR DALAM:",
+                timerDays: "Hari",
+                timerHours: "Jam",
+                timerMinutes: "Menit",
+                timerSeconds: "Detik",
+                voucherLabel: "Kode Voucher:",
+                promoCta: "Klaim Diskon Sekarang",
+                promoHighlight: "Koleksi Terlaris",
+                reviewsBadge: "ULASAN PELANGGAN",
+                reviewsTitle: "Kata Mereka Tentang Market of Abu",
+                reviewsSubtitle: "Kepuasan pelanggan adalah prioritas nomor satu kami.",
+                rev1Text: '"Kualitas blazer yang saya beli sangat di luar ekspektasi! Bahannya dingin, potongannya pas sekali di badan, dan pengirimannya super cepat ke Surabaya."',
+                rev1Role: "Jakarta • Pembeli Terverifikasi",
+                rev2Text: '"Sneakers retro-nya luar biasa empuk dipakai jalan seharian. Layanan customer servicenya ramah dan proses pembayarannya pakai QRIS instan sekali!"',
+                rev2Role: "Bandung • Pembeli Terverifikasi",
+                rev3Text: '"Market of Abu jadi andalan utama saya buat belanja kado dan outfit kantor. Pilihan jam tangan dan tas kulitnya beneran mewah dan bergaransi asli."',
+                rev3Role: "Bali • Pembeli Terverifikasi",
+                brandsTitle: "MITRA BRAND EKSKLUSIF RESMI",
+                footerAbout: "Destinasi belanja online fashion premium terpercaya di Indonesia. Menghadirkan produk berkualitas tinggi dari desainer pilihan dengan layanan pelanggan prima.",
+                newsletterLabel: "Dapatkan Info Promo & Voucher",
+                newsletterPlaceholder: "Masukkan email Anda...",
+                subscribeBtn: "Berlangganan",
+                footColKategori: "Kategori",
+                footColHelp: "Bantuan",
+                footColCompany: "Tentang Abu",
+                footTrack: "Lacak Pesanan",
+                footReturn: "Kebijakan Pengembalian",
+                footSize: "Panduan Ukuran",
+                footContact: "Hubungi Kami",
+                footFaq: "Tanya Jawab (FAQ)",
+                footAboutUs: "Tentang Kami",
+                footSell: "Jual di Market of Abu",
+                footPrivacy: "Kebijakan Privasi",
+                footTerms: "Syarat & Ketentuan",
+                cartTitle: "Keranjang Belanja",
+                cartItemUnit: "item dipilih",
+                emptyCartTitle: "Keranjang Masih Kosong",
+                emptyCartDesc: "Ayo jelajahi koleksi terbaik di Market of Abu dan tambahkan produk impianmu!",
+                startShoppingBtn: "Mulai Belanja",
+                applyVoucherBtn: "Gunakan",
+                subtotalLabel: "Subtotal",
+                discountLabel: "Potongan Diskon",
+                shippingLabel: "Pengiriman",
+                freeShippingText: "GRATIS",
+                totalLabel: "Total Pembayaran",
+                checkoutBtn: "Lanjut ke Pembayaran",
+                addToCart: "Tambah ke Keranjang",
+                quickView: "Lihat Cepat",
+                wishlistTitle: "Produk Favorit Saya",
+                checkoutModalTitle: "Checkout Pesanan",
+                checkoutModalSub: "Lengkapi data pengiriman & pilih metode pembayaran",
+                formName: "Nama Lengkap",
+                formPhone: "No. WhatsApp",
+                formCity: "Kota / Kabupaten",
+                formAddress: "Alamat Lengkap Pengiriman",
+                formPayment: "Metode Pembayaran",
+                orderTotalLabel: "Total Yang Harus Dibayar:",
+                confirmPayBtn: "Konfirmasi & Bayar Sekarang",
+                orderSuccessTitle: "Pesanan Berhasil Dibuat!",
+                orderSuccessDesc: "Terima kasih telah berbelanja di Market of Abu. Nomor resi & konfirmasi pembayaran telah dikirim ke WhatsApp Anda.",
+                backToShop: "Kembali Berbelanja"
+            },
+            en: {
+                topBarBadge: "SPECIAL PROMO",
+                topBarText: "Free Nationwide Shipping & 50% Off with voucher code: <strong class='text-amber-300 font-mono tracking-wider ml-1'>ABUHEMAT</strong>",
+                taglineMini: "Curated Marketplace",
+                navNewArrivals: "New In",
+                navCategories: "Categories",
+                navPromo: "Special Promo",
+                navReviews: "Reviews",
+                navBrands: "Brands",
+                searchPlaceholder: "Search products at Market of Abu...",
+                heroBadge: "Exclusive Collection 2026",
+                heroTitle1: "Elevate Your Style at",
+                heroTitle2: "Market of Abu",
+                heroSubtitle: "Explore thousands of independent brands and curated fashion pieces. Elevate your wardrobe with authentic luxury craftsmanship, guaranteed 100% genuine.",
+                heroCtaPrimary: "Shop Now",
+                heroCtaSecondary: "Browse Categories",
+                heroProof: "Trusted by 50,000+ fashion enthusiasts across the nation",
+                heroTag1: "Women's Fashion",
+                heroTag2: "Luxury Accessories",
+                heroTag3: "Sneakers & Footwear",
+                heroTag4: "Men's Fashion",
+                floatBadgeLabel: "Satisfaction Guarantee",
+                floatBadgeTitle: "100% Authentic Products",
+                feat1Title: "Free Worldwide Shipping",
+                feat1Desc: "On eligible orders over $25",
+                feat2Title: "100% Authentic Items",
+                feat2Desc: "Directly sourced from trusted designers",
+                feat3Title: "Secure Payments",
+                feat3Desc: "Fast checkout via cards, QRIS & transfers",
+                feat4Title: "30-Day Easy Returns",
+                feat4Desc: "Hassle-free guarantee on all items",
+                catBadge: "BROWSE COLLECTIONS",
+                catTitle: "Shop by Category",
+                catSubtitle: "Find the signature look that speaks to your personality",
+                cat1Count: "1,450+ Styles",
+                cat1Name: "Women's Clothing",
+                cat2Count: "980+ Styles",
+                cat2Name: "Men's Clothing",
+                cat3Count: "620+ Styles",
+                cat3Name: "Shoes & Sneakers",
+                cat4Count: "510+ Styles",
+                cat4Name: "Bags & Accessories",
+                catAction: "Click to explore →",
+                productsBadge: "CURATED CATALOG",
+                productsTitle: "Latest Drops at Market of Abu",
+                productsSubtitle: "Premium fabrics and tailored cuts crafted to enhance your daily elegance effortlessly.",
+                filterAll: "All",
+                filterWomen: "Women",
+                filterMen: "Men",
+                filterShoes: "Shoes",
+                filterAccessories: "Accessories",
+                sortLabel: "Sort by:",
+                sortDefault: "Featured",
+                sortPriceLow: "Price: Low to High",
+                sortPriceHigh: "Price: High to Low",
+                sortRating: "Highest Rated",
+                searchingFor: "Search results for:",
+                itemsFound: "products found",
+                clearSearch: "Clear Search",
+                loadMore: "Load More Products",
+                promoBadge: "LIMITED TIME OFFER",
+                promoTitle1: "Mega Flash Sale",
+                promoTitle2: "Up to 50% Off",
+                promoDesc: "Upgrade your wardrobe with top seasonal pieces from independent creators. Claim your exclusive Market of Abu voucher before the timer expires!",
+                countdownLabel: "PROMOTION ENDS IN:",
+                timerDays: "Days",
+                timerHours: "Hours",
+                timerMinutes: "Mins",
+                timerSeconds: "Secs",
+                voucherLabel: "Voucher Code:",
+                promoCta: "Claim Discount Now",
+                promoHighlight: "Best Seller",
+                reviewsBadge: "CUSTOMER REVIEWS",
+                reviewsTitle: "Loved by Market of Abu Shoppers",
+                reviewsSubtitle: "Customer satisfaction and joy is our timeless standard.",
+                rev1Text: '"The linen blazer exceeded all my expectations! So breathable, immaculate fit, and arrived in pristine packaging within 2 days."',
+                rev1Role: "Jakarta • Verified Buyer",
+                rev2Text: '"These retro sneakers are ultra lightweight and comfy for all-day city walks. Seamless checkout and prompt customer care!"',
+                rev2Role: "Bandung • Verified Buyer",
+                rev3Text: '"Market of Abu is my premier boutique for stylish workwear and gifts. The leather accessories are truly opulent and genuine."',
+                rev3Role: "Bali • Verified Buyer",
+                brandsTitle: "OFFICIAL EXCLUSIVE BRAND PARTNERS",
+                footerAbout: "Your ultimate online boutique for independent fashion and lifestyle pieces. Designed with passion, delivered with care.",
+                newsletterLabel: "Get VIP Drop Alerts & Vouchers",
+                newsletterPlaceholder: "Enter your email address...",
+                subscribeBtn: "Subscribe",
+                footColKategori: "Categories",
+                footColHelp: "Support",
+                footColCompany: "About Abu",
+                footTrack: "Track Order",
+                footReturn: "Return Policy",
+                footSize: "Size Guide",
+                footContact: "Contact Support",
+                footFaq: "FAQ",
+                footAboutUs: "About Us",
+                footSell: "Sell on Market of Abu",
+                footPrivacy: "Privacy Policy",
+                footTerms: "Terms of Service",
+                cartTitle: "Shopping Bag",
+                cartItemUnit: "items selected",
+                emptyCartTitle: "Your Bag is Empty",
+                emptyCartDesc: "Explore the curated catalog at Market of Abu and pick your favorite pieces!",
+                startShoppingBtn: "Start Shopping",
+                applyVoucherBtn: "Apply",
+                subtotalLabel: "Subtotal",
+                discountLabel: "Discount Promo",
+                shippingLabel: "Shipping",
+                freeShippingText: "FREE",
+                totalLabel: "Grand Total",
+                checkoutBtn: "Proceed to Checkout",
+                addToCart: "Add to Cart",
+                quickView: "Quick View",
+                wishlistTitle: "My Wishlist",
+                checkoutModalTitle: "Complete Your Order",
+                checkoutModalSub: "Fill your shipping details & pick a payment method",
+                formName: "Full Name",
+                formPhone: "WhatsApp Number",
+                formCity: "City / Region",
+                formAddress: "Complete Shipping Address",
+                formPayment: "Payment Method",
+                orderTotalLabel: "Total Due:",
+                confirmPayBtn: "Confirm & Pay Now",
+                orderSuccessTitle: "Order Placed Successfully!",
+                orderSuccessDesc: "Thank you for shopping at Market of Abu. Your receipt and WhatsApp tracking code have been dispatched.",
+                backToShop: "Continue Shopping"
+            }
+        };
+
+        // 2. PRODUCT CATALOG DATA (HIGH RESOLUTION UNSPLASH PHOTOS)
+        const productsCatalog = [
+            {
+                id: 1,
+                name: { id: "Blazer Linen Kasual Oversized", en: "Oversized Linen Tailored Blazer" },
+                brand: "Studio Label",
+                category: "women",
+                priceIDR: 1850000,
+                priceUSD: 120,
+                rating: 4.9,
+                reviewsCount: 128,
+                image: "https://images.unsplash.com/photo-1584273143981-41c073dfe8f8?auto=format&fit=crop&w=800&q=80",
+                badge: { id: "Baru", en: "New" },
+                discountPercent: 0,
+                description: {
+                    id: "Blazer berbahan linen murni yang sejuk dan jatuh sempurna. Cocok untuk tampilan kasual chic maupun formal modern.",
+                    en: "Crafted from breathable pure organic linen with an effortless oversized drape. Perfect for day-to-night styling."
+                },
+                sizes: ["S", "M", "L"],
+                colors: ["Khaki", "Oatmeal", "Black"]
+            },
+            {
+                id: 2,
+                name: { id: "Rok Lipit Asimetris Elegan", en: "Asymmetric Pleated Midi Skirt" },
+                brand: "Minimalist Studio",
+                category: "women",
+                priceIDR: 1290000,
+                priceUSD: 85,
+                rating: 4.8,
+                reviewsCount: 94,
+                image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=800&q=80",
+                badge: null,
+                discountPercent: 0,
+                description: {
+                    id: "Rok lipit plisket dengan potongan asimetris dinamis yang memberikan siluet anggun dalam setiap langkah.",
+                    en: "Structured accordion pleats with an avant-garde asymmetric hemline, moving gracefully with every stride."
+                },
+                sizes: ["S", "M", "L"],
+                colors: ["Olive", "Cream", "Burgundy"]
+            },
+            {
+                id: 3,
+                name: { id: "Sepatu Sneaker Retro Chunky", en: "Retro Chunky Urban Sneakers" },
+                brand: "Urban Walk",
+                category: "shoes",
+                priceIDR: 1650000,
+                priceUSD: 110,
+                rating: 5.0,
+                reviewsCount: 215,
+                image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
+                badge: { id: "-20%", en: "-20%" },
+                discountPercent: 20,
+                description: {
+                    id: "Sneakers retro dengan bantalan sol ganda super empuk dan daya cengkeram optimal untuk mobilitas perkotaan.",
+                    en: "Iconic nineties heritage runner silhouette paired with modern ultra-cushioned dual density soles."
+                },
+                sizes: ["39", "40", "41", "42", "43", "44"],
+                colors: ["Triple White", "Bone Cream", "Pastel Grey"]
+            },
+            {
+                id: 4,
+                name: { id: "Sweater Rajut Lembut Minimalis", en: "Ribbed Minimalist Knit Sweater" },
+                brand: "Cozy Threads",
+                category: "women",
+                priceIDR: 980000,
+                priceUSD: 65,
+                rating: 4.7,
+                reviewsCount: 82,
+                image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80",
+                badge: null,
+                discountPercent: 0,
+                description: {
+                    id: "Sweater rajut rajut tebal dengan benang katun kasmir yang sangat halus di kulit dan menghangatkan.",
+                    en: "Ultra-soft cotton cashmere blend sweater designed with relaxed dropped shoulders and refined ribbing."
+                },
+                sizes: ["S", "M", "L", "XL"],
+                colors: ["Sage Green", "Warm Ivory", "Mocha"]
+            },
+            {
+                id: 5,
+                name: { id: "Mantel Wol Panjang Pria Premium", en: "Tailored Wool Overcoat" },
+                brand: "Aura Bespoke",
+                category: "men",
+                priceIDR: 2950000,
+                priceUSD: 195,
+                rating: 4.9,
+                reviewsCount: 67,
+                image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=80",
+                badge: { id: "Unggulan", en: "Featured" },
+                discountPercent: 0,
+                description: {
+                    id: "Mantel pria dengan potongan tailor presisi berbahan wol impor, tahan angin, dan memberikan impresi berkelas.",
+                    en: "Precision-tailored wool overcoat boasting structured lapels and a sleek silhouette for the modern gentleman."
+                },
+                sizes: ["M", "L", "XL"],
+                colors: ["Camel", "Charcoal", "Deep Navy"]
+            },
+            {
+                id: 6,
+                name: { id: "Jam Tangan Kulit Mewah Minimalis", en: "Classic Leather Minimal Watch" },
+                brand: "Kronos Geneva",
+                category: "accessories",
+                priceIDR: 2200000,
+                priceUSD: 145,
+                rating: 4.9,
+                reviewsCount: 154,
+                image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80",
+                badge: { id: "Terlaris", en: "Hot" },
+                discountPercent: 0,
+                description: {
+                    id: "Jam tangan analog dengan dial safir tahan gores dan tali kulit sapi asli Italia yang nyaman di pergelangan.",
+                    en: "Sapphire glass dial featuring precision Japanese quartz movement and full-grain Italian leather strap."
+                },
+                sizes: ["40mm"],
+                colors: ["Rose Gold / Brown", "Silver / Black"]
+            },
+            {
+                id: 7,
+                name: { id: "Celana Kargo Streetwear Urban", en: "Relaxed Fit Urban Cargo Pants" },
+                brand: "Urbanwear Co.",
+                category: "men",
+                priceIDR: 1180000,
+                priceUSD: 78,
+                rating: 4.8,
+                reviewsCount: 110,
+                image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80",
+                badge: null,
+                discountPercent: 0,
+                description: {
+                    id: "Celana kargo dengan multi-saku fungsional dan material katun twill tebal berdaya tahan tinggi.",
+                    en: "Tactical streetwear aesthetic meets utilitarian function with ergonomic multi-pocket layout."
+                },
+                sizes: ["29", "30", "32", "34", "36"],
+                colors: ["Army Green", "Pitch Black", "Desert Khaki"]
+            },
+            {
+                id: 8,
+                name: { id: "Tas Jinjing Kulit Klasik Tote", en: "Genuine Leather Daily Tote Bag" },
+                brand: "Atelier Abu",
+                category: "accessories",
+                priceIDR: 2450000,
+                priceUSD: 160,
+                rating: 5.0,
+                reviewsCount: 92,
+                image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80",
+                badge: { id: "Eksklusif", en: "Exclusive" },
+                discountPercent: 0,
+                description: {
+                    id: "Tote bag kulit sapi asli dengan kompartemen laptop 15 inci, ritsleting YKK, dan jahitan tangan rapi.",
+                    en: "Handcrafted full-grain leather tote with a padded 15-inch laptop sleeve and reinforced stitching."
+                },
+                sizes: ["One Size"],
+                colors: ["Caramel Tan", "Espresso", "Midnight Black"]
+            }
+        ];
+
+        // Additional batch of products for "Load More"
+        const additionalProducts = [
+            {
+                id: 9,
+                name: { id: "Sepatu Bot Kulit Chelsea Boots", en: "Modern Leather Chelsea Boots" },
+                brand: "Heritage Craft",
+                category: "shoes",
+                priceIDR: 2050000,
+                priceUSD: 135,
+                rating: 4.9,
+                reviewsCount: 46,
+                image: "https://images.unsplash.com/photo-1638247025967-b4e38f787b76?auto=format&fit=crop&w=800&q=80",
+                badge: { id: "Baru", en: "New" },
+                discountPercent: 0,
+                description: {
+                    id: "Sepatu bot chelsea klasik dengan panel elastis samping untuk kemudahan pakai dan sol karet tahan slip.",
+                    en: "Timeless Chelsea silhouette crafted from supple burnished leather and Goodyear welted sole."
+                },
+                sizes: ["40", "41", "42", "43", "44"],
+                colors: ["Dark Brown", "Black"]
+            },
+            {
+                id: 10,
+                name: { id: "Gaun Satin Sutra Pesta Elegan", en: "Silk Satin Slip Evening Dress" },
+                brand: "Vogue Elegance",
+                category: "women",
+                priceIDR: 1450000,
+                priceUSD: 95,
+                rating: 4.8,
+                reviewsCount: 63,
+                image: "https://images.unsplash.com/photo-1596783074918-c84cb06531ca?auto=format&fit=crop&w=800&q=80",
+                badge: null,
+                discountPercent: 0,
+                description: {
+                    id: "Gaun sutra satin dengan kilau mewah dan tali spaghetti halus yang membentuk siluet feminin menawan.",
+                    en: "Bias-cut lustrous silk satin dress with delicate adjustable straps and a fluid, flattering drape."
+                },
+                sizes: ["XS", "S", "M", "L"],
+                colors: ["Emerald Green", "Champagne Gold", "Noir"]
+            },
+            {
+                id: 11,
+                name: { id: "Kemeja Katun Oxford Formal Pria", en: "Tailored Oxford Cotton Shirt" },
+                brand: "Essentials Co.",
+                category: "men",
+                priceIDR: 1050000,
+                priceUSD: 70,
+                rating: 4.7,
+                reviewsCount: 78,
+                image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80",
+                badge: null,
+                discountPercent: 0,
+                description: {
+                    id: "Kemeja tenun katun oxford 100% dengan kerah kancing rapi dan potongan slim fit yang nyaman.",
+                    en: "Classic 100% combed cotton Oxford cloth shirt with mother-of-pearl buttons and crisp button-down collar."
+                },
+                sizes: ["S", "M", "L", "XL"],
+                colors: ["Sky Blue", "Pure White", "Striped Navy"]
+            },
+            {
+                id: 12,
+                name: { id: "Kacamata Hitam Vintage Aviator", en: "Vintage Aviator Sunglasses" },
+                brand: "Aura Eyewear",
+                category: "accessories",
+                priceIDR: 820000,
+                priceUSD: 55,
+                rating: 4.9,
+                reviewsCount: 105,
+                image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
+                badge: { id: "-15%", en: "-15%" },
+                discountPercent: 15,
+                description: {
+                    id: "Kacamata aviator dengan bingkai titanium ringan dan lensa terpolarisasi UV400 pelindung silau.",
+                    en: "Titanium metal frame aviators featuring 100% UV400 polarized gradient scratch-resistant lenses."
+                },
+                sizes: ["Standard"],
+                colors: ["Gold / Green", "Black / Smoke"]
+            }
+        ];
+
+        // 3. APPLICATION STATE
+        let currentLang = 'id'; // Default to Indonesian
+        let currentCategory = 'all';
+        let currentSearchQuery = '';
+        let currentSort = 'default';
+        let displayedProducts = [...productsCatalog];
+        let hasLoadedMore = false;
+
+        let cart = [];
+        let wishlist = [];
+        let appliedVoucher = null; // e.g. { code: 'ABUHEMAT', discount: 0.5 }
+
+        // Currency Formatter
+        function formatPrice(idr, usd) {
+            if (currentLang === 'id') {
+                return 'Rp ' + Number(idr).toLocaleString('id-ID');
+            } else {
+                return '$' + Number(usd).toFixed(2);
+            }
+        }
+
+        // 4. BILINGUAL LANGUAGE SWITCHER LOGIC
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+
+            // Update toggle UI buttons
+            const idBtn = document.getElementById('langIdBtn');
+            const enBtn = document.getElementById('langEnBtn');
+            if (lang === 'id') {
+                idBtn.className = "px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 bg-white text-slate-900 shadow-sm";
+                enBtn.className = "px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 text-slate-500 hover:text-slate-800";
+            } else {
+                enBtn.className = "px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 bg-white text-slate-900 shadow-sm";
+                idBtn.className = "px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 text-slate-500 hover:text-slate-800";
+            }
+
+            // Translate all static elements marked with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.innerHTML = i18n[lang][key];
+                }
+            });
+
+            // Translate inputs with data-i18n-placeholder
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.placeholder = i18n[lang][key];
+                }
+            });
+
+            // Re-render dynamic components
+            renderProducts();
+            renderCart();
+            renderWishlist();
+
+            showToast(lang === 'id' ? "Bahasa diubah ke Bahasa Indonesia 🇮🇩" : "Language switched to English 🇬🇧");
+        }
+
+        // 5. PRODUCT RENDERING & FILTERING
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+
+            let filtered = displayedProducts.filter(item => {
+                const matchCat = currentCategory === 'all' || item.category === currentCategory;
+                const matchSearch = !currentSearchQuery || 
+                    item.name.id.toLowerCase().includes(currentSearchQuery) ||
+                    item.name.en.toLowerCase().includes(currentSearchQuery) ||
+                    item.brand.toLowerCase().includes(currentSearchQuery);
+                return matchCat && matchSearch;
+            });
+
+            // Sorting
+            if (currentSort === 'price-low') {
+                filtered.sort((a, b) => (currentLang === 'id' ? a.priceIDR - b.priceIDR : a.priceUSD - b.priceUSD));
+            } else if (currentSort === 'price-high') {
+                filtered.sort((a, b) => (currentLang === 'id' ? b.priceIDR - a.priceIDR : b.priceUSD - a.priceUSD));
+            } else if (currentSort === 'rating') {
+                filtered.sort((a, b) => b.rating - a.rating);
+            }
+
+            // Update search result banner count
+            const searchBanner = document.getElementById('activeSearchBanner');
+            if (currentSearchQuery) {
+                searchBanner.classList.remove('hidden');
+                document.getElementById('searchQueryText').innerText = `"${currentSearchQuery}"`;
+                document.getElementById('searchResultCount').innerText = filtered.length;
+            } else {
+                searchBanner.classList.add('hidden');
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 text-center">
+                        <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">🔍</div>
+                        <h4 class="font-bold text-slate-800 text-lg mb-1">${currentLang === 'id' ? 'Tidak ada produk ditemukan' : 'No products found'}</h4>
+                        <p class="text-xs text-slate-500 mb-4">${currentLang === 'id' ? 'Coba ubah kata kunci atau ganti filter kategori.' : 'Try adjusting your search terms or filter categories.'}</p>
+                        <button onclick="resetSearch()" class="px-5 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold">${currentLang === 'id' ? 'Reset Pencarian' : 'Reset Search'}</button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(product => {
+                const isWishlisted = wishlist.some(w => w.id === product.id);
+                const name = product.name[currentLang];
+                const price = formatPrice(product.priceIDR, product.priceUSD);
+                const badgeText = product.badge ? product.badge[currentLang] : null;
+
+                return `
+                    <div class="product-card group relative bg-white rounded-3xl p-3 border border-slate-100 shadow-sm hover:shadow-card-hover flex flex-col justify-between">
+                        <!-- Image Container -->
+                        <div class="relative w-full aspect-[4/5] bg-slate-100 rounded-2xl overflow-hidden cursor-pointer" onclick="openQuickView(${product.id})">
+                            <img src="${product.image}" alt="${name}" loading="lazy" class="w-full h-full object-cover object-center">
+                            
+                            <!-- Badges -->
+                            ${badgeText ? `
+                                <span class="absolute top-3 left-3 bg-slate-900 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                                    ${badgeText}
+                                </span>
+                            ` : ''}
+
+                            <!-- Wishlist Heart Button -->
+                            <button onclick="event.stopPropagation(); toggleWishlist(${product.id})" class="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full shadow-sm hover:scale-110 transition-all z-10 text-${isWishlisted ? 'accent' : 'slate-400'} hover:text-accent">
+                                <svg class="w-4 h-4" fill="${isWishlisted ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Hover Overlay: Quick View & Add to Cart -->
+                            <div class="absolute inset-x-3 bottom-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button onclick="event.stopPropagation(); openQuickView(${product.id})" class="flex-1 py-2.5 bg-white/90 backdrop-blur-md hover:bg-white text-slate-900 font-bold text-xs rounded-xl shadow-md transition-colors">
+                                    ${i18n[currentLang].quickView}
+                                </button>
+                                <button onclick="event.stopPropagation(); addToCart(${product.id})" class="p-2.5 bg-accent hover:bg-accent-hover text-white rounded-xl shadow-md transition-colors" title="${i18n[currentLang].addToCart}">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product Info -->
+                        <div class="pt-3 px-1">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                                <span>${product.brand}</span>
+                                <span class="flex items-center gap-1 text-amber-500 font-bold">★ ${product.rating}</span>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-sm line-clamp-1 group-hover:text-accent transition-colors">
+                                <a href="javascript:void(0)" onclick="openQuickView(${product.id})">${name}</a>
+                            </h3>
+                            <div class="mt-2 flex items-center justify-between">
+                                <span class="text-sm font-extrabold text-slate-900">${price}</span>
+                                <button onclick="addToCart(${product.id})" class="text-xs font-bold text-accent hover:underline flex items-center gap-1">
+                                    + ${i18n[currentLang].addToCart}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Filter by Category
+        function filterProducts(category) {
+            currentCategory = category;
+            
+            // Update Tab Button Styles
+            document.querySelectorAll('.filter-tab-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === category) {
+                    btn.className = "filter-tab-btn active px-5 py-2.5 rounded-full text-xs font-bold transition-all bg-slate-900 text-white shadow-sm";
+                } else {
+                    btn.className = "filter-tab-btn px-5 py-2.5 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200";
+                }
+            });
+
+            // Smooth scroll to catalog section if triggered from hero or categories
+            const el = document.getElementById('new-arrivals');
+            if (el && window.scrollY < el.offsetTop - 150) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            renderProducts();
+        }
+
+        // Sort Products
+        function sortProducts(val) {
+            currentSort = val;
+            renderProducts();
+        }
+
+        // Search Handlers
+        const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+        function handleSearch(e) {
+            currentSearchQuery = e.target.value.trim().toLowerCase();
+            if (currentSearchQuery) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
+            }
+            renderProducts();
+        }
+
+        if (searchInput) searchInput.addEventListener('input', handleSearch);
+        if (mobileSearchInput) mobileSearchInput.addEventListener('input', handleSearch);
+        if (clearSearchBtn) clearSearchBtn.addEventListener('click', resetSearch);
+
+        function resetSearch() {
+            currentSearchQuery = '';
+            if (searchInput) searchInput.value = '';
+            if (mobileSearchInput) mobileSearchInput.value = '';
+            if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+            renderProducts();
+        }
+
+        // Load More Functionality
+        function loadMoreProducts() {
+            if (!hasLoadedMore) {
+                displayedProducts.push(...additionalProducts);
+                hasLoadedMore = true;
+                renderProducts();
+                document.getElementById('loadMoreContainer').style.display = 'none';
+                showToast(currentLang === 'id' ? "4 produk baru berhasil dimuat!" : "4 new products loaded!");
+            }
+        }
+
+        // 6. SHOPPING CART SYSTEM
+        function openCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const panel = document.getElementById('cartPanel');
+            drawer.classList.remove('pointer-events-none', 'opacity-0');
+            drawer.classList.add('opacity-100');
+            panel.classList.remove('translate-x-full');
+            document.body.style.overflow = 'hidden';
+            renderCart();
+        }
+
+        function closeCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const panel = document.getElementById('cartPanel');
+            panel.classList.add('translate-x-full');
+            drawer.classList.add('opacity-0', 'pointer-events-none');
+            drawer.classList.remove('opacity-100');
+            document.body.style.overflow = '';
+        }
+
+        function addToCart(productId, size = 'M', color = null, qty = 1) {
+            const allItems = [...productsCatalog, ...additionalProducts];
+            const product = allItems.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingIndex = cart.findIndex(item => item.id === productId && item.size === size);
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += qty;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    brand: product.brand,
+                    priceIDR: product.priceIDR,
+                    priceUSD: product.priceUSD,
+                    image: product.image,
+                    size: size,
+                    color: color || (product.colors ? product.colors[0] : 'Standard'),
+                    qty: qty
+                });
+            }
+
+            updateCartBadge();
+            renderCart();
+            openCartDrawer();
+            showToast(currentLang === 'id' ? `"${product.name.id}" ditambahkan ke keranjang!` : `"${product.name.en}" added to bag!`);
+        }
+
+        function updateCartQty(index, delta) {
+            if (cart[index]) {
+                cart[index].qty += delta;
+                if (cart[index].qty <= 0) {
+                    cart.splice(index, 1);
+                }
+                updateCartBadge();
+                renderCart();
+            }
+        }
+
+        function removeCartItem(index) {
+            if (cart[index]) {
+                cart.splice(index, 1);
+                updateCartBadge();
+                renderCart();
+            }
+        }
+
+        function clearCart() {
+            cart = [];
+            appliedVoucher = null;
+            updateCartBadge();
+            renderCart();
+        }
+
+        function updateCartBadge() {
+            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+            const badge = document.getElementById('cartCountBadge');
+            if (badge) badge.innerText = totalQty;
+            const itemsCountLabel = document.getElementById('cartItemsCountLabel');
+            if (itemsCountLabel) itemsCountLabel.innerText = totalQty;
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cartItemsList');
+            const empty = document.getElementById('emptyCartState');
+            const footer = document.getElementById('cartFooter');
+
+            if (cart.length === 0) {
+                if (list) list.innerHTML = '';
+                if (empty) empty.classList.remove('hidden');
+                if (footer) footer.classList.add('hidden');
+                return;
+            }
+
+            if (empty) empty.classList.add('hidden');
+            if (footer) footer.classList.remove('hidden');
+
+            let subtotalIDR = 0;
+            let subtotalUSD = 0;
+
+            list.innerHTML = cart.map((item, index) => {
+                subtotalIDR += item.priceIDR * item.qty;
+                subtotalUSD += item.priceUSD * item.qty;
+                const name = item.name[currentLang];
+                const price = formatPrice(item.priceIDR, item.priceUSD);
+
+                return `
+                    <div class="flex gap-4 pt-3 first:pt-0">
+                        <img src="${item.image}" alt="${name}" class="w-16 h-20 object-cover rounded-xl border border-slate-100">
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start">
+                                    <h4 class="font-bold text-slate-900 text-xs line-clamp-1">${name}</h4>
+                                    <button onclick="removeCartItem(${index})" class="text-slate-400 hover:text-rose-600 ml-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-0.5">Size: <span class="font-semibold text-slate-700">${item.size}</span> &bull; Color: <span class="font-semibold text-slate-700">${item.color}</span></p>
+                            </div>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="font-extrabold text-xs text-slate-900">${price}</span>
+                                <div class="flex items-center border border-slate-200 rounded-lg bg-white shadow-inner">
+                                    <button onclick="updateCartQty(${index}, -1)" class="px-2 py-0.5 text-xs text-slate-600 hover:bg-slate-100 rounded-l-lg">-</button>
+                                    <span class="px-2 text-xs font-bold text-slate-800">${item.qty}</span>
+                                    <button onclick="updateCartQty(${index}, 1)" class="px-2 py-0.5 text-xs text-slate-600 hover:bg-slate-100 rounded-r-lg">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Calculate discounts
+            let discountIDR = 0;
+            let discountUSD = 0;
+            if (appliedVoucher) {
+                discountIDR = subtotalIDR * appliedVoucher.discount;
+                discountUSD = subtotalUSD * appliedVoucher.discount;
+                document.getElementById('discountRow').style.display = 'flex';
+                document.getElementById('cartDiscountText').innerText = '-' + formatPrice(discountIDR, discountUSD);
+                document.getElementById('appliedDiscountMsg').classList.remove('hidden');
+                document.getElementById('activePromoCode').innerText = appliedVoucher.code;
+            } else {
+                document.getElementById('discountRow').style.display = 'none';
+                document.getElementById('appliedDiscountMsg').classList.add('hidden');
+            }
+
+            const totalIDR = subtotalIDR - discountIDR;
+            const totalUSD = subtotalUSD - discountUSD;
+
+            document.getElementById('cartSubtotalText').innerText = formatPrice(subtotalIDR, subtotalUSD);
+            document.getElementById('cartTotalText').innerText = formatPrice(totalIDR, totalUSD);
+        }
+
+        // Voucher System
+        function applyCartVoucher() {
+            const input = document.getElementById('cartVoucherInput');
+            const code = input.value.trim().toUpperCase();
+
+            if (code === 'ABUHEMAT' || code === 'SUMMER50') {
+                appliedVoucher = { code: code, discount: 0.5 };
+                renderCart();
+                showToast(currentLang === 'id' ? `Kupon ${code} berhasil! Diskon 50% diaktifkan 🎉` : `Voucher ${code} applied! 50% discount active 🎉`);
+            } else {
+                showToast(currentLang === 'id' ? 'Kode kupon tidak valid. Coba: ABUHEMAT' : 'Invalid promo code. Try: ABUHEMAT');
+            }
+            input.value = '';
+        }
+
+        function removeVoucher() {
+            appliedVoucher = null;
+            renderCart();
+            showToast(currentLang === 'id' ? "Voucher diskon dilepas" : "Voucher removed");
+        }
+
+        function copyVoucher(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                showToast(currentLang === 'id' ? `Kode "${code}" disalin ke clipboard!` : `Code "${code}" copied to clipboard!`);
+            });
+        }
+
+        // 7. PRODUCT QUICK VIEW MODAL
+        function openQuickView(productId) {
+            const allItems = [...productsCatalog, ...additionalProducts];
+            const product = allItems.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.getElementById('quickViewModal');
+            const content = document.getElementById('quickViewContent');
+            const name = product.name[currentLang];
+            const desc = product.description[currentLang];
+            const price = formatPrice(product.priceIDR, product.priceUSD);
+
+            content.innerHTML = `
+                <div class="relative rounded-2xl overflow-hidden aspect-[4/5] bg-slate-100">
+                    <img src="${product.image}" alt="${name}" class="w-full h-full object-cover">
+                    ${product.badge ? `<span class="absolute top-4 left-4 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">${product.badge[currentLang]}</span>` : ''}
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">${product.brand}</span>
+                        <h3 class="text-2xl font-black text-slate-900 mt-1">${name}</h3>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-amber-500 text-sm font-bold">★★★★★</span>
+                            <span class="text-xs font-bold text-slate-700">${product.rating}</span>
+                            <span class="text-xs text-slate-400">(${product.reviewsCount} ${currentLang === 'id' ? 'ulasan' : 'reviews'})</span>
+                        </div>
+                    </div>
+
+                    <div class="text-2xl font-black text-accent">
+                        ${price}
+                    </div>
+
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed border-t border-b border-slate-100 py-3">
+                        ${desc}
+                    </p>
+
+                    <!-- Sizes -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">${currentLang === 'id' ? 'Pilih Ukuran' : 'Select Size'}</label>
+                        <div class="flex gap-2" id="quickViewSizes">
+                            ${product.sizes.map((s, idx) => `
+                                <button type="button" onclick="selectQuickViewSize(this, '${s}')" class="size-btn px-4 py-2 border rounded-xl text-xs font-bold ${idx === 0 ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-700 hover:border-slate-400'}">
+                                    ${s}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Colors -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">${currentLang === 'id' ? 'Pilihan Warna' : 'Available Colors'}</label>
+                        <div class="flex gap-2">
+                            ${product.colors.map((c, idx) => `
+                                <span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-semibold rounded-lg border border-slate-200">${c}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Quantity & Add to Cart -->
+                    <div class="pt-2 flex gap-3">
+                        <div class="flex items-center border border-slate-200 rounded-xl bg-slate-50">
+                            <button type="button" onclick="adjustQuickQty(-1)" class="px-3 py-2 text-slate-600 font-bold">-</button>
+                            <span id="quickViewQty" class="px-3 text-xs font-bold">1</span>
+                            <button type="button" onclick="adjustQuickQty(1)" class="px-3 py-2 text-slate-600 font-bold">+</button>
+                        </div>
+                        <button onclick="addQuickViewToCart(${product.id})" class="flex-1 py-3 bg-slate-900 hover:bg-accent text-white font-bold rounded-xl transition-colors shadow-md text-xs sm:text-sm flex items-center justify-center gap-2">
+                            <span>${i18n[currentLang].addToCart}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            window.selectedQuickSize = product.sizes[0];
+            window.selectedQuickQty = 1;
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quickViewModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function selectQuickViewSize(btn, size) {
+            document.querySelectorAll('#quickViewSizes .size-btn').forEach(b => {
+                b.className = "size-btn px-4 py-2 border rounded-xl text-xs font-bold border-slate-200 text-slate-700 hover:border-slate-400";
+            });
+            btn.className = "size-btn px-4 py-2 border rounded-xl text-xs font-bold border-slate-900 bg-slate-900 text-white";
+            window.selectedQuickSize = size;
+        }
+
+        function adjustQuickQty(delta) {
+            let qty = window.selectedQuickQty || 1;
+            qty += delta;
+            if (qty < 1) qty = 1;
+            window.selectedQuickQty = qty;
+            const el = document.getElementById('quickViewQty');
+            if (el) el.innerText = qty;
+        }
+
+        function addQuickViewToCart(productId) {
+            addToCart(productId, window.selectedQuickSize || 'M', null, window.selectedQuickQty || 1);
+            closeQuickView();
+        }
+
+        // 8. WISHLIST SYSTEM
+        function toggleWishlist(productId) {
+            const allItems = [...productsCatalog, ...additionalProducts];
+            const product = allItems.find(p => p.id === productId);
+            if (!product) return;
+
+            const idx = wishlist.findIndex(w => w.id === productId);
+            if (idx > -1) {
+                wishlist.splice(idx, 1);
+                showToast(currentLang === 'id' ? `"${product.name.id}" dihapus dari favorit` : `"${product.name.en}" removed from wishlist`);
+            } else {
+                wishlist.push(product);
+                showToast(currentLang === 'id' ? `"${product.name.id}" disimpan ke favorit ❤️` : `"${product.name.en}" saved to wishlist ❤️`);
+            }
+
+            updateWishlistBadge();
+            renderProducts();
+            renderWishlist();
+        }
+
+        function updateWishlistBadge() {
+            const badge = document.getElementById('wishlistCountBadge');
+            if (badge) {
+                badge.innerText = wishlist.length;
+                badge.style.transform = wishlist.length > 0 ? 'scale(1)' : 'scale(0)';
+            }
+        }
+
+        function openWishlistModal() {
+            renderWishlist();
+            document.getElementById('wishlistModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWishlistModal() {
+            document.getElementById('wishlistModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function renderWishlist() {
+            const container = document.getElementById('wishlistItemsContainer');
+            if (!container) return;
+
+            if (wishlist.length === 0) {
+                container.innerHTML = `
+                    <div class="py-12 text-center text-slate-400">
+                        <div class="text-3xl mb-2">🤍</div>
+                        <p class="text-xs font-semibold">${currentLang === 'id' ? 'Belum ada produk favorit tersimpan' : 'Your wishlist is empty'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = wishlist.map(item => `
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <img src="${item.image}" alt="${item.name[currentLang]}" class="w-14 h-16 object-cover rounded-xl">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-xs line-clamp-1">${item.name[currentLang]}</h4>
+                            <p class="font-extrabold text-accent text-xs mt-1">${formatPrice(item.priceIDR, item.priceUSD)}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="addToCart(${item.id}); closeWishlistModal();" class="px-3 py-1.5 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-accent transition-colors">
+                            ${i18n[currentLang].addToCart}
+                        </button>
+                        <button onclick="toggleWishlist(${item.id})" class="p-1.5 text-slate-400 hover:text-rose-600">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 9. CHECKOUT MODAL & FLOW
+        function proceedToCheckout() {
+            closeCartDrawer();
+            const modal = document.getElementById('checkoutModal');
+            document.getElementById('checkoutFormStep').classList.remove('hidden');
+            document.getElementById('checkoutSuccessStep').classList.add('hidden');
+
+            const totalText = document.getElementById('cartTotalText').innerText;
+            document.getElementById('checkoutFinalTotal').innerText = totalText;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function handleFinalOrder(e) {
+            e.preventDefault();
+            // Generate simulated order ID
+            const randomId = 'ABU-' + Math.floor(10000 + Math.random() * 90000);
+            document.getElementById('generatedOrderId').innerText = randomId;
+
+            document.getElementById('checkoutFormStep').classList.add('hidden');
+            document.getElementById('checkoutSuccessStep').classList.remove('hidden');
+
+            showToast(currentLang === 'id' ? "Transaksi Berhasil! Resi pesanan dibuat 🎉" : "Order confirmed! Confirmation sent 🎉");
+        }
+
+        // 10. REAL-TIME COUNTDOWN TIMER
+        function initCountdown() {
+            // Set 3 days from now
+            let totalSeconds = (3 * 24 * 3600) + (18 * 3600) + (42 * 60) + 59;
+
+            setInterval(() => {
+                if (totalSeconds > 0) {
+                    totalSeconds--;
+                    const days = Math.floor(totalSeconds / (24 * 3600));
+                    const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+                    const mins = Math.floor((totalSeconds % 3600) / 60);
+                    const secs = totalSeconds % 60;
+
+                    const dEl = document.getElementById('timerDays');
+                    const hEl = document.getElementById('timerHours');
+                    const mEl = document.getElementById('timerMinutes');
+                    const sEl = document.getElementById('timerSeconds');
+
+                    if (dEl) dEl.innerText = days < 10 ? '0' + days : days;
+                    if (hEl) hEl.innerText = hours < 10 ? '0' + hours : hours;
+                    if (mEl) mEl.innerText = mins < 10 ? '0' + mins : mins;
+                    if (sEl) sEl.innerText = secs < 10 ? '0' + secs : secs;
+                }
+            }, 1000);
+        }
+
+        // 11. TOAST NOTIFICATION SYSTEM
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = 'animate-toast pointer-events-auto bg-slate-950/95 text-white border border-slate-800 shadow-2xl px-4 py-3 rounded-2xl text-xs font-semibold flex items-center gap-2.5 backdrop-blur-md max-w-sm';
+            toast.innerHTML = `
+                <span class="text-accent text-sm">✦</span>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+                toast.style.transition = 'all 0.3s ease-out';
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        // 12. NEWSLETTER HANDLER
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const input = document.getElementById('newsletterEmail');
+            if (input && input.value) {
+                showToast(currentLang === 'id' ? `Terima kasih! Kupon diskon telah dikirim ke ${input.value}` : `Thank you! Discount voucher sent to ${input.value}`);
+                input.value = '';
+            }
+        }
+
+        // 13. NAVBAR SCROLL EFFECT & MOBILE MENU TOGGLE
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileDropdown = document.getElementById('mobileMenuDropdown');
+        if (mobileBtn && mobileDropdown) {
+            mobileBtn.addEventListener('click', () => {
+                mobileDropdown.classList.toggle('hidden');
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            initCountdown();
+            updateCartBadge();
+            updateWishlistBadge();
+        });
+    </script>
+</body>
+</html>
