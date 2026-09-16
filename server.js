@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname)));
 const PRODUCTS_FILE = path.join(__dirname, 'data', 'products.json');
 const ORDERS_FILE = path.join(__dirname, 'data', 'orders.json');
 const SUBSCRIBERS_FILE = path.join(__dirname, 'data', 'subscribers.json');
+const REVIEWS_FILE = path.join(__dirname, 'data', 'reviews.json');
 
 // Helper functions for persistent JSON reading/writing
 function readData(filePath) {
@@ -50,7 +51,7 @@ app.get('/api/health', (req, res) => {
     res.json({
         status: 'online',
         app: 'Market of Abu API',
-        version: '1.0.0',
+        version: '1.2.0',
         timestamp: new Date().toISOString()
     });
 });
@@ -91,7 +92,36 @@ app.get('/api/products', (req, res) => {
     });
 });
 
-// 3. Get Product by ID
+// 3. Search Autocomplete Suggestions
+app.get('/api/search/suggest', (req, res) => {
+    const { q } = req.query;
+    if (!q || q.trim().length === 0) {
+        return res.json({ success: true, data: [] });
+    }
+
+    const query = q.toLowerCase().trim();
+    const products = readData(PRODUCTS_FILE);
+    const matches = products.filter(p => 
+        p.name.id.toLowerCase().includes(query) ||
+        p.name.en.toLowerCase().includes(query) ||
+        p.brand.toLowerCase().includes(query)
+    ).slice(0, 6).map(p => ({
+        id: p.id,
+        name: p.name,
+        brand: p.brand,
+        category: p.category,
+        priceIDR: p.priceIDR,
+        priceUSD: p.priceUSD,
+        image: p.image
+    }));
+
+    res.json({
+        success: true,
+        data: matches
+    });
+});
+
+// 4. Get Product by ID
 app.get('/api/products/:id', (req, res) => {
     const products = readData(PRODUCTS_FILE);
     const productId = parseInt(req.params.id, 10);
@@ -110,7 +140,7 @@ app.get('/api/products/:id', (req, res) => {
     });
 });
 
-// 4. Create New Product
+// 5. Create New Product
 app.post('/api/products', (req, res) => {
     const products = readData(PRODUCTS_FILE);
     const newProduct = req.body;
@@ -141,7 +171,7 @@ app.post('/api/products', (req, res) => {
     });
 });
 
-// 5. Get Categories & Collection Counts
+// 6. Get Categories & Collection Counts
 app.get('/api/categories', (req, res) => {
     const products = readData(PRODUCTS_FILE);
     const categoryCounts = {
@@ -162,7 +192,7 @@ app.get('/api/categories', (req, res) => {
     });
 });
 
-// 6. Validate Promo Voucher
+// 7. Validate Promo Voucher
 app.post('/api/vouchers/validate', (req, res) => {
     const { code } = req.body;
     if (!code) {
@@ -197,7 +227,7 @@ app.post('/api/vouchers/validate', (req, res) => {
     }
 });
 
-// 7. Create New Order (Checkout)
+// 8. Create New Order (Checkout)
 app.post('/api/orders', (req, res) => {
     const orders = readData(ORDERS_FILE);
     const { customer, items, subtotalIDR, discountIDR, totalIDR, voucherCode, paymentMethod } = req.body;
@@ -211,9 +241,12 @@ app.post('/api/orders', (req, res) => {
 
     // Generate unique Order ID e.g. ABU-64821
     const orderId = 'ABU-' + Math.floor(10000 + Math.random() * 90000);
+    const trackingResi = 'MOA-EXP-' + Math.floor(10000000 + Math.random() * 90000000);
 
     const newOrder = {
         orderId,
+        trackingResi,
+        courier: 'J&T Express Priority (Gratis Ongkir)',
         customer,
         items,
         subtotalIDR: Number(subtotalIDR) || 0,
@@ -222,7 +255,14 @@ app.post('/api/orders', (req, res) => {
         voucherCode: voucherCode || null,
         paymentMethod: paymentMethod || 'QRIS',
         paymentStatus: 'PAID',
-        orderStatus: 'PROCESSING',
+        orderStatus: 'PROCESSING', // PROCESSING, PACKED, SHIPPED, DELIVERED
+        timeline: [
+            { step: 1, title: 'Pesanan Diterima', time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }), done: true },
+            { step: 2, title: 'Pembayaran Lunas', time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }), done: true },
+            { step: 3, title: 'Sedang Dikemas di Gudang Abu', time: 'Estimasi: Hari Ini', done: true },
+            { step: 4, title: 'Dalam Pengiriman Kurir', time: 'Estimasi: 1-2 Hari', done: false },
+            { step: 5, title: 'Pesanan Diterima Pelanggan', time: 'Estimasi: 2-3 Hari', done: false }
+        ],
         createdAt: new Date().toISOString()
     };
 
@@ -236,15 +276,16 @@ app.post('/api/orders', (req, res) => {
     });
 });
 
-// 8. Track Order by Order ID
+// 9. Track Order by Order ID (Rich detail)
 app.get('/api/orders/:id', (req, res) => {
     const orders = readData(ORDERS_FILE);
-    const order = orders.find(o => o.orderId.toUpperCase() === req.params.id.toUpperCase());
+    const searchId = req.params.id.trim().toUpperCase();
+    const order = orders.find(o => o.orderId.toUpperCase() === searchId || (o.trackingResi && o.trackingResi.toUpperCase() === searchId));
 
     if (!order) {
         return res.status(404).json({
             success: false,
-            message: 'Nomor pesanan tidak ditemukan'
+            message: 'Nomor pesanan tidak ditemukan. Periksa kembali Order ID Anda (contoh: ABU-10824).'
         });
     }
 
@@ -254,7 +295,7 @@ app.get('/api/orders/:id', (req, res) => {
     });
 });
 
-// 9. List All Orders
+// 10. List All Orders
 app.get('/api/orders', (req, res) => {
     const orders = readData(ORDERS_FILE);
     res.json({
@@ -264,7 +305,64 @@ app.get('/api/orders', (req, res) => {
     });
 });
 
-// 10. Subscribe Newsletter
+// 11. Customer Reviews API
+app.get('/api/reviews', (req, res) => {
+    const reviews = readData(REVIEWS_FILE);
+    res.json({
+        success: true,
+        count: reviews.length,
+        data: reviews
+    });
+});
+
+app.post('/api/reviews', (req, res) => {
+    const { name, city, rating, comment } = req.body;
+    if (!name || !comment) {
+        return res.status(400).json({
+            success: false,
+            message: 'Nama dan isi ulasan wajib diisi'
+        });
+    }
+
+    const reviews = readData(REVIEWS_FILE);
+    const newId = reviews.length > 0 ? Math.max(...reviews.map(r => r.id)) + 1 : 1;
+    
+    // Default avatar based on random seed
+    const avatarSeeds = [
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80'
+    ];
+    const chosenAvatar = avatarSeeds[Math.floor(Math.random() * avatarSeeds.length)];
+
+    const newReview = {
+        id: newId,
+        name: name.trim(),
+        role: {
+            id: `${city || 'Indonesia'} • Pembeli Terverifikasi`,
+            en: `${city || 'Indonesia'} • Verified Buyer`
+        },
+        avatar: chosenAvatar,
+        rating: Math.min(5, Math.max(1, Number(rating) || 5)),
+        comment: {
+            id: comment.trim(),
+            en: comment.trim()
+        },
+        createdAt: new Date().toISOString()
+    };
+
+    reviews.unshift(newReview);
+    writeData(REVIEWS_FILE, reviews);
+
+    res.status(201).json({
+        success: true,
+        message: 'Ulasan Anda berhasil dikirim dan dipublikasikan!',
+        data: newReview
+    });
+});
+
+// 12. Subscribe Newsletter
 app.post('/api/newsletter', (req, res) => {
     const { email } = req.body;
     if (!email || !email.includes('@')) {
@@ -291,11 +389,16 @@ app.post('/api/newsletter', (req, res) => {
     });
 });
 
-// 11. General Store Statistics
+// 13. General Store Statistics
 app.get('/api/stats', (req, res) => {
     const products = readData(PRODUCTS_FILE);
     const orders = readData(ORDERS_FILE);
     const subscribers = readData(SUBSCRIBERS_FILE);
+    const reviews = readData(REVIEWS_FILE);
+
+    const avgRating = reviews.length > 0
+        ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
+        : 4.9;
 
     res.json({
         success: true,
@@ -303,7 +406,8 @@ app.get('/api/stats', (req, res) => {
             totalProducts: products.length,
             totalOrders: orders.length,
             totalSubscribers: subscribers.length,
-            storeRating: 4.9,
+            totalReviews: reviews.length,
+            storeRating: Number(avgRating),
             activePromo: 'ABUHEMAT (Diskon 50%)'
         }
     });

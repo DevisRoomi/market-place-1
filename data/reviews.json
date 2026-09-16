@@ -1,0 +1,62 @@
+[
+  {
+    "id": 4,
+    "name": "Fajar Nugraha",
+    "role": {
+      "id": "Yogyakarta • Pembeli Terverifikasi",
+      "en": "Yogyakarta • Verified Buyer"
+    },
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+    "rating": 5,
+    "comment": {
+      "id": "Belanja di Market of Abu sangat memuaskan, kemasan rapi dan produknya sangat mewah!",
+      "en": "Belanja di Market of Abu sangat memuaskan, kemasan rapi dan produknya sangat mewah!"
+    },
+    "createdAt": "2026-09-16T14:27:16.267Z"
+  },
+  {
+    "id": 1,
+    "name": "Nabila Putri",
+    "role": {
+      "id": "Jakarta • Pembeli Terverifikasi",
+      "en": "Jakarta • Verified Buyer"
+    },
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+    "rating": 5,
+    "comment": {
+      "id": "Kualitas blazer yang saya beli sangat di luar ekspektasi! Bahannya dingin, potongannya pas sekali di badan, dan pengirimannya super cepat ke Surabaya.",
+      "en": "The linen blazer exceeded all my expectations! So breathable, immaculate fit, and arrived in pristine packaging within 2 days."
+    },
+    "createdAt": "2026-09-10T08:30:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Reza Pratama",
+    "role": {
+      "id": "Bandung • Pembeli Terverifikasi",
+      "en": "Bandung • Verified Buyer"
+    },
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    "rating": 5,
+    "comment": {
+      "id": "Sneakers retro-nya luar biasa empuk dipakai jalan seharian. Layanan customer servicenya ramah dan proses pembayarannya pakai QRIS instan sekali!",
+      "en": "These retro sneakers are ultra lightweight and comfy for all-day city walks. Seamless checkout and prompt customer care!"
+    },
+    "createdAt": "2026-09-12T11:15:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Sarah Angelina",
+    "role": {
+      "id": "Bali • Pembeli Terverifikasi",
+      "en": "Bali • Verified Buyer"
+    },
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    "rating": 5,
+    "comment": {
+      "id": "Market of Abu jadi andalan utama saya buat belanja kado dan outfit kantor. Pilihan jam tangan dan tas kulitnya beneran mewah dan bergaransi asli.",
+      "en": "Market of Abu is my premier boutique for stylish workwear and gifts. The leather accessories are truly opulent and genuine."
+    },
+    "createdAt": "2026-09-14T15:45:00Z"
+  }
+]

@@ -4,49 +4,61 @@ Market of Abu adalah platform e-commerce & marketplace fashion modern, elegan, d
 
 ---
 
-## 🌟 Fitur Utama (Key Features)
+## 🌟 Fitur Unggulan (Key Features)
 
-### Frontend:
+### 🎨 Frontend:
 - 🌐 **Bilingual System (ID 🇮🇩 & EN 🇬🇧)**:
-  - Toggle bahasa instan di header.
-  - Seluruh teks, banner, kategori, detail produk, keranjang, hingga konfirmasi checkout otomatis beradaptasi.
-  - Penyesuaian format mata uang otomatis (Rupiah `Rp` & USD `$`).
-- 📸 **Kurasi Foto High-Resolution**: Foto asli bertema editorial fashion dari Unsplash.
+  - Toggle bahasa instan di header (`ID` / `EN`).
+  - Terjemahan dinamis otomatis untuk seluruh konten website.
+  - Penyesuaian mata uang otomatis (Rupiah `Rp` & USD `$`).
+- 📸 **Kurasi Foto High-Resolution**: Foto bertema editorial fashion dari Unsplash.
+- 📦 **Pelacakan Pesanan Real-Time (Live Order Tracking)**:
+  - Input Order ID (contoh: `ABU-10824`) untuk melihat status dan timeline pengiriman (Diterima ➔ Lunas ➔ Dikemas ➔ Dikirim ➔ Selesai).
+  - Terintegrasi dengan nomor resi dan nama kurir ekspedisi prioritas.
+- 🔍 **Pencarian Live & Autocomplete Suggestions**:
+  - Pratinjau instan foto, nama, brand, dan harga produk saat mengetik.
+  - Filter kategori (Wanita, Pria, Sepatu, Aksesoris) dan pengurutan harga/rating.
 - 🛍️ **Keranjang Belanja Interaktif (Slide-out Cart)**:
-  - Pengaturan jumlah item (`+` / `-`), hapus produk, perhitungan subtotal dan pengiriman gratis.
+  - Atur jumlah item (`+` / `-`), hapus produk, perhitungan subtotal dan pengiriman gratis.
   - **Sistem Voucher**: Masukkan kode promo `ABUHEMAT` atau `SUMMER50` untuk mendapatkan diskon 50% instan.
-- 🔍 **Pencarian Live & Filter Kategori**: Filter instan berdasarkan kategori (Wanita, Pria, Sepatu, Aksesoris) dan pengurutan harga/rating.
-- 👁️ **Quick View Modal**: Detail spesifikasi, pilihan ukuran (S, M, L, XL), warna, dan ulasan bintang.
+- 👁️ **Quick View Modal**: Detail spesifikasi, pilihan ukuran (S, M, L, XL), warna, dan ulasan.
 - ❤️ **Sistem Wishlist (Favorit)**: Simpan produk favorit dengan badge counter di navbar.
-- 💳 **Modal Checkout Multi-Payment**: Pilihan QRIS Instant, E-Wallet (GoPay/OVO), Virtual Account (BCA/Mandiri), dan Kartu Kredit.
-- ⏳ **Real-Time Countdown Timer**: Flash sale counter detik-demi-detik yang aktif setiap detik.
+- 💬 **Sistem Ulasan Pelanggan Dinamis**:
+  - Pelanggan dapat menulis ulasan baru dengan rating bintang (1-5), nama, dan kota yang tersimpan di server.
+- 📐 **Panduan Ukuran (Size Guide Modal)**: Tabel ukuran lengkap untuk busana pria, wanita, dan sepatu.
+- 🔄 **Kebijakan Retur 30 Hari & FAQ Accordion**: Informasi retur dan tanya-jawab interaktif.
+- 💾 **Penyimpanan Lokal (localStorage)**: Keranjang, wishlist, dan preferensi bahasa tersimpan otomatis di browser pengguna.
+- 🟢 **Floating WhatsApp CS & Back-to-Top**: Tombol bantuan WhatsApp 24/7 dan tombol kembali ke atas.
 
-### Backend (Node.js & Express REST API):
+### ⚙️ Backend (Node.js & Express REST API):
 - 📦 **Products API**:
-  - `GET /api/products`: Mendapatkan semua produk dengan filter `?category=`, `?q=`, dan `?sort=price-low|price-high|rating`.
-  - `GET /api/products/:id`: Detail produk berdasarkan ID.
-  - `POST /api/products`: Menambahkan produk baru ke katalog.
+  - `GET /api/products`: Katalog produk dengan filter `?category=`, pencarian `?q=`, dan pengurutan `?sort=`.
+  - `GET /api/products/:id`: Detail produk.
+  - `POST /api/products`: Tambah produk baru.
+- 🔍 **Search Suggest API**:
+  - `GET /api/search/suggest?q=...`: Autocomplete pencarian instan.
+- 📦 **Order Tracking API**:
+  - `POST /api/orders`: Pembuatan pesanan checkout baru dan pembuatan Order ID unik (`ABU-XXXXX`).
+  - `GET /api/orders/:id`: Detail pelacakan pesanan lengkap dengan timeline.
+  - `GET /api/orders`: Riwayat semua pesanan.
+- ⭐ **Reviews API**:
+  - `GET /api/reviews`: Daftar ulasan pelanggan.
+  - `POST /api/reviews`: Kirim ulasan baru pelanggan.
 - 🏷️ **Categories API**:
-  - `GET /api/categories`: Daftar kategori beserta jumlah koleksi produk.
+  - `GET /api/categories`: Daftar kategori dan jumlah item.
 - 🎟️ **Vouchers API**:
-  - `POST /api/vouchers/validate`: Validasi kupon diskon (contoh: `ABUHEMAT`).
-- 🧾 **Orders API**:
-  - `POST /api/orders`: Menyimpan pesanan checkout pelanggan dan membuat nomor pesanan unik (`ABU-XXXXX`).
-  - `GET /api/orders/:id`: Melacak detail pesanan berdasarkan Order ID.
-  - `GET /api/orders`: Melihat riwayat semua pesanan.
+  - `POST /api/vouchers/validate`: Validasi kupon promo (`ABUHEMAT`, `SUMMER50`).
 - ✉️ **Newsletter API**:
-  - `POST /api/newsletter`: Menyimpan pendaftaran email pelanggan.
+  - `POST /api/newsletter`: Pendaftaran email newsletter pelanggan.
 - 📊 **Stats API**:
-  - `GET /api/stats`: Statistik total produk, pesanan, dan rating toko.
-- 💾 **Penyimpanan Persisten**: Database berbasis JSON (`data/products.json`, `data/orders.json`, `data/subscribers.json`) yang siap pakai tanpa instalasi database eksternal rumit.
+  - `GET /api/stats`: Statistik ringkasan marketplace.
+- 💾 **Penyimpanan Persisten**: Database JSON (`data/products.json`, `data/orders.json`, `data/reviews.json`, `data/subscribers.json`).
 
 ---
 
 ## 🚀 Cara Menjalankan (Getting Started)
 
-### 1. Menjalankan Fullstack (Backend Server + Frontend):
-Pastikan Node.js sudah terpasang, lalu jalankan perintah berikut di terminal:
-
+### 1. Menjalankan Fullstack (Server + Frontend):
 ```bash
 # 1. Install dependensi (hanya pertama kali)
 npm install
@@ -54,13 +66,12 @@ npm install
 # 2. Jalankan server
 npm start
 ```
+Buka browser di:
+- **Aplikasi Web**: [http://localhost:3000](http://localhost:3000)
+- **API Health**: [http://localhost:3000/api/health](http://localhost:3000/api/health)
 
-Buka browser Anda di:
-- **Website**: [http://localhost:3000](http://localhost:3000)
-- **REST API Base**: [http://localhost:3000/api](http://localhost:3000/api)
-
-### 2. Menjalankan Mode Standalone (Frontend Saja):
-Anda juga dapat langsung membuka file `index.html` dengan mengklik dua kali di file manager. Website dilengkapi dengan sistem *graceful offline fallback* sehingga seluruh fitur tetap berjalan mulus tanpa server.
+### 2. Menjalankan Standalone (Frontend Saja):
+Klik dua kali file `index.html` di browser apa pun. Seluruh fitur dilengkapi *smart offline fallback* sehingga tetap berfungsi mulus tanpa server.
 
 ---
 
@@ -71,6 +82,7 @@ market-place/
 ├── data/
 │   ├── products.json      # Database katalog produk
 │   ├── orders.json        # Database pesanan pelanggan
+│   ├── reviews.json       # Database ulasan pembeli
 │   └── subscribers.json   # Database email newsletter
 ├── index.html             # Tampilan web responsif & bilingual
 ├── server.js              # Express REST API Server

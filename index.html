@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" id="top">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,7 @@
         .smooth-scroll { scroll-behavior: smooth; }
         
         .glass-nav {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
         }
@@ -67,17 +67,6 @@
             transform: scale(1.06);
         }
 
-        /* Modal backdrop transition */
-        .modal-enter {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        .modal-enter-active {
-            opacity: 1;
-            transform: scale(1);
-            transition: all 0.25s ease-out;
-        }
-        
         /* Toast animation */
         @keyframes slideInUp {
             from { transform: translateY(100%); opacity: 0; }
@@ -114,7 +103,7 @@
                 
                 <!-- Brand Logo -->
                 <div class="flex items-center space-x-3">
-                    <a href="#" class="flex items-center space-x-2.5 group">
+                    <a href="#top" class="flex items-center space-x-2.5 group">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-900 via-rose-950 to-accent flex items-center justify-center text-white font-serif font-black text-xl shadow-md group-hover:shadow-glow transition-all">
                             A
                         </div>
@@ -128,7 +117,7 @@
                 </div>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex space-x-8 items-center text-sm font-semibold text-slate-700">
+                <nav class="hidden lg:flex space-x-7 items-center text-sm font-semibold text-slate-700">
                     <a href="#new-arrivals" class="hover:text-accent transition-colors" data-i18n="navNewArrivals">Produk Baru</a>
                     <a href="#categories" class="hover:text-accent transition-colors" data-i18n="navCategories">Kategori</a>
                     <a href="#promo-section" class="hover:text-accent transition-colors text-accent flex items-center gap-1.5">
@@ -136,24 +125,31 @@
                         <span data-i18n="navPromo">Promo Spesial</span>
                     </a>
                     <a href="#testimonials" class="hover:text-accent transition-colors" data-i18n="navReviews">Ulasan</a>
-                    <a href="#brands" class="hover:text-accent transition-colors" data-i18n="navBrands">Brand</a>
+                    <button onclick="openOrderTrackingModal()" class="hover:text-accent transition-colors flex items-center gap-1 font-semibold text-slate-700">
+                        <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <span data-i18n="trackOrderNav">Lacak Pesanan</span>
+                    </button>
                 </nav>
 
                 <!-- Search, Language Switcher, Wishlist & Cart Actions -->
-                <div class="flex items-center space-x-3 sm:space-x-4">
+                <div class="flex items-center space-x-2.5 sm:space-x-4">
                     
-                    <!-- Search Bar (Desktop) -->
-                    <div class="relative hidden sm:block w-48 md:w-60">
+                    <!-- Search Bar with Live Suggestions (Desktop) -->
+                    <div class="relative hidden sm:block w-48 md:w-64">
                         <input type="text" id="searchInput" 
                             placeholder="Cari produk..." 
                             data-i18n-placeholder="searchPlaceholder"
-                            class="w-full bg-slate-100 hover:bg-slate-200/70 focus:bg-white pl-9 pr-4 py-2 rounded-full text-xs font-medium focus:outline-none focus:ring-2 focus:ring-accent/30 border border-transparent focus:border-accent transition-all">
+                            autocomplete="off"
+                            class="w-full bg-slate-100 hover:bg-slate-200/70 focus:bg-white pl-9 pr-7 py-2 rounded-full text-xs font-medium focus:outline-none focus:ring-2 focus:ring-accent/30 border border-transparent focus:border-accent transition-all">
                         <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                         <button id="clearSearchBtn" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
+
+                        <!-- Autocomplete Suggestions Dropdown -->
+                        <div id="searchSuggestionsDropdown" class="hidden absolute top-11 left-0 right-0 bg-white border border-slate-100 rounded-2xl shadow-2xl overflow-hidden z-50 p-2 space-y-1 max-h-80 overflow-y-auto"></div>
                     </div>
 
                     <!-- Language Switcher Toggle (BILINGUAL ID / EN) -->
@@ -199,20 +195,23 @@
                 <input type="text" id="mobileSearchInput" 
                     placeholder="Cari produk..." 
                     data-i18n-placeholder="searchPlaceholder"
+                    autocomplete="off"
                     class="w-full bg-slate-100 pl-9 pr-4 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-accent">
                 <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <div id="mobileSearchSuggestionsDropdown" class="hidden absolute top-12 left-0 right-0 bg-white border border-slate-100 rounded-2xl shadow-2xl overflow-hidden z-50 p-2 space-y-1 max-h-72 overflow-y-auto"></div>
             </div>
             <a href="#new-arrivals" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navNewArrivals">Produk Baru</a>
             <a href="#categories" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navCategories">Kategori</a>
             <a href="#promo-section" class="block py-2 text-base font-semibold text-accent" data-i18n="navPromo">Promo Spesial</a>
             <a href="#testimonials" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navReviews">Ulasan Pelanggan</a>
-            <a href="#brands" class="block py-2 text-base font-semibold text-slate-800 hover:text-accent" data-i18n="navBrands">Brand Ternama</a>
+            <button onclick="openOrderTrackingModal()" class="w-full text-left py-2 text-base font-semibold text-slate-800 hover:text-accent flex items-center gap-2">
+                <span data-i18n="trackOrderNav">Lacak Pesanan</span>
+            </button>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="relative pt-12 pb-20 lg:pt-20 lg:pb-32 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50">
-        <!-- Glow accents -->
         <div class="absolute top-10 left-1/4 w-96 h-96 bg-rose-200/40 rounded-full blur-3xl -z-10 pointer-events-none"></div>
         <div class="absolute bottom-10 right-10 w-96 h-96 bg-amber-100/50 rounded-full blur-3xl -z-10 pointer-events-none"></div>
 
@@ -364,7 +363,6 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
                 <!-- Category 1: Wanita -->
                 <div onclick="filterProducts('women')" class="group relative h-96 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all">
                     <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" 
@@ -483,12 +481,10 @@
     <section id="promo-section" class="py-16 bg-white overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-rose-950 text-white shadow-2xl">
-                <!-- Decorative background elements -->
                 <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-accent opacity-20 blur-3xl"></div>
                 <div class="absolute -left-20 -bottom-20 w-96 h-96 rounded-full bg-amber-500 opacity-15 blur-3xl"></div>
 
                 <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 lg:p-16">
-                    
                     <div class="lg:col-span-7 space-y-6">
                         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full shimmer-badge text-white text-xs font-extrabold uppercase tracking-wider">
                             ⚡ <span data-i18n="promoBadge">PENAWARAN TERBATAS</span>
@@ -550,8 +546,6 @@
                                  alt="Promo Fashion Market of Abu" 
                                  class="w-full h-80 sm:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
-                            
-                            <!-- Floating Promo Card -->
                             <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl text-slate-900 shadow-xl">
                                 <div class="flex items-center justify-between">
                                     <div>
@@ -569,72 +563,25 @@
         </div>
     </section>
 
-    <!-- Testimonials / Customer Reviews (REAL PHOTOS) -->
+    <!-- Testimonials / Customer Reviews (DYNAMIC + WRITE REVIEW) -->
     <section id="testimonials" class="py-20 bg-slate-50 border-t border-slate-200/70">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-14">
-                <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2" data-i18n="reviewsBadge">ULASAN PELANGGAN</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" data-i18n="reviewsTitle">Kata Mereka Tentang Market of Abu</h2>
-                <p class="text-slate-600 text-sm sm:text-base mt-2" data-i18n="reviewsSubtitle">Kepuasan pelanggan adalah prioritas nomor satu kami.</p>
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-4">
+                <div>
+                    <span class="text-accent text-xs font-bold uppercase tracking-wider block mb-2" data-i18n="reviewsBadge">ULASAN PELANGGAN</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" data-i18n="reviewsTitle">Kata Mereka Tentang Market of Abu</h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2" data-i18n="reviewsSubtitle">Kepuasan pelanggan adalah prioritas nomor satu kami.</p>
+                </div>
+                <div>
+                    <button onclick="openWriteReviewModal()" class="px-6 py-3 bg-slate-900 hover:bg-accent text-white font-bold rounded-2xl transition-all shadow-md hover:shadow-glow text-xs sm:text-sm flex items-center gap-2">
+                        <span>✍️</span> <span data-i18n="writeReviewBtn">Tulis Ulasan Anda</span>
+                    </button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Review 1 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-1 text-amber-400 mb-4">
-                            ★★★★★
-                        </div>
-                        <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6" data-i18n="rev1Text">
-                            "Kualitas blazer yang saya beli sangat di luar ekspektasi! Bahannya dingin, potongannya pas sekali di badan, dan pengirimannya super cepat ke Surabaya."
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Nabila Putri" class="w-12 h-12 rounded-full object-cover">
-                        <div>
-                            <h5 class="font-bold text-slate-900 text-sm">Nabila Putri</h5>
-                            <p class="text-xs text-slate-400" data-i18n="rev1Role">Jakarta &bull; Verified Buyer</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 2 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-1 text-amber-400 mb-4">
-                            ★★★★★
-                        </div>
-                        <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6" data-i18n="rev2Text">
-                            "Sneakers retro-nya luar biasa empuk dipakai jalan seharian. Layanan customer servicenya ramah dan proses pembayarannya pakai QRIS instan sekali!"
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Reza Pratama" class="w-12 h-12 rounded-full object-cover">
-                        <div>
-                            <h5 class="font-bold text-slate-900 text-sm">Reza Pratama</h5>
-                            <p class="text-xs text-slate-400" data-i18n="rev2Role">Bandung &bull; Verified Buyer</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 3 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-1 text-amber-400 mb-4">
-                            ★★★★★
-                        </div>
-                        <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6" data-i18n="rev3Text">
-                            "Market of Abu jadi andalan utama saya buat belanja kado dan outfit kantor. Pilihan jam tangan dan tas kulitnya beneran mewah dan bergaransi asli."
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" alt="Sarah Angelina" class="w-12 h-12 rounded-full object-cover">
-                        <div>
-                            <h5 class="font-bold text-slate-900 text-sm">Sarah Angelina</h5>
-                            <p class="text-xs text-slate-400" data-i18n="rev3Role">Bali &bull; Verified Buyer</p>
-                        </div>
-                    </div>
-                </div>
+            <!-- Dynamic Reviews Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="reviewsContainer">
+                <!-- Injected via JavaScript -->
             </div>
         </div>
     </section>
@@ -661,7 +608,7 @@
                 
                 <!-- Col 1: Brand Info & Newsletter -->
                 <div class="lg:col-span-2 space-y-6">
-                    <a href="#" class="flex items-center space-x-2.5">
+                    <a href="#top" class="flex items-center space-x-2.5">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-800 via-rose-900 to-accent flex items-center justify-center text-white font-serif font-black text-xl shadow-md">
                             A
                         </div>
@@ -702,11 +649,11 @@
                 <div>
                     <h4 class="text-sm font-bold tracking-wider uppercase text-white mb-5" data-i18n="footColHelp">Bantuan</h4>
                     <ul class="space-y-3 text-sm text-slate-400">
-                        <li><a href="javascript:void(0)" onclick="showToast('Fitur Lacak Pesanan siap dihubungkan ke resi')" class="hover:text-accent transition-colors" data-i18n="footTrack">Lacak Pesanan</a></li>
-                        <li><a href="javascript:void(0)" onclick="showToast('Kebijakan retur 30 hari berlaku')" class="hover:text-accent transition-colors" data-i18n="footReturn">Kebijakan Pengembalian</a></li>
-                        <li><a href="javascript:void(0)" onclick="showToast('Panduan ukuran S, M, L, XL tersedia')" class="hover:text-accent transition-colors" data-i18n="footSize">Panduan Ukuran</a></li>
-                        <li><a href="javascript:void(0)" onclick="showToast('Layanan CS aktif 24/7 di WhatsApp')" class="hover:text-accent transition-colors" data-i18n="footContact">Hubungi Kami</a></li>
-                        <li><a href="javascript:void(0)" onclick="showToast('FAQ terupdate')" class="hover:text-accent transition-colors" data-i18n="footFaq">Tanya Jawab (FAQ)</a></li>
+                        <li><a href="javascript:void(0)" onclick="openOrderTrackingModal()" class="hover:text-accent transition-colors font-medium flex items-center gap-1.5"><span class="text-accent">📦</span> <span data-i18n="footTrack">Lacak Pesanan Real-Time</span></a></li>
+                        <li><a href="javascript:void(0)" onclick="openReturnPolicyModal()" class="hover:text-accent transition-colors" data-i18n="footReturn">Kebijakan Pengembalian</a></li>
+                        <li><a href="javascript:void(0)" onclick="openSizeGuideModal()" class="hover:text-accent transition-colors" data-i18n="footSize">Panduan Ukuran</a></li>
+                        <li><a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="hover:text-accent transition-colors flex items-center gap-1.5"><span class="text-emerald-400">💬</span> <span data-i18n="footContact">Hubungi CS WhatsApp</span></a></li>
+                        <li><a href="javascript:void(0)" onclick="openFaqModal()" class="hover:text-accent transition-colors" data-i18n="footFaq">Tanya Jawab (FAQ)</a></li>
                     </ul>
                 </div>
 
@@ -714,10 +661,10 @@
                 <div>
                     <h4 class="text-sm font-bold tracking-wider uppercase text-white mb-5" data-i18n="footColCompany">Tentang Abu</h4>
                     <ul class="space-y-3 text-sm text-slate-400">
-                        <li><a href="javascript:void(0)" onclick="showToast('Market of Abu didirikan untuk fashion berkualitas')" class="hover:text-accent transition-colors" data-i18n="footAboutUs">Tentang Kami</a></li>
-                        <li><a href="javascript:void(0)" onclick="showToast('Pendaftaran desainer independen dibuka')" class="hover:text-accent transition-colors" data-i18n="footSell">Jual di Market of Abu</a></li>
-                        <li><a href="javascript:void(0)" onclick="showToast('Privasi data Anda terjaga dengan aman')" class="hover:text-accent transition-colors" data-i18n="footPrivacy">Kebijakan Privasi</a></li>
-                        <li><a href="javascript:void(0)" onclick="showToast('Syarat & Ketentuan berlaku')" class="hover:text-accent transition-colors" data-i18n="footTerms">Syarat & Ketentuan</a></li>
+                        <li><a href="javascript:void(0)" onclick="openAboutUsModal()" class="hover:text-accent transition-colors" data-i18n="footAboutUs">Tentang Kami</a></li>
+                        <li><a href="javascript:void(0)" onclick="openSellerModal()" class="hover:text-accent transition-colors" data-i18n="footSell">Jual di Market of Abu</a></li>
+                        <li><a href="javascript:void(0)" onclick="openPrivacyModal()" class="hover:text-accent transition-colors" data-i18n="footPrivacy">Kebijakan Privasi</a></li>
+                        <li><a href="javascript:void(0)" onclick="openTermsModal()" class="hover:text-accent transition-colors" data-i18n="footTerms">Syarat & Ketentuan</a></li>
                     </ul>
                 </div>
 
@@ -737,16 +684,28 @@
         </div>
     </footer>
 
+    <!-- ==================== FLOATING WIDGETS ==================== -->
+
+    <!-- Floating WhatsApp Support Button -->
+    <a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="fixed bottom-6 left-6 z-40 bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full shadow-2xl flex items-center gap-2 group transition-all duration-300 hover:scale-105" title="Chat Customer Service">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+        <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 ease-out whitespace-nowrap text-xs font-bold pl-1">Chat CS (24/7)</span>
+    </a>
+
+    <!-- Floating Scroll-to-Top Button -->
+    <button id="scrollToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 z-40 bg-slate-900/90 hover:bg-accent text-white p-3 rounded-full shadow-xl transition-all duration-300 opacity-0 pointer-events-none transform translate-y-4" title="Kembali ke atas">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </button>
+
     <!-- ==================== INTERACTIVE DRAWERS & MODALS ==================== -->
 
     <!-- Shopping Cart Slide-out Drawer -->
     <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none transition-opacity duration-300 opacity-0">
-        <!-- Backdrop -->
         <div id="cartBackdrop" onclick="closeCartDrawer()" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm pointer-events-auto transition-opacity"></div>
         
-        <!-- Drawer Panel -->
         <div id="cartPanel" class="absolute top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col pointer-events-auto transform translate-x-full transition-transform duration-300 ease-in-out">
-            <!-- Header -->
             <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
@@ -763,9 +722,7 @@
             </div>
 
             <!-- Cart Items List Container -->
-            <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4 divide-y divide-slate-100">
-                <!-- Cart items rendered by JS -->
-            </div>
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4 divide-y divide-slate-100"></div>
 
             <!-- Empty Cart Placeholder -->
             <div id="emptyCartState" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center">
@@ -781,7 +738,6 @@
 
             <!-- Footer: Voucher & Total & Checkout -->
             <div id="cartFooter" class="p-6 border-t border-slate-100 bg-slate-50 space-y-4">
-                <!-- Promo code input -->
                 <div class="flex gap-2">
                     <input type="text" id="cartVoucherInput" placeholder="Kode voucher (cth: ABUHEMAT)" class="flex-1 px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs uppercase font-mono tracking-wider focus:outline-none focus:ring-2 focus:ring-accent">
                     <button onclick="applyCartVoucher()" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-xl transition-colors" data-i18n="applyVoucherBtn">
@@ -793,7 +749,6 @@
                     <button onclick="removeVoucher()" class="text-rose-500 hover:underline">Hapus</button>
                 </div>
 
-                <!-- Subtotal Breakdown -->
                 <div class="space-y-1.5 text-xs text-slate-600">
                     <div class="flex justify-between">
                         <span data-i18n="subtotalLabel">Subtotal</span>
@@ -813,7 +768,6 @@
                     </div>
                 </div>
 
-                <!-- Checkout Button -->
                 <button onclick="proceedToCheckout()" class="w-full py-3.5 bg-accent hover:bg-accent-hover text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-glow flex items-center justify-center gap-2 text-sm">
                     <span data-i18n="checkoutBtn">Lanjut ke Pembayaran</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -829,10 +783,7 @@
             <button onclick="closeQuickView()" class="absolute top-5 right-5 p-2 text-slate-400 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors z-20">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center" id="quickViewContent">
-                <!-- Injected dynamically -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center" id="quickViewContent"></div>
         </div>
     </div>
 
@@ -851,10 +802,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-            
-            <div id="wishlistItemsContainer" class="space-y-3">
-                <!-- Wishlist items rendered by JS -->
-            </div>
+            <div id="wishlistItemsContainer" class="space-y-3"></div>
         </div>
     </div>
 
@@ -862,7 +810,6 @@
     <div id="checkoutModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
         <div onclick="closeCheckoutModal()" class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
         <div class="relative bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
-            
             <div id="checkoutFormStep">
                 <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
                     <div>
@@ -894,7 +841,6 @@
                         <textarea required rows="2" placeholder="Jl. Sudirman No. 123, RT/RW, Kelurahan, Kecamatan..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent focus:bg-white"></textarea>
                     </div>
 
-                    <!-- Payment Method Picker -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-2" data-i18n="formPayment">Metode Pembayaran</label>
                         <div class="grid grid-cols-2 gap-2.5 text-xs">
@@ -917,7 +863,6 @@
                         </div>
                     </div>
 
-                    <!-- Checkout Summary -->
                     <div class="p-4 bg-slate-50 rounded-2xl space-y-1 text-xs">
                         <div class="flex justify-between text-slate-600">
                             <span data-i18n="orderTotalLabel">Total Yang Harus Dibayar:</span>
@@ -931,7 +876,7 @@
                 </form>
             </div>
 
-            <!-- Order Success Step (Initially Hidden) -->
+            <!-- Order Success Step -->
             <div id="checkoutSuccessStep" class="hidden text-center py-6 space-y-4">
                 <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-3xl">
                     ✓
@@ -944,13 +889,219 @@
                     <p>Order ID: <strong id="generatedOrderId" class="text-accent">ABU-98421</strong></p>
                     <p>Status: <strong class="text-emerald-600 font-bold">LUNAS / DIPROSES</strong></p>
                 </div>
-                <div>
-                    <button onclick="closeCheckoutModal(); clearCart();" class="px-8 py-3 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-accent transition-colors" data-i18n="backToShop">
+                <div class="flex gap-3 justify-center pt-2">
+                    <button onclick="openOrderTrackingModal(document.getElementById('generatedOrderId').innerText)" class="px-5 py-2.5 bg-accent text-white rounded-xl text-xs font-bold hover:bg-accent-hover transition-colors">
+                        Lacak Status Pesanan
+                    </button>
+                    <button onclick="closeCheckoutModal(); clearCart();" class="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-colors" data-i18n="backToShop">
                         Kembali Berbelanja
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <!-- ==================== NEW REAL-TIME ORDER TRACKING MODAL ==================== -->
+    <div id="orderTrackingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeOrderTrackingModal()" class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center font-bold text-lg">
+                        📦
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black text-slate-900" data-i18n="trackOrderModalTitle">Pelacakan Pesanan Real-Time</h3>
+                        <p class="text-xs text-slate-500" data-i18n="trackOrderModalSub">Pantau status pengiriman paket Anda secara langsung</p>
+                    </div>
+                </div>
+                <button onclick="closeOrderTrackingModal()" class="p-2 text-slate-400 hover:text-slate-800 rounded-full">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Search Form -->
+            <form onsubmit="handleOrderTrackSubmit(event)" class="flex gap-2 mb-6">
+                <input type="text" id="orderTrackInput" required placeholder="Masukkan Order ID (contoh: ABU-10824)..." class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs uppercase font-mono tracking-wider focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white">
+                <button type="submit" class="px-6 py-3 bg-slate-900 hover:bg-accent text-white rounded-2xl text-xs font-bold transition-all shadow-md">
+                    Lacak
+                </button>
+            </form>
+
+            <!-- Tracking Result Container -->
+            <div id="orderTrackResult" class="space-y-6">
+                <div class="p-8 text-center bg-slate-50 rounded-2xl border border-slate-100 text-slate-400">
+                    <p class="text-xs font-semibold">Masukkan Order ID pesanan Anda untuk melihat status terkini</p>
+                    <p class="text-[11px] text-slate-400 mt-1">Coba contoh: <button type="button" onclick="quickTrack('ABU-10824')" class="text-accent underline font-bold">ABU-10824</button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== WRITE REVIEW MODAL ==================== -->
+    <div id="writeReviewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeWriteReviewModal()" class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <div>
+                    <h3 class="text-xl font-black text-slate-900">Tulis Ulasan Pembeli</h3>
+                    <p class="text-xs text-slate-500">Bagikan pengalaman berbelanja Anda di Market of Abu</p>
+                </div>
+                <button onclick="closeWriteReviewModal()" class="p-2 text-slate-400 hover:text-slate-800 rounded-full">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <form onsubmit="handleReviewSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Rating Kepuasan</label>
+                    <div class="flex gap-2 text-2xl cursor-pointer text-amber-400" id="starRatingPicker">
+                        <span onclick="setRatingScore(1)" class="hover:scale-125 transition-transform">★</span>
+                        <span onclick="setRatingScore(2)" class="hover:scale-125 transition-transform">★</span>
+                        <span onclick="setRatingScore(3)" class="hover:scale-125 transition-transform">★</span>
+                        <span onclick="setRatingScore(4)" class="hover:scale-125 transition-transform">★</span>
+                        <span onclick="setRatingScore(5)" class="hover:scale-125 transition-transform">★</span>
+                    </div>
+                    <input type="hidden" id="selectedStarScore" value="5">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Anda</label>
+                    <input type="text" id="reviewAuthorName" required placeholder="Contoh: Dimas Setiawan" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent focus:bg-white">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kota / Domisili</label>
+                    <input type="text" id="reviewAuthorCity" required placeholder="Contoh: Surabaya" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent focus:bg-white">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Isi Ulasan</label>
+                    <textarea id="reviewContent" required rows="3" placeholder="Ceritakan kualitas bahan, pengiriman, dan pelayanan..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-accent focus:bg-white"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 bg-slate-900 hover:bg-accent text-white font-bold rounded-2xl transition-all shadow-md text-xs sm:text-sm">
+                    Kirim Ulasan Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== SIZE GUIDE MODAL ==================== -->
+    <div id="sizeGuideModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeSizeGuideModal()" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <h3 class="text-xl font-black text-slate-900">Panduan Ukuran (Size Guide)</h3>
+                <button onclick="closeSizeGuideModal()" class="p-2 text-slate-400 hover:text-slate-800 rounded-full">✕</button>
+            </div>
+            <div class="space-y-6 text-xs text-slate-600">
+                <div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-2">1. Pakaian Pria & Wanita (Top & Outerwear)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-slate-200 text-left">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800 font-bold">
+                                    <th class="p-2.5 border border-slate-200">Ukuran</th>
+                                    <th class="p-2.5 border border-slate-200">Lingkar Dada (cm)</th>
+                                    <th class="p-2.5 border border-slate-200">Panjang Baju (cm)</th>
+                                    <th class="p-2.5 border border-slate-200">Bahu (cm)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-2 border border-slate-200 font-bold">S</td><td class="p-2 border border-slate-200">92 - 96</td><td class="p-2 border border-slate-200">68</td><td class="p-2 border border-slate-200">42</td></tr>
+                                <tr><td class="p-2 border border-slate-200 font-bold">M</td><td class="p-2 border border-slate-200">98 - 102</td><td class="p-2 border border-slate-200">70</td><td class="p-2 border border-slate-200">44</td></tr>
+                                <tr><td class="p-2 border border-slate-200 font-bold">L</td><td class="p-2 border border-slate-200">104 - 108</td><td class="p-2 border border-slate-200">72</td><td class="p-2 border border-slate-200">46</td></tr>
+                                <tr><td class="p-2 border border-slate-200 font-bold">XL</td><td class="p-2 border border-slate-200">110 - 116</td><td class="p-2 border border-slate-200">74</td><td class="p-2 border border-slate-200">48</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-2">2. Sepatu & Sneakers (Shoes)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-slate-200 text-left">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800 font-bold">
+                                    <th class="p-2.5 border border-slate-200">EU Size</th>
+                                    <th class="p-2.5 border border-slate-200">US Men</th>
+                                    <th class="p-2.5 border border-slate-200">US Women</th>
+                                    <th class="p-2.5 border border-slate-200">Panjang Kaki (cm)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-2 border border-slate-200 font-bold">39</td><td class="p-2 border border-slate-200">6.5</td><td class="p-2 border border-slate-200">8.0</td><td class="p-2 border border-slate-200">24.5</td></tr>
+                                <tr><td class="p-2 border border-slate-200 font-bold">40</td><td class="p-2 border border-slate-200">7.0</td><td class="p-2 border border-slate-200">8.5</td><td class="p-2 border border-slate-200">25.0</td></tr>
+                                <tr><td class="p-2 border border-slate-200 font-bold">41</td><td class="p-2 border border-slate-200">8.0</td><td class="p-2 border border-slate-200">9.5</td><td class="p-2 border border-slate-200">26.0</td></tr>
+                                <tr><td class="p-2 border border-slate-200 font-bold">42</td><td class="p-2 border border-slate-200">8.5</td><td class="p-2 border border-slate-200">10.0</td><td class="p-2 border border-slate-200">26.5</td></tr>
+                                <tr><td class="p-2 border border-slate-200 font-bold">43</td><td class="p-2 border border-slate-200">9.5</td><td class="p-2 border border-slate-200">11.0</td><td class="p-2 border border-slate-200">27.5</td></tr>
+                                <tr><td class="p-2 border border-slate-200 font-bold">44</td><td class="p-2 border border-slate-200">10.0</td><td class="p-2 border border-slate-200">11.5</td><td class="p-2 border border-slate-200">28.0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FAQ ACCORDION MODAL ==================== -->
+    <div id="faqModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeFaqModal()" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <h3 class="text-xl font-black text-slate-900">Tanya Jawab (FAQ)</h3>
+                <button onclick="closeFaqModal()" class="p-2 text-slate-400 hover:text-slate-800 rounded-full">✕</button>
+            </div>
+            <div class="space-y-3" id="faqAccordion">
+                <div class="border border-slate-200 rounded-2xl p-4">
+                    <button onclick="toggleFaqItem(this)" class="w-full text-left font-bold text-slate-900 flex justify-between items-center text-xs sm:text-sm">
+                        <span>Berapa lama pengiriman pesanan sampai?</span>
+                        <span class="text-accent text-lg">+</span>
+                    </button>
+                    <div class="hidden pt-2 text-xs text-slate-500 leading-relaxed">
+                        Untuk wilayah Jabodetabek, pengiriman reguler memakan waktu 1-2 hari kerja. Untuk luar Pulau Jawa berkisar antara 2-4 hari kerja dengan ekspedisi prioritas terpercaya (J&T, SiCepat, JNE).
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-2xl p-4">
+                    <button onclick="toggleFaqItem(this)" class="w-full text-left font-bold text-slate-900 flex justify-between items-center text-xs sm:text-sm">
+                        <span>Apakah produk yang dijual 100% Original?</span>
+                        <span class="text-accent text-lg">+</span>
+                    </button>
+                    <div class="hidden pt-2 text-xs text-slate-500 leading-relaxed">
+                        Ya! Semua produk di Market of Abu melalui proses kurasi ketat dan didatangkan langsung dari rumah mode dan desainer independen resmi dengan garansi keaslian 100%.
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-2xl p-4">
+                    <button onclick="toggleFaqItem(this)" class="w-full text-left font-bold text-slate-900 flex justify-between items-center text-xs sm:text-sm">
+                        <span>Bagaimana jika ukuran baju atau sepatu tidak pas?</span>
+                        <span class="text-accent text-lg">+</span>
+                    </button>
+                    <div class="hidden pt-2 text-xs text-slate-500 leading-relaxed">
+                        Kami menyediakan garansi tukar ukuran gratis selama 30 hari sejak barang diterima. Cukup hubungi CS kami dengan menyertakan foto dan tag produk yang masih terpasang.
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-2xl p-4">
+                    <button onclick="toggleFaqItem(this)" class="w-full text-left font-bold text-slate-900 flex justify-between items-center text-xs sm:text-sm">
+                        <span>Metode pembayaran apa saja yang didukung?</span>
+                        <span class="text-accent text-lg">+</span>
+                    </button>
+                    <div class="hidden pt-2 text-xs text-slate-500 leading-relaxed">
+                        Kami menerima QRIS Instant, GoPay, OVO, ShopeePay, Virtual Account Bank (BCA, Mandiri, BRI, BNI), serta Kartu Kredit/Debit Visa & MasterCard.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== RETURN POLICY & ABOUT US MODALS ==================== -->
+    <div id="infoGenericModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeGenericModal()" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-xl w-full max-h-[85vh] overflow-y-auto shadow-2xl p-6 sm:p-8 z-10">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <h3 id="genericModalTitle" class="text-xl font-black text-slate-900">Informasi</h3>
+                <button onclick="closeGenericModal()" class="p-2 text-slate-400 hover:text-slate-800 rounded-full">✕</button>
+            </div>
+            <div id="genericModalBody" class="text-xs sm:text-sm text-slate-600 space-y-3 leading-relaxed"></div>
         </div>
     </div>
 
@@ -970,6 +1121,7 @@
                 navPromo: "Promo Spesial",
                 navReviews: "Ulasan",
                 navBrands: "Brand",
+                trackOrderNav: "Lacak Pesanan",
                 searchPlaceholder: "Cari produk di Market of Abu...",
                 heroBadge: "Koleksi Eksklusif 2026",
                 heroTitle1: "Tampil Berkelas dengan",
@@ -1036,12 +1188,7 @@
                 reviewsBadge: "ULASAN PELANGGAN",
                 reviewsTitle: "Kata Mereka Tentang Market of Abu",
                 reviewsSubtitle: "Kepuasan pelanggan adalah prioritas nomor satu kami.",
-                rev1Text: '"Kualitas blazer yang saya beli sangat di luar ekspektasi! Bahannya dingin, potongannya pas sekali di badan, dan pengirimannya super cepat ke Surabaya."',
-                rev1Role: "Jakarta • Pembeli Terverifikasi",
-                rev2Text: '"Sneakers retro-nya luar biasa empuk dipakai jalan seharian. Layanan customer servicenya ramah dan proses pembayarannya pakai QRIS instan sekali!"',
-                rev2Role: "Bandung • Pembeli Terverifikasi",
-                rev3Text: '"Market of Abu jadi andalan utama saya buat belanja kado dan outfit kantor. Pilihan jam tangan dan tas kulitnya beneran mewah dan bergaransi asli."',
-                rev3Role: "Bali • Pembeli Terverifikasi",
+                writeReviewBtn: "Tulis Ulasan Anda",
                 brandsTitle: "MITRA BRAND EKSKLUSIF RESMI",
                 footerAbout: "Destinasi belanja online fashion premium terpercaya di Indonesia. Menghadirkan produk berkualitas tinggi dari desainer pilihan dengan layanan pelanggan prima.",
                 newsletterLabel: "Dapatkan Info Promo & Voucher",
@@ -1050,10 +1197,10 @@
                 footColKategori: "Kategori",
                 footColHelp: "Bantuan",
                 footColCompany: "Tentang Abu",
-                footTrack: "Lacak Pesanan",
+                footTrack: "Lacak Pesanan Real-Time",
                 footReturn: "Kebijakan Pengembalian",
                 footSize: "Panduan Ukuran",
-                footContact: "Hubungi Kami",
+                footContact: "Hubungi CS WhatsApp",
                 footFaq: "Tanya Jawab (FAQ)",
                 footAboutUs: "Tentang Kami",
                 footSell: "Jual di Market of Abu",
@@ -1085,7 +1232,9 @@
                 confirmPayBtn: "Konfirmasi & Bayar Sekarang",
                 orderSuccessTitle: "Pesanan Berhasil Dibuat!",
                 orderSuccessDesc: "Terima kasih telah berbelanja di Market of Abu. Nomor resi & konfirmasi pembayaran telah dikirim ke WhatsApp Anda.",
-                backToShop: "Kembali Berbelanja"
+                backToShop: "Kembali Berbelanja",
+                trackOrderModalTitle: "Pelacakan Pesanan Real-Time",
+                trackOrderModalSub: "Pantau status pengiriman paket Anda secara langsung"
             },
             en: {
                 topBarBadge: "SPECIAL PROMO",
@@ -1096,6 +1245,7 @@
                 navPromo: "Special Promo",
                 navReviews: "Reviews",
                 navBrands: "Brands",
+                trackOrderNav: "Track Order",
                 searchPlaceholder: "Search products at Market of Abu...",
                 heroBadge: "Exclusive Collection 2026",
                 heroTitle1: "Elevate Your Style at",
@@ -1162,12 +1312,7 @@
                 reviewsBadge: "CUSTOMER REVIEWS",
                 reviewsTitle: "Loved by Market of Abu Shoppers",
                 reviewsSubtitle: "Customer satisfaction and joy is our timeless standard.",
-                rev1Text: '"The linen blazer exceeded all my expectations! So breathable, immaculate fit, and arrived in pristine packaging within 2 days."',
-                rev1Role: "Jakarta • Verified Buyer",
-                rev2Text: '"These retro sneakers are ultra lightweight and comfy for all-day city walks. Seamless checkout and prompt customer care!"',
-                rev2Role: "Bandung • Verified Buyer",
-                rev3Text: '"Market of Abu is my premier boutique for stylish workwear and gifts. The leather accessories are truly opulent and genuine."',
-                rev3Role: "Bali • Verified Buyer",
+                writeReviewBtn: "Write a Review",
                 brandsTitle: "OFFICIAL EXCLUSIVE BRAND PARTNERS",
                 footerAbout: "Your ultimate online boutique for independent fashion and lifestyle pieces. Designed with passion, delivered with care.",
                 newsletterLabel: "Get VIP Drop Alerts & Vouchers",
@@ -1176,10 +1321,10 @@
                 footColKategori: "Categories",
                 footColHelp: "Support",
                 footColCompany: "About Abu",
-                footTrack: "Track Order",
+                footTrack: "Track Order Real-Time",
                 footReturn: "Return Policy",
                 footSize: "Size Guide",
-                footContact: "Contact Support",
+                footContact: "Contact WhatsApp CS",
                 footFaq: "FAQ",
                 footAboutUs: "About Us",
                 footSell: "Sell on Market of Abu",
@@ -1211,11 +1356,13 @@
                 confirmPayBtn: "Confirm & Pay Now",
                 orderSuccessTitle: "Order Placed Successfully!",
                 orderSuccessDesc: "Thank you for shopping at Market of Abu. Your receipt and WhatsApp tracking code have been dispatched.",
-                backToShop: "Continue Shopping"
+                backToShop: "Continue Shopping",
+                trackOrderModalTitle: "Real-Time Order Tracking",
+                trackOrderModalSub: "Monitor your delivery progress in real-time"
             }
         };
 
-        // 2. PRODUCT CATALOG DATA (HIGH RESOLUTION UNSPLASH PHOTOS)
+        // 2. PRODUCT CATALOG DATA
         const productsCatalog = [
             {
                 id: 1,
@@ -1287,7 +1434,7 @@
                 badge: null,
                 discountPercent: 0,
                 description: {
-                    id: "Sweater rajut rajut tebal dengan benang katun kasmir yang sangat halus di kulit dan menghangatkan.",
+                    id: "Sweater rajut tebal dengan benang katun kasmir yang sangat halus di kulit dan menghangatkan.",
                     en: "Ultra-soft cotton cashmere blend sweater designed with relaxed dropped shoulders and refined ribbing."
                 },
                 sizes: ["S", "M", "L", "XL"],
@@ -1371,7 +1518,6 @@
             }
         ];
 
-        // Additional batch of products for "Load More"
         const additionalProducts = [
             {
                 id: 9,
@@ -1451,8 +1597,8 @@
             }
         ];
 
-        // 3. APPLICATION STATE
-        let currentLang = 'id'; // Default to Indonesian
+        // 3. APPLICATION STATE & PERSISTENCE
+        let currentLang = localStorage.getItem('moa_lang') || 'id';
         let currentCategory = 'all';
         let currentSearchQuery = '';
         let currentSort = 'default';
@@ -1460,8 +1606,27 @@
         let hasLoadedMore = false;
 
         let cart = [];
+        try {
+            const savedCart = localStorage.getItem('moa_cart');
+            if (savedCart) cart = JSON.parse(savedCart);
+        } catch(e) { cart = []; }
+
         let wishlist = [];
-        let appliedVoucher = null; // e.g. { code: 'ABUHEMAT', discount: 0.5 }
+        try {
+            const savedWishlist = localStorage.getItem('moa_wishlist');
+            if (savedWishlist) wishlist = JSON.parse(savedWishlist);
+        } catch(e) { wishlist = []; }
+
+        let appliedVoucher = null;
+        let customerReviews = [];
+
+        function saveCart() {
+            localStorage.setItem('moa_cart', JSON.stringify(cart));
+        }
+
+        function saveWishlist() {
+            localStorage.setItem('moa_wishlist', JSON.stringify(wishlist));
+        }
 
         // Currency Formatter
         function formatPrice(idr, usd) {
@@ -1475,9 +1640,9 @@
         // 4. BILINGUAL LANGUAGE SWITCHER LOGIC
         function setLanguage(lang) {
             currentLang = lang;
+            localStorage.setItem('moa_lang', lang);
             document.documentElement.lang = lang;
 
-            // Update toggle UI buttons
             const idBtn = document.getElementById('langIdBtn');
             const enBtn = document.getElementById('langEnBtn');
             if (lang === 'id') {
@@ -1488,7 +1653,6 @@
                 idBtn.className = "px-2.5 py-1 text-xs font-bold rounded-full transition-all flex items-center gap-1 text-slate-500 hover:text-slate-800";
             }
 
-            // Translate all static elements marked with data-i18n
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (i18n[lang] && i18n[lang][key]) {
@@ -1496,7 +1660,6 @@
                 }
             });
 
-            // Translate inputs with data-i18n-placeholder
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
                 if (i18n[lang] && i18n[lang][key]) {
@@ -1504,10 +1667,10 @@
                 }
             });
 
-            // Re-render dynamic components
             renderProducts();
             renderCart();
             renderWishlist();
+            renderReviews();
 
             showToast(lang === 'id' ? "Bahasa diubah ke Bahasa Indonesia 🇮🇩" : "Language switched to English 🇬🇧");
         }
@@ -1535,7 +1698,6 @@
                 filtered.sort((a, b) => b.rating - a.rating);
             }
 
-            // Update search result banner count
             const searchBanner = document.getElementById('activeSearchBanner');
             if (currentSearchQuery) {
                 searchBanner.classList.remove('hidden');
@@ -1565,25 +1727,21 @@
 
                 return `
                     <div class="product-card group relative bg-white rounded-3xl p-3 border border-slate-100 shadow-sm hover:shadow-card-hover flex flex-col justify-between">
-                        <!-- Image Container -->
                         <div class="relative w-full aspect-[4/5] bg-slate-100 rounded-2xl overflow-hidden cursor-pointer" onclick="openQuickView(${product.id})">
                             <img src="${product.image}" alt="${name}" loading="lazy" class="w-full h-full object-cover object-center">
                             
-                            <!-- Badges -->
                             ${badgeText ? `
                                 <span class="absolute top-3 left-3 bg-slate-900 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
                                     ${badgeText}
                                 </span>
                             ` : ''}
 
-                            <!-- Wishlist Heart Button -->
                             <button onclick="event.stopPropagation(); toggleWishlist(${product.id})" class="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full shadow-sm hover:scale-110 transition-all z-10 text-${isWishlisted ? 'accent' : 'slate-400'} hover:text-accent">
                                 <svg class="w-4 h-4" fill="${isWishlisted ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                                 </svg>
                             </button>
 
-                            <!-- Hover Overlay: Quick View & Add to Cart -->
                             <div class="absolute inset-x-3 bottom-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <button onclick="event.stopPropagation(); openQuickView(${product.id})" class="flex-1 py-2.5 bg-white/90 backdrop-blur-md hover:bg-white text-slate-900 font-bold text-xs rounded-xl shadow-md transition-colors">
                                     ${i18n[currentLang].quickView}
@@ -1594,7 +1752,6 @@
                             </div>
                         </div>
 
-                        <!-- Product Info -->
                         <div class="pt-3 px-1">
                             <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
                                 <span>${product.brand}</span>
@@ -1619,7 +1776,6 @@
         function filterProducts(category) {
             currentCategory = category;
             
-            // Update Tab Button Styles
             document.querySelectorAll('.filter-tab-btn').forEach(btn => {
                 if (btn.getAttribute('data-cat') === category) {
                     btn.className = "filter-tab-btn active px-5 py-2.5 rounded-full text-xs font-bold transition-all bg-slate-900 text-white shadow-sm";
@@ -1628,7 +1784,6 @@
                 }
             });
 
-            // Smooth scroll to catalog section if triggered from hero or categories
             const el = document.getElementById('new-arrivals');
             if (el && window.scrollY < el.offsetTop - 150) {
                 el.scrollIntoView({ behavior: 'smooth' });
@@ -1637,29 +1792,72 @@
             renderProducts();
         }
 
-        // Sort Products
         function sortProducts(val) {
             currentSort = val;
             renderProducts();
         }
 
-        // Search Handlers
+        // Live Search Autocomplete
         const searchInput = document.getElementById('searchInput');
         const mobileSearchInput = document.getElementById('mobileSearchInput');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const searchDropdown = document.getElementById('searchSuggestionsDropdown');
+        const mobileSearchDropdown = document.getElementById('mobileSearchSuggestionsDropdown');
 
-        function handleSearch(e) {
-            currentSearchQuery = e.target.value.trim().toLowerCase();
-            if (currentSearchQuery) {
+        function handleSearchInput(inputEl, dropdownEl) {
+            const query = inputEl.value.trim().toLowerCase();
+            currentSearchQuery = query;
+
+            if (query) {
                 clearSearchBtn.classList.remove('hidden');
+                
+                const matches = displayedProducts.filter(p => 
+                    p.name.id.toLowerCase().includes(query) ||
+                    p.name.en.toLowerCase().includes(query) ||
+                    p.brand.toLowerCase().includes(query)
+                ).slice(0, 5);
+
+                if (matches.length > 0) {
+                    dropdownEl.innerHTML = matches.map(p => `
+                        <div onclick="openQuickView(${p.id}); closeSearchDropdowns();" class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors">
+                            <img src="${p.image}" alt="${p.name[currentLang]}" class="w-10 h-12 object-cover rounded-lg border border-slate-100">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-xs font-bold text-slate-800 truncate">${p.name[currentLang]}</p>
+                                <p class="text-[10px] text-slate-400">${p.brand}</p>
+                            </div>
+                            <span class="text-xs font-extrabold text-accent">${formatPrice(p.priceIDR, p.priceUSD)}</span>
+                        </div>
+                    `).join('');
+                    dropdownEl.classList.remove('hidden');
+                } else {
+                    dropdownEl.innerHTML = `<div class="p-3 text-center text-xs text-slate-400">${currentLang === 'id' ? 'Tidak ada saran produk' : 'No suggestions'}</div>`;
+                    dropdownEl.classList.remove('hidden');
+                }
             } else {
                 clearSearchBtn.classList.add('hidden');
+                dropdownEl.classList.add('hidden');
             }
             renderProducts();
         }
 
-        if (searchInput) searchInput.addEventListener('input', handleSearch);
-        if (mobileSearchInput) mobileSearchInput.addEventListener('input', handleSearch);
+        function closeSearchDropdowns() {
+            if (searchDropdown) searchDropdown.classList.add('hidden');
+            if (mobileSearchDropdown) mobileSearchDropdown.classList.add('hidden');
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', () => handleSearchInput(searchInput, searchDropdown));
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+                    searchDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        if (mobileSearchInput) {
+            mobileSearchInput.addEventListener('input', () => handleSearchInput(mobileSearchInput, mobileSearchDropdown));
+        }
+
         if (clearSearchBtn) clearSearchBtn.addEventListener('click', resetSearch);
 
         function resetSearch() {
@@ -1667,10 +1865,10 @@
             if (searchInput) searchInput.value = '';
             if (mobileSearchInput) mobileSearchInput.value = '';
             if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+            closeSearchDropdowns();
             renderProducts();
         }
 
-        // Load More Functionality
         function loadMoreProducts() {
             if (!hasLoadedMore) {
                 displayedProducts.push(...additionalProducts);
@@ -1723,6 +1921,7 @@
                 });
             }
 
+            saveCart();
             updateCartBadge();
             renderCart();
             openCartDrawer();
@@ -1735,6 +1934,7 @@
                 if (cart[index].qty <= 0) {
                     cart.splice(index, 1);
                 }
+                saveCart();
                 updateCartBadge();
                 renderCart();
             }
@@ -1743,6 +1943,7 @@
         function removeCartItem(index) {
             if (cart[index]) {
                 cart.splice(index, 1);
+                saveCart();
                 updateCartBadge();
                 renderCart();
             }
@@ -1751,6 +1952,7 @@
         function clearCart() {
             cart = [];
             appliedVoucher = null;
+            saveCart();
             updateCartBadge();
             renderCart();
         }
@@ -1813,7 +2015,6 @@
                 `;
             }).join('');
 
-            // Calculate discounts
             let discountIDR = 0;
             let discountUSD = 0;
             if (appliedVoucher) {
@@ -1835,11 +2036,10 @@
             document.getElementById('cartTotalText').innerText = formatPrice(totalIDR, totalUSD);
         }
 
-        // Voucher System (Connected to Backend API with fallback)
+        // Voucher System
         async function applyCartVoucher() {
             const input = document.getElementById('cartVoucherInput');
             const code = input.value.trim().toUpperCase();
-
             if (!code) return;
 
             try {
@@ -1858,7 +2058,6 @@
                     showToast(currentLang === 'id' ? 'Kode kupon tidak valid. Coba: ABUHEMAT' : 'Invalid promo code. Try: ABUHEMAT');
                 }
             } catch (err) {
-                // Fallback for offline / file:// mode
                 if (code === 'ABUHEMAT' || code === 'SUMMER50') {
                     appliedVoucher = { code: code, discount: 0.5 };
                     renderCart();
@@ -1918,7 +2117,6 @@
                         ${desc}
                     </p>
 
-                    <!-- Sizes -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">${currentLang === 'id' ? 'Pilih Ukuran' : 'Select Size'}</label>
                         <div class="flex gap-2" id="quickViewSizes">
@@ -1930,7 +2128,6 @@
                         </div>
                     </div>
 
-                    <!-- Colors -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">${currentLang === 'id' ? 'Pilihan Warna' : 'Available Colors'}</label>
                         <div class="flex gap-2">
@@ -1940,7 +2137,6 @@
                         </div>
                     </div>
 
-                    <!-- Quantity & Add to Cart -->
                     <div class="pt-2 flex gap-3">
                         <div class="flex items-center border border-slate-200 rounded-xl bg-slate-50">
                             <button type="button" onclick="adjustQuickQty(-1)" class="px-3 py-2 text-slate-600 font-bold">-</button>
@@ -2003,6 +2199,7 @@
                 showToast(currentLang === 'id' ? `"${product.name.id}" disimpan ke favorit ❤️` : `"${product.name.en}" saved to wishlist ❤️`);
             }
 
+            saveWishlist();
             updateWishlistBadge();
             renderProducts();
             renderWishlist();
@@ -2062,7 +2259,7 @@
             `).join('');
         }
 
-        // 9. CHECKOUT MODAL & FLOW (Connected to Backend API with fallback)
+        // 9. CHECKOUT MODAL & FLOW
         function proceedToCheckout() {
             closeCartDrawer();
             const modal = document.getElementById('checkoutModal');
@@ -2084,7 +2281,6 @@
         async function handleFinalOrder(e) {
             e.preventDefault();
 
-            // Calculate values
             let subtotalIDR = cart.reduce((acc, item) => acc + (item.priceIDR * item.qty), 0);
             let discountIDR = appliedVoucher ? (subtotalIDR * appliedVoucher.discount) : 0;
             let totalIDR = subtotalIDR - discountIDR;
@@ -2102,7 +2298,6 @@
             let orderId = 'ABU-' + Math.floor(10000 + Math.random() * 90000);
 
             try {
-                // Post to Backend API
                 const response = await fetch('/api/orders', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -2121,7 +2316,7 @@
                     orderId = result.data.orderId;
                 }
             } catch (err) {
-                console.log('Running in local/offline mode, order recorded locally:', err);
+                console.log('Recorded locally:', err);
             }
 
             document.getElementById('generatedOrderId').innerText = orderId;
@@ -2131,7 +2326,385 @@
             showToast(currentLang === 'id' ? `Transaksi Berhasil! Order ${orderId} tersimpan 🎉` : `Order confirmed! Order ${orderId} saved 🎉`);
         }
 
-        // 10. REAL-TIME COUNTDOWN TIMER
+        // 10. REAL-TIME ORDER TRACKING SYSTEM
+        function openOrderTrackingModal(prefillId = '') {
+            const modal = document.getElementById('orderTrackingModal');
+            const input = document.getElementById('orderTrackInput');
+            if (prefillId) {
+                input.value = prefillId;
+                trackOrder(prefillId);
+            }
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOrderTrackingModal() {
+            document.getElementById('orderTrackingModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function quickTrack(orderId) {
+            document.getElementById('orderTrackInput').value = orderId;
+            trackOrder(orderId);
+        }
+
+        async function handleOrderTrackSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('orderTrackInput').value.trim();
+            trackOrder(id);
+        }
+
+        async function trackOrder(orderId) {
+            const resultBox = document.getElementById('orderTrackResult');
+            resultBox.innerHTML = `
+                <div class="py-8 text-center text-slate-500">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-accent border-t-transparent mb-2"></div>
+                    <p class="text-xs">Menghubungkan ke sistem ekspedisi...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/api/orders/' + encodeURIComponent(orderId));
+                const res = await response.json();
+
+                if (res.success && res.data) {
+                    renderTrackingDetail(res.data);
+                } else {
+                    renderTrackingNotFound(orderId);
+                }
+            } catch (err) {
+                // Fallback simulation if running as pure static file
+                renderTrackingSimulation(orderId);
+            }
+        }
+
+        function renderTrackingDetail(order) {
+            const resultBox = document.getElementById('orderTrackResult');
+            const timeline = order.timeline || [
+                { title: 'Pesanan Dibuat', time: '10:00', done: true },
+                { title: 'Pembayaran Lunas', time: '10:05', done: true },
+                { title: 'Sedang Dikemas di Gudang Abu', time: '11:30', done: true },
+                { title: 'Dalam Pengiriman Kurir', time: 'Estimasi 1-2 Hari', done: false },
+                { title: 'Pesanan Selesai', time: 'Estimasi 2-3 Hari', done: false }
+            ];
+
+            resultBox.innerHTML = `
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                    <div class="flex flex-wrap justify-between items-center gap-2 pb-3 border-b border-slate-200">
+                        <div>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase">Order ID</span>
+                            <h4 class="text-base font-extrabold text-accent">${order.orderId}</h4>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase">Nomor Resi</span>
+                            <p class="text-xs font-mono font-bold text-slate-800">${order.trackingResi || 'MOA-9842104928'}</p>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase">Kurir Ekspedisi</span>
+                            <p class="text-xs font-bold text-emerald-600">${order.courier || 'J&T Priority (Gratis Ongkir)'}</p>
+                        </div>
+                    </div>
+
+                    <!-- Visual Timeline -->
+                    <div>
+                        <p class="text-xs font-bold text-slate-700 uppercase mb-3">Status Pengiriman Real-Time</p>
+                        <div class="space-y-3">
+                            ${timeline.map((step, idx) => `
+                                <div class="flex items-start gap-3">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${step.done ? 'bg-emerald-500 text-white shadow-sm' : 'bg-slate-200 text-slate-500'}">
+                                            ${step.done ? '✓' : idx + 1}
+                                        </div>
+                                        ${idx < timeline.length - 1 ? `<div class="w-0.5 h-6 ${step.done ? 'bg-emerald-400' : 'bg-slate-200'}"></div>` : ''}
+                                    </div>
+                                    <div class="flex-1 -mt-0.5">
+                                        <div class="flex justify-between items-center">
+                                            <h5 class="text-xs font-bold ${step.done ? 'text-slate-900' : 'text-slate-400'}">${step.title}</h5>
+                                            <span class="text-[10px] text-slate-400 font-mono">${step.time}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Recipient & Item details -->
+                    <div class="pt-3 border-t border-slate-200 text-xs text-slate-600 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Penerima</span>
+                            <p class="font-bold text-slate-800">${order.customer.name} (${order.customer.phone})</p>
+                            <p class="text-slate-500">${order.customer.address}, ${order.customer.city}</p>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block">Total Belanja</span>
+                            <p class="font-extrabold text-accent text-sm">${formatPrice(order.totalIDR, (order.totalIDR / 15400).toFixed(2))}</p>
+                            <p class="text-[10px] text-slate-400">Metode: ${order.paymentMethod}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTrackingSimulation(orderId) {
+            renderTrackingDetail({
+                orderId: orderId.toUpperCase(),
+                trackingResi: 'MOA-EXP-77291840',
+                courier: 'J&T Express Priority (Gratis Ongkir)',
+                customer: {
+                    name: 'Pelanggan Market of Abu',
+                    phone: '0812xxxxxx',
+                    city: 'Indonesia',
+                    address: 'Alamat Pelanggan Terverifikasi'
+                },
+                totalIDR: 1650000
+            });
+        }
+
+        function renderTrackingNotFound(orderId) {
+            document.getElementById('orderTrackResult').innerHTML = `
+                <div class="p-6 text-center bg-rose-50 rounded-2xl border border-rose-200 text-slate-700">
+                    <p class="text-rose-600 font-bold text-sm mb-1">Pesanan "${orderId}" Tidak Ditemukan</p>
+                    <p class="text-xs text-slate-500 mb-3">Pastikan Anda memasukkan kode Order ID dengan benar (contoh: ABU-10824).</p>
+                    <button type="button" onclick="quickTrack('ABU-10824')" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-accent transition-colors">
+                        Coba Order Demo ABU-10824
+                    </button>
+                </div>
+            `;
+        }
+
+        // 11. REVIEWS & CUSTOMER FEEDBACK SYSTEM
+        async function fetchReviews() {
+            try {
+                const response = await fetch('/api/reviews');
+                const result = await response.json();
+                if (result.success && Array.isArray(result.data)) {
+                    customerReviews = result.data;
+                    renderReviews();
+                }
+            } catch (err) {
+                // Default fallback reviews
+                customerReviews = [
+                    {
+                        name: "Nabila Putri",
+                        role: { id: "Jakarta • Pembeli Terverifikasi", en: "Jakarta • Verified Buyer" },
+                        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+                        rating: 5,
+                        comment: {
+                            id: "Kualitas blazer yang saya beli sangat di luar ekspektasi! Bahannya dingin, potongannya pas sekali di badan, dan pengirimannya super cepat ke Surabaya.",
+                            en: "The linen blazer exceeded all my expectations! So breathable, immaculate fit, and arrived in pristine packaging within 2 days."
+                        }
+                    },
+                    {
+                        name: "Reza Pratama",
+                        role: { id: "Bandung • Pembeli Terverifikasi", en: "Bandung • Verified Buyer" },
+                        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+                        rating: 5,
+                        comment: {
+                            id: "Sneakers retro-nya luar biasa empuk dipakai jalan seharian. Layanan customer servicenya ramah dan proses pembayarannya pakai QRIS instan sekali!",
+                            en: "These retro sneakers are ultra lightweight and comfy for all-day city walks. Seamless checkout and prompt customer care!"
+                        }
+                    },
+                    {
+                        name: "Sarah Angelina",
+                        role: { id: "Bali • Pembeli Terverifikasi", en: "Bali • Verified Buyer" },
+                        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+                        rating: 5,
+                        comment: {
+                            id: "Market of Abu jadi andalan utama saya buat belanja kado dan outfit kantor. Pilihan jam tangan dan tas kulitnya beneran mewah dan bergaransi asli.",
+                            en: "Market of Abu is my premier boutique for stylish workwear and gifts. The leather accessories are truly opulent and genuine."
+                        }
+                    }
+                ];
+                renderReviews();
+            }
+        }
+
+        function renderReviews() {
+            const container = document.getElementById('reviewsContainer');
+            if (!container || !customerReviews) return;
+
+            container.innerHTML = customerReviews.map(r => {
+                const commentText = (typeof r.comment === 'object' && r.comment[currentLang]) ? r.comment[currentLang] : (r.comment.id || r.comment);
+                const roleText = (typeof r.role === 'object' && r.role[currentLang]) ? r.role[currentLang] : (r.role.id || r.role || 'Pembeli Terverifikasi');
+                const stars = '★'.repeat(r.rating || 5);
+
+                return `
+                    <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+                                ${stars}
+                            </div>
+                            <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6">
+                                "${commentText}"
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-4 pt-4 border-t border-slate-100">
+                            <img src="${r.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}" alt="${r.name}" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <h5 class="font-bold text-slate-900 text-sm">${r.name}</h5>
+                                <p class="text-xs text-slate-400">${roleText}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openWriteReviewModal() {
+            document.getElementById('writeReviewModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWriteReviewModal() {
+            document.getElementById('writeReviewModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function setRatingScore(score) {
+            document.getElementById('selectedStarScore').value = score;
+            const starSpans = document.querySelectorAll('#starRatingPicker span');
+            starSpans.forEach((span, idx) => {
+                span.className = idx < score ? 'hover:scale-125 transition-transform text-amber-400' : 'hover:scale-125 transition-transform text-slate-300';
+            });
+        }
+
+        async function handleReviewSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('reviewAuthorName').value;
+            const city = document.getElementById('reviewAuthorCity').value;
+            const comment = document.getElementById('reviewContent').value;
+            const rating = parseInt(document.getElementById('selectedStarScore').value, 10) || 5;
+
+            const newReview = {
+                name,
+                city,
+                rating,
+                comment
+            };
+
+            try {
+                const response = await fetch('/api/reviews', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newReview)
+                });
+                const result = await response.json();
+                if (result.success && result.data) {
+                    customerReviews.unshift(result.data);
+                }
+            } catch (err) {
+                // Add locally
+                customerReviews.unshift({
+                    name,
+                    role: `${city} • Pembeli Terverifikasi`,
+                    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+                    rating,
+                    comment
+                });
+            }
+
+            renderReviews();
+            closeWriteReviewModal();
+            showToast(currentLang === 'id' ? "Terima kasih! Ulasan Anda berhasil diterbitkan 🎉" : "Thank you! Your review has been published 🎉");
+            e.target.reset();
+        }
+
+        // 12. INFO MODALS & ACCORDIONS
+        function openSizeGuideModal() {
+            document.getElementById('sizeGuideModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSizeGuideModal() {
+            document.getElementById('sizeGuideModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function openFaqModal() {
+            document.getElementById('faqModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeFaqModal() {
+            document.getElementById('faqModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function toggleFaqItem(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('span:last-child');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.innerText = '−';
+            } else {
+                content.classList.add('hidden');
+                icon.innerText = '+';
+            }
+        }
+
+        function openGenericModal(title, bodyHtml) {
+            document.getElementById('genericModalTitle').innerText = title;
+            document.getElementById('genericModalBody').innerHTML = bodyHtml;
+            document.getElementById('infoGenericModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGenericModal() {
+            document.getElementById('infoGenericModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function openReturnPolicyModal() {
+            openGenericModal("Kebijakan Pengembalian 30 Hari", `
+                <p><strong>Garansi Kepuasan Bebas Khawatir:</strong> Kami memberikan jaminan retur barang atau tukar ukuran selama 30 hari kalender sejak pesanan Anda terima.</p>
+                <h5 class="font-bold text-slate-900 mt-3">Syarat & Ketentuan:</h5>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>Produk dalam kondisi baru, belum dicuci, dan belum dipakai beraktivitas.</li>
+                    <li>Tag merek, label harga, dan kotak kemasan asli masih utuh.</li>
+                    <li>Sertakan bukti invoice atau Order ID dari WhatsApp.</li>
+                </ul>
+                <p class="pt-2">Tim Customer Service kami siap membantu penjemputan barang retur ke alamat Anda.</p>
+            `);
+        }
+
+        function openAboutUsModal() {
+            openGenericModal("Tentang Market of Abu", `
+                <p><strong>Market of Abu</strong> lahir dengan visi menghadirkan kurasi fashion kontemporer berkualitas tinggi ke hadapan para pecinta gaya di seluruh Indonesia.</p>
+                <p>Kami bermitra dengan desainer independen, perajin kulit premium, dan rumah mode terpilih yang mengedepankan etika kerja, material organik berkelanjutan, dan siluet abadi.</p>
+                <p class="pt-2">Setiap jahitan diperiksa secara teliti untuk memastikan Anda mendapatkan produk bernilai seni tinggi yang meningkatkan rasa percaya diri setiap hari.</p>
+            `);
+        }
+
+        function openSellerModal() {
+            openGenericModal("Jual di Market of Abu", `
+                <p>Apakah Anda seorang desainer busana independen, perajin tas kulit, atau produsen sneakers lokal berkualitas?</p>
+                <p>Bergabunglah bersama 500+ kreator eksklusif di Market of Abu dan jangkau puluhan ribu pembeli setia di seluruh Nusantara.</p>
+                <div class="pt-3">
+                    <a href="javascript:void(0)" onclick="openWhatsAppSupport()" class="inline-block px-5 py-2.5 bg-accent text-white font-bold rounded-xl text-xs">
+                        Hubungi Tim Kurator Seller
+                    </a>
+                </div>
+            `);
+        }
+
+        function openPrivacyModal() {
+            openGenericModal("Kebijakan Privasi", `
+                <p>Market of Abu menghormati dan melindungi setiap data pribadi yang Anda berikan. Data nama, nomor WhatsApp, dan alamat pengiriman hanya digunakan untuk pemrosesan order dan konfirmasi ekspedisi.</p>
+                <p>Kami tidak pernah memperjualbelikan data pelanggan kepada pihak ketiga mana pun.</p>
+            `);
+        }
+
+        function openTermsModal() {
+            openGenericModal("Syarat & Ketentuan", `
+                <p>Dengan berbelanja di platform Market of Abu, Anda menyetujui transaksi pemesanan yang sah sesuai dengan metode pembayaran yang dipilih (QRIS, VA, E-Wallet, Kartu).</p>
+                <p>Seluruh hak cipta desain, visual, dan katalog dilindungi undang-undang.</p>
+            `);
+        }
+
+        function openWhatsAppSupport() {
+            const url = "https://wa.me/6281234567890?text=" + encodeURIComponent("Halo Market of Abu, saya ingin bertanya seputar produk, promo, dan pesanan saya.");
+            window.open(url, '_blank');
+        }
+
+        // 13. REAL-TIME COUNTDOWN TIMER
         function initCountdown() {
             let totalSeconds = (3 * 24 * 3600) + (18 * 3600) + (42 * 60) + 59;
 
@@ -2156,7 +2729,7 @@
             }, 1000);
         }
 
-        // 11. TOAST NOTIFICATION SYSTEM
+        // 14. TOAST NOTIFICATION SYSTEM
         function showToast(message) {
             const container = document.getElementById('toastContainer');
             if (!container) return;
@@ -2178,7 +2751,7 @@
             }, 3200);
         }
 
-        // 12. NEWSLETTER HANDLER (Connected to Backend API with fallback)
+        // 15. NEWSLETTER HANDLER
         async function handleNewsletter(e) {
             e.preventDefault();
             const input = document.getElementById('newsletterEmail');
@@ -2199,13 +2772,25 @@
             input.value = '';
         }
 
-        // 13. NAVBAR SCROLL EFFECT & MOBILE MENU TOGGLE
+        // 16. NAVBAR SCROLL EFFECT & BACK TO TOP
         const navbar = document.getElementById('navbar');
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
         window.addEventListener('scroll', () => {
             if (window.scrollY > 20) {
                 navbar.classList.add('shadow-md');
             } else {
                 navbar.classList.remove('shadow-md');
+            }
+
+            if (scrollToTopBtn) {
+                if (window.scrollY > 350) {
+                    scrollToTopBtn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                    scrollToTopBtn.classList.add('opacity-100', 'translate-y-0');
+                } else {
+                    scrollToTopBtn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+                    scrollToTopBtn.classList.remove('opacity-100', 'translate-y-0');
+                }
             }
         });
 
@@ -2227,15 +2812,19 @@
                     renderProducts();
                 }
             } catch (e) {
-                // Fallback to bundled productsCatalog
                 console.log('Using pre-bundled catalog');
             }
         }
 
         // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
-            renderProducts();
+            if (currentLang !== 'id') {
+                setLanguage(currentLang);
+            } else {
+                renderProducts();
+            }
             fetchProductsFromApi();
+            fetchReviews();
             initCountdown();
             updateCartBadge();
             updateWishlistBadge();
